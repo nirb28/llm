@@ -1,0 +1,12 @@
+# run: conda env create --file environment.yml
+name: llm-dev-env
+dependencies:
+- python>=3.10
+- anaconda
+- pip
+- numpy
+- pip:
+  # works for regular pip packages
+  #- matplotlib==2.0.0  # pin version for pip
+  # and for wheels
+  #- http://www.lfd.uci.edu/~gohlke/pythonlibs/bofhrmxk/opencv_python-3.1.0-cp35-none-win_amd64.whl
