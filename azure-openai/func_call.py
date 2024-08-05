@@ -41,6 +41,20 @@ def main():
                 },
                 "required":["location"]
             },
+        },
+        {
+            "name": "get_system_time",
+            "description": "Get system time for the given location/place",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "location": {
+                        "type": "string",
+                        "description": "the exact location whose system time is to be determined",
+                    },
+                },
+                "required": ["location"]
+            },
         }
     ] 
 
@@ -49,7 +63,7 @@ def main():
     model="gpt-35-turbo",
     messages=[
         {"role": "system", "content": "you are an assistant that helps people retrieve real-time weather data/info"},
-        {"role": "user", "content": "How is the weather in plainsboro?"}
+        {"role": "user", "content": "What is the time in Plainsboro?"} #How is the weather in plainsboro
     ],
    functions=functions
  )
