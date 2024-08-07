@@ -4,7 +4,7 @@ from langchain_experimental.llms.ollama_functions import OllamaFunctions
 from langchain.prompts import PromptTemplate
 import random
 # Import tools from tools.py
-from langgraph.tools import get_current_weather, get_system_time
+from common.tools import get_current_weather, get_system_time
 
 # using OllamaFunctions from experimental because it supports function binding with llms
 model = OllamaFunctions(

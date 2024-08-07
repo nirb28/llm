@@ -6,11 +6,13 @@ from langchain_experimental.llms.ollama_functions import OllamaFunctions
 from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain.prompts import PromptTemplate
 from termcolor import colored
-import json, os
+import json, os, sys
 from dotenv import load_dotenv
 from langchain_openai import AzureChatOpenAI
+sys.path.append('../')
 # Import tools from tools.py
 from common.tools import get_current_weather, get_system_time
+
 
 tools = [get_current_weather, get_system_time]
 tool_mapping = {
@@ -219,3 +221,4 @@ print("\n")
 print(colored("FINAL STATE at end:", "magenta"), colored(result, "cyan"))
 
 print(colored("FINAL RESPONSE at end:", "magenta"), colored(result["tool_response"], "cyan"))
+
