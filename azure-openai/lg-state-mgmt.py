@@ -204,7 +204,7 @@ def save_graph_to_file(runnable_graph, output_file_path):
 
 save_graph_to_file(app, "output-05.png")
 
-# research_question = "What's the current system time?"
+#research_question = "What's the current system time?"
 #research_question = "Tell me a joke?"
 research_question = "How is the weather in Woodbury MN today?"
 # research_question = "What is the cause of earthquakes?"
