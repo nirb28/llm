@@ -29,9 +29,10 @@ functions = [
 load_dotenv()
 GROQ_API_KEY=os.getenv("GROQ_API_KEY")
 llm = ChatOpenAI(
-    base_url=f"https://api.groq.com/openai/v1/chat/completions",
+    base_url=f"https://api.groq.com/openai/v1",
     api_key=GROQ_API_KEY,
-    functions=functions
+    functions=functions,
+    model="llama3-8b-8192"
 )
 
 
