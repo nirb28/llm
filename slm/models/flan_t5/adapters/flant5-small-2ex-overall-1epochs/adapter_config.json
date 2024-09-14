@@ -1,0 +1,24 @@
+{
+  "config": {
+    "alpha": 16,
+    "architecture": "lora",
+    "attn_matrices": [
+      "q",
+      "v"
+    ],
+    "composition_mode": "add",
+    "dropout": 0.0,
+    "init_weights": "lora",
+    "intermediate_lora": true,
+    "output_lora": true,
+    "r": 8,
+    "selfattn_lora": true,
+    "use_gating": false
+  },
+  "hidden_size": 512,
+  "model_class": "T5ForConditionalGeneration",
+  "model_name": "google/flan-t5-small",
+  "model_type": "t5",
+  "name": "flant5-small-2ex-overall-1epochs",
+  "version": "3.2.1"
+}
