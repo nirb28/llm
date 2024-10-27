@@ -1,0 +1,1605 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>LLM Tool/Function Calling &#8212; LLM - Challenges and Opportunities</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'misc/agents';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Attention is all you need" href="attention.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="LLM - Challenges and Opportunities - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="LLM - Challenges and Opportunities - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../inference/inference.html">LLM Inference</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="attention.html">Attention is all you need</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">LLM Tool/Function Calling</a></li>
+
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/nirb28/llm/main?urlpath=tree/demoes/llm-book/misc/agents.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/nirb28/llm/blob/main/demoes/llm-book/misc/agents.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/nirb28/llm" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/nirb28/llm/edit/main/demoes/llm-book/misc/agents.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/nirb28/llm/issues/new?title=Issue%20on%20page%20%2Fmisc/agents.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/misc/agents.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>LLM Tool/Function Calling</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">LLM Tool/Function Calling</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-use-cases">Common use cases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-basic-sequence-of-steps-for-function-calling-is-as-follows">The basic sequence of steps for function calling is as follows:</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-llm-functions">Creating LLM Functions</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openai-function-schema">OpenAI Function Schema</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#executing-the-functions">Executing the Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#function-calling-behavior">Function Calling Behavior</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#more-advanced-functions">More Advanced Functions</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#other-models-w-langchain">Other Models w/LangChain</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-tools">Defining Tools</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attaching-tools-to-llm-object">Attaching tools to LLM object</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#handling-tool-calls">Handling Tool Calls</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#agents-the-final-frontier-of-tools">Agents: The Final Frontier of Tools</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tool-calling-agent">Tool Calling Agent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#react-agent-chain-of-thought-with-tool-execution">ReAct Agent - Chain-of-Thought with Tool Execution</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><img alt="image.png" src="misc/attachment:image.png" /></p>
+<section class="tex2jax_ignore mathjax_ignore" id="llm-tool-function-calling">
+<h1>LLM Tool/Function Calling<a class="headerlink" href="#llm-tool-function-calling" title="Link to this heading">#</a></h1>
+<p><em>Function calling is the ability to reliably connect LLMs to external tools to enable effective tool usage and interaction with external APIs.</em></p>
+<p>This is often a fine-tuned feature, not available to all models, but super useful where it is!</p>
+<section id="common-use-cases">
+<h2>Common use cases<a class="headerlink" href="#common-use-cases" title="Link to this heading">#</a></h2>
+<p>Function calling allows you to more reliably get structured data back from the model. For example, you can:</p>
+<ul class="simple">
+<li><p>Create assistants that answer questions by calling external APIs</p>
+<ul>
+<li><p>e.g. define functions like <code class="docutils literal notranslate"><span class="pre">send_email(to:</span> <span class="pre">string,</span> <span class="pre">body:</span> <span class="pre">string)</span></code>, or <code class="docutils literal notranslate"><span class="pre">get_current_weather(location:</span> <span class="pre">string,</span> <span class="pre">unit:</span> <span class="pre">'celsius'</span> <span class="pre">|</span> <span class="pre">'fahrenheit')</span></code></p></li>
+</ul>
+</li>
+<li><p>Convert natural language into API calls</p>
+<ul>
+<li><p>e.g. convert “Who are my top customers?” to <code class="docutils literal notranslate"><span class="pre">get_customers(min_revenue:</span> <span class="pre">int,</span> <span class="pre">created_before:</span> <span class="pre">string,</span> <span class="pre">limit:</span> <span class="pre">int)</span></code> and call your internal API</p></li>
+</ul>
+</li>
+<li><p>Extract structured data from text</p>
+<ul>
+<li><p>e.g. define a function called <code class="docutils literal notranslate"><span class="pre">extract_data(name:</span> <span class="pre">string,</span> <span class="pre">birthday:</span> <span class="pre">string)</span></code>, or <code class="docutils literal notranslate"><span class="pre">sql_query(query:</span> <span class="pre">string)</span></code></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="the-basic-sequence-of-steps-for-function-calling-is-as-follows">
+<h2>The basic sequence of steps for function calling is as follows:<a class="headerlink" href="#the-basic-sequence-of-steps-for-function-calling-is-as-follows" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Call the model with the user query and a set of functions defined in the functions parameter.</p></li>
+<li><p>The model can choose to call one or more functions; if so, the content will be a stringified JSON object adhering to your custom schema</p></li>
+<li><p>Parse the string into JSON in your code, and call your function with the provided arguments if they exist.</p></li>
+<li><p>Call the model again by appending the function response as a new message, and let the model summarize the results back to the user.</p></li>
+</ol>
+<p>While the name implies that the model is performing some action, this is actually not the case! The model is coming up with the arguments to a tool, and actually running the tool (or not) is up to the user</p>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="creating-llm-functions">
+<h1>Creating LLM Functions<a class="headerlink" href="#creating-llm-functions" title="Link to this heading">#</a></h1>
+<section id="openai-function-schema">
+<h2>OpenAI Function Schema<a class="headerlink" href="#openai-function-schema" title="Link to this heading">#</a></h2>
+<p><strong><a class="reference external" href="https://platform.openai.com/docs/guides/function-calling">OpenAI Function Calling Documentation</a></strong></p>
+<p><em>According to the JSON standard, a JSON value is one of the following JSON-language data types: object, array, number, string, Boolean (value true or false), or null (value null). All values except objects and arrays are scalar.</em></p>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/JSON#Data_types">https://en.wikipedia.org/wiki/JSON#Data_types</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">first_tools</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="c1"># Tool 1 - Get Exchange Rate</span>
+        <span class="p">{</span> 
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;function&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;function&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;get_exchange_rate&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Get the current exchange rate of a base currency and target currency&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;base_currency&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;The base currency for exchange rate calculations, i.e. USD, EUR, RUB&quot;</span><span class="p">,</span>
+                        <span class="p">},</span>
+                        <span class="s2">&quot;target_currency&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> 
+                            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;The target currency for exchange rate calculations, i.e. USD, EUR, RUB&quot;</span>
+                        <span class="p">},</span>
+                        <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> 
+                            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;A specific day to reference, in YYYY-MM-DD format.&quot;</span>
+                        <span class="p">},</span>
+                    <span class="p">},</span>
+                    <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;base_currency&quot;</span><span class="p">,</span> <span class="s2">&quot;target_currency&quot;</span><span class="p">],</span>
+                <span class="p">},</span>
+            <span class="p">},</span>
+        <span class="p">},</span>
+        <span class="c1"># Tool 2 - Search Internet</span>
+        <span class="p">{</span> 
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;function&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;function&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;search_internet&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Get internet search results for real time information&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;search_query&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;The query to search the web for&quot;</span><span class="p">,</span>
+                        <span class="p">}</span>
+                    <span class="p">},</span>
+                    <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;search_query&quot;</span><span class="p">],</span>
+                <span class="p">},</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">()</span>
+
+<span class="n">messages</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> 
+             <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;How much is a dollar worth in Japan? How about poland? Whats the current news in Argentina?&quot;</span><span class="p">}]</span>
+
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o&quot;</span><span class="p">,</span>
+        <span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">,</span>
+        <span class="n">tools</span><span class="o">=</span><span class="n">first_tools</span><span class="p">,</span>
+        <span class="n">tool_choice</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>  <span class="c1"># auto is default, but we&#39;ll be explicit</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">json</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">()</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;openai&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Function for printing out responses neatly</span>
+<span class="k">def</span> <span class="nf">pprint_response</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--- Full Response ---</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--- Chat Completion Message ---</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">tool_calls</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">tool_calls</span><span class="p">)):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--- Tool Call </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> ---</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Function: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">tool_calls</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Arguments: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">tool_calls</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">arguments</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pprint_response</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Full Response ---
+
+ChatCompletion(id=&#39;chatcmpl-9ljQtArRTkzhHmsFj3RdOQNNfhVBQ&#39;, choices=[Choice(finish_reason=&#39;tool_calls&#39;, index=0, logprobs=None, message=ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_qPo46RVBKvqzUIH19u5zdWuF&#39;, function=Function(arguments=&#39;{&quot;base_currency&quot;: &quot;USD&quot;, &quot;target_currency&quot;: &quot;JPY&quot;}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;), ChatCompletionMessageToolCall(id=&#39;call_eLFxyxINbApbtVRLi11mIjOg&#39;, function=Function(arguments=&#39;{&quot;base_currency&quot;: &quot;USD&quot;, &quot;target_currency&quot;: &quot;PLN&quot;}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;), ChatCompletionMessageToolCall(id=&#39;call_jYLIX1csd06icKV7JVi62hlf&#39;, function=Function(arguments=&#39;{&quot;search_query&quot;: &quot;current news in Argentina&quot;}&#39;, name=&#39;search_internet&#39;), type=&#39;function&#39;)]))], created=1721163087, model=&#39;gpt-4o-2024-05-13&#39;, object=&#39;chat.completion&#39;, system_fingerprint=&#39;fp_400f27fa1f&#39;, usage=CompletionUsage(completion_tokens=78, prompt_tokens=163, total_tokens=241)) 
+
+--- Chat Completion Message ---
+
+ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_qPo46RVBKvqzUIH19u5zdWuF&#39;, function=Function(arguments=&#39;{&quot;base_currency&quot;: &quot;USD&quot;, &quot;target_currency&quot;: &quot;JPY&quot;}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;), ChatCompletionMessageToolCall(id=&#39;call_eLFxyxINbApbtVRLi11mIjOg&#39;, function=Function(arguments=&#39;{&quot;base_currency&quot;: &quot;USD&quot;, &quot;target_currency&quot;: &quot;PLN&quot;}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;), ChatCompletionMessageToolCall(id=&#39;call_jYLIX1csd06icKV7JVi62hlf&#39;, function=Function(arguments=&#39;{&quot;search_query&quot;: &quot;current news in Argentina&quot;}&#39;, name=&#39;search_internet&#39;), type=&#39;function&#39;)]) 
+
+--- Tool Call 1 ---
+
+Function: get_exchange_rate
+
+Arguments: {&quot;base_currency&quot;: &quot;USD&quot;, &quot;target_currency&quot;: &quot;JPY&quot;}
+
+--- Tool Call 2 ---
+
+Function: get_exchange_rate
+
+Arguments: {&quot;base_currency&quot;: &quot;USD&quot;, &quot;target_currency&quot;: &quot;PLN&quot;}
+
+--- Tool Call 3 ---
+
+Function: search_internet
+
+Arguments: {&quot;search_query&quot;: &quot;current news in Argentina&quot;}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="executing-the-functions">
+<h2>Executing the Functions<a class="headerlink" href="#executing-the-functions" title="Link to this heading">#</a></h2>
+<p>As the LLM is just populating the arguments for calling the function, it is up to us to actually execute the functions.</p>
+<p>For our Web Search tool, we’ll be using the DuckDuckGo API: <a class="reference external" href="https://pypi.org/project/duckduckgo-search/">https://pypi.org/project/duckduckgo-search/</a><br />
+And for our Currency Conversion, we’ll be using the Free Currency Exchange API: <a class="github reference external" href="https://github.com/fawazahmed0/exchange-api">fawazahmed0/exchange-api</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">duckduckgo_search</span> <span class="kn">import</span> <span class="n">DDGS</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="k">def</span> <span class="nf">search_internet</span><span class="p">(</span><span class="n">search_query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">DDGS</span><span class="p">()</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">search_query</span><span class="p">),</span> <span class="n">max_results</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">results</span>
+
+<span class="k">def</span> <span class="nf">get_exchange_rate</span><span class="p">(</span><span class="n">base_currency</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target_currency</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">date</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;latest&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    
+    <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@</span><span class="si">{</span><span class="n">date</span><span class="si">}</span><span class="s2">/v1/currencies/</span><span class="si">{</span><span class="n">base_currency</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">.json&quot;</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">base_currency</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">target_currency</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to fetch exchange rate: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">inspect</span>
+
+<span class="c1"># Main conversation function</span>
+<span class="k">def</span> <span class="nf">run_conversation</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">tools</span><span class="p">,</span> <span class="n">tool_choice</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="p">):</span>
+    
+    <span class="n">messages</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">prompt</span><span class="p">}]</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Initial Message: &quot;</span><span class="p">,</span> <span class="n">messages</span><span class="p">)</span>
+    
+    <span class="c1"># Send the conversation and available functions to the model</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o&quot;</span><span class="p">,</span>
+        <span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">,</span>
+        <span class="n">tools</span><span class="o">=</span><span class="n">tools</span><span class="p">,</span>
+        <span class="n">tool_choice</span><span class="o">=</span><span class="n">tool_choice</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">response_message</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Response Message: &quot;</span><span class="p">,</span> <span class="n">response_message</span><span class="p">)</span>
+    
+    <span class="n">tool_calls</span> <span class="o">=</span> <span class="n">response_message</span><span class="o">.</span><span class="n">tool_calls</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Tool Calls: &quot;</span><span class="p">,</span> <span class="n">tool_calls</span><span class="p">)</span>
+    
+    <span class="c1"># Check if the model wanted to call a function</span>
+    <span class="k">if</span> <span class="n">tool_calls</span><span class="p">:</span>
+        
+        <span class="c1"># Call the functions</span>
+        <span class="n">available_functions</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;get_exchange_rate&quot;</span><span class="p">:</span> <span class="n">get_exchange_rate</span><span class="p">,</span>
+            <span class="s2">&quot;search_internet&quot;</span><span class="p">:</span> <span class="n">search_internet</span><span class="p">,</span>
+        <span class="p">}</span> 
+        <span class="c1"># extend conversation with assistant&#39;s reply</span>
+        <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">response_message</span><span class="p">)</span>
+        
+        <span class="c1"># Call the function and add the response</span>
+        <span class="k">for</span> <span class="n">tool_call</span> <span class="ow">in</span> <span class="n">tool_calls</span><span class="p">:</span>
+            <span class="n">function_name</span> <span class="o">=</span> <span class="n">tool_call</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">function_to_call</span> <span class="o">=</span> <span class="n">available_functions</span><span class="p">[</span><span class="n">function_name</span><span class="p">]</span>
+            <span class="n">function_args</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">tool_call</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">arguments</span><span class="p">)</span>
+            
+            
+            <span class="c1"># Get the function signature and call the function with given arguments</span>
+            <span class="n">sig</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">function_to_call</span><span class="p">)</span>
+            <span class="n">call_args</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">k</span><span class="p">:</span> <span class="n">function_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">default</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">sig</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">function_args</span> <span class="ow">or</span> <span class="n">v</span><span class="o">.</span><span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="o">.</span><span class="n">empty</span>
+            <span class="p">}</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Calling </span><span class="si">{</span><span class="n">function_to_call</span><span class="si">}</span><span class="s2"> with arguments </span><span class="si">{</span><span class="n">call_args</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="n">function_response</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">function_to_call</span><span class="p">(</span><span class="o">**</span><span class="n">call_args</span><span class="p">))</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Function Response: &quot;</span><span class="p">,</span> <span class="n">function_response</span><span class="p">)</span>
+
+            <span class="c1"># Put output into a tool message</span>
+            <span class="n">tool_message</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;tool_call_id&quot;</span><span class="p">:</span> <span class="n">tool_call</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="c1"># Needed for Parallel Tool Calling</span>
+                    <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;tool&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">function_name</span><span class="p">,</span>
+                    <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">function_response</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Appending Message: &quot;</span><span class="p">,</span> <span class="n">tool_message</span><span class="p">)</span>
+            
+            <span class="c1"># Extend conversation with function response</span>
+            <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tool_message</span><span class="p">)</span>  
+
+        <span class="c1"># Get a new response from the model where it can see the entire conversation including the function call outputs</span>
+        <span class="n">second_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o&quot;</span><span class="p">,</span>
+            <span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">,</span>
+        <span class="p">)</span>  
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">LLM Response: &quot;</span><span class="p">,</span> <span class="n">second_response</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">---Formatted LLM Response---&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">second_response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+        
+        <span class="k">return</span>
+
+<span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;How much is a dollar worth in Japan? How about poland? Whats the current news in Argentina?&quot;</span>
+
+<span class="n">run_conversation</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">first_tools</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initial Message:  [{&#39;role&#39;: &#39;user&#39;, &#39;content&#39;: &#39;How much is a dollar worth in Japan? How about poland? Whats the current news in Argentina?&#39;}]
+
+Response Message:  ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_T4noNrQKJTHL9rWyfKBz5pil&#39;, function=Function(arguments=&#39;{&quot;base_currency&quot;: &quot;USD&quot;, &quot;target_currency&quot;: &quot;JPY&quot;}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;), ChatCompletionMessageToolCall(id=&#39;call_fzPLFXAH57FU0H04tpM36ay8&#39;, function=Function(arguments=&#39;{&quot;base_currency&quot;: &quot;USD&quot;, &quot;target_currency&quot;: &quot;PLN&quot;}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;), ChatCompletionMessageToolCall(id=&#39;call_TiDiLVR6PqzK50ZnwCs6CsEu&#39;, function=Function(arguments=&#39;{&quot;search_query&quot;: &quot;current news in Argentina&quot;}&#39;, name=&#39;search_internet&#39;), type=&#39;function&#39;)])
+
+Tool Calls:  [ChatCompletionMessageToolCall(id=&#39;call_T4noNrQKJTHL9rWyfKBz5pil&#39;, function=Function(arguments=&#39;{&quot;base_currency&quot;: &quot;USD&quot;, &quot;target_currency&quot;: &quot;JPY&quot;}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;), ChatCompletionMessageToolCall(id=&#39;call_fzPLFXAH57FU0H04tpM36ay8&#39;, function=Function(arguments=&#39;{&quot;base_currency&quot;: &quot;USD&quot;, &quot;target_currency&quot;: &quot;PLN&quot;}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;), ChatCompletionMessageToolCall(id=&#39;call_TiDiLVR6PqzK50ZnwCs6CsEu&#39;, function=Function(arguments=&#39;{&quot;search_query&quot;: &quot;current news in Argentina&quot;}&#39;, name=&#39;search_internet&#39;), type=&#39;function&#39;)]
+
+Calling &lt;function get_exchange_rate at 0x109d1ee80&gt; with arguments {&#39;base_currency&#39;: &#39;USD&#39;, &#39;target_currency&#39;: &#39;JPY&#39;, &#39;date&#39;: &#39;latest&#39;}
+
+Function Response:  158.51506391
+
+Appending Message:  {&#39;tool_call_id&#39;: &#39;call_T4noNrQKJTHL9rWyfKBz5pil&#39;, &#39;role&#39;: &#39;tool&#39;, &#39;name&#39;: &#39;get_exchange_rate&#39;, &#39;content&#39;: &#39;158.51506391&#39;}
+
+Calling &lt;function get_exchange_rate at 0x109d1ee80&gt; with arguments {&#39;base_currency&#39;: &#39;USD&#39;, &#39;target_currency&#39;: &#39;PLN&#39;, &#39;date&#39;: &#39;latest&#39;}
+
+Function Response:  3.90821251
+
+Appending Message:  {&#39;tool_call_id&#39;: &#39;call_fzPLFXAH57FU0H04tpM36ay8&#39;, &#39;role&#39;: &#39;tool&#39;, &#39;name&#39;: &#39;get_exchange_rate&#39;, &#39;content&#39;: &#39;3.90821251&#39;}
+
+Calling &lt;function search_internet at 0x109d1e480&gt; with arguments {&#39;search_query&#39;: &#39;current news in Argentina&#39;}
+
+Function Response:  [{&#39;title&#39;: &quot;Argentina | Today&#39;s latest from Al Jazeera&quot;, &#39;href&#39;: &#39;https://www.aljazeera.com/where/argentina&#39;, &#39;body&#39;: &quot;Stay on top of Argentina latest developments on the ground with Al Jazeera&#39;s fact-based news, exclusive video footage, photos and updated maps.&quot;}, {&#39;title&#39;: &#39;News from Argentina and beyond - in English | Buenos Aires Times&#39;, &#39;href&#39;: &#39;https://www.batimes.com.ar/&#39;, &#39;body&#39;: &quot;Homepage for the Buenos Aires Times, Argentina&#39;s only English-language newspaper. News from Argentina and beyond - in English. News, analysis, politics, finance, economy, culture, sports - and much, much more! ... The last three years have been ones to remember for this Argentina team and with this latest victory, they are surely the ...&quot;}, {&#39;title&#39;: &#39;Argentina | AP News&#39;, &#39;href&#39;: &#39;https://apnews.com/hub/argentina&#39;, &#39;body&#39;: &quot;President Javier Milei of Argentina, who owns four clones of his dead dog Conan, has never been the most conventional occupant of Argentina&#39;s highest office. Stay informed and read the latest breaking news and updates on Argentina from AP News, the definitive source for independent journalism.&quot;}, {&#39;title&#39;: &#39;Argentina | Buenos Aires Times&#39;, &#39;href&#39;: &#39;https://www.batimes.com.ar/section/argentina&#39;, &#39;body&#39;: &quot;News of argentina. Homepage for the Buenos Aires Times, Argentina&#39;s only English-language newspaper. News from Argentina and beyond - in English. ... 06-07-2024 05:23 US Ambassador Marc Stanley pays tributes to Argentine politicians from previous and current governments as he welcomes more than 1,000 guests to the Palacio Bosch for annual ...&quot;}, {&#39;title&#39;: &#39;Argentina - BBC News&#39;, &#39;href&#39;: &#39;https://www.bbc.com/news/topics/c77jz3mdm3rt&#39;, &#39;body&#39;: &quot;Important to get winning start - Messi. Lionel Messi reflects on the importance of a winning start after Argentina&#39;s 2-0 win against Canada in the opening game of Copa America. All the latest ...&quot;}]
+
+Appending Message:  {&#39;tool_call_id&#39;: &#39;call_TiDiLVR6PqzK50ZnwCs6CsEu&#39;, &#39;role&#39;: &#39;tool&#39;, &#39;name&#39;: &#39;search_internet&#39;, &#39;content&#39;: &#39;[{\&#39;title\&#39;: &quot;Argentina | Today\&#39;s latest from Al Jazeera&quot;, \&#39;href\&#39;: \&#39;https://www.aljazeera.com/where/argentina\&#39;, \&#39;body\&#39;: &quot;Stay on top of Argentina latest developments on the ground with Al Jazeera\&#39;s fact-based news, exclusive video footage, photos and updated maps.&quot;}, {\&#39;title\&#39;: \&#39;News from Argentina and beyond - in English | Buenos Aires Times\&#39;, \&#39;href\&#39;: \&#39;https://www.batimes.com.ar/\&#39;, \&#39;body\&#39;: &quot;Homepage for the Buenos Aires Times, Argentina\&#39;s only English-language newspaper. News from Argentina and beyond - in English. News, analysis, politics, finance, economy, culture, sports - and much, much more! ... The last three years have been ones to remember for this Argentina team and with this latest victory, they are surely the ...&quot;}, {\&#39;title\&#39;: \&#39;Argentina | AP News\&#39;, \&#39;href\&#39;: \&#39;https://apnews.com/hub/argentina\&#39;, \&#39;body\&#39;: &quot;President Javier Milei of Argentina, who owns four clones of his dead dog Conan, has never been the most conventional occupant of Argentina\&#39;s highest office. Stay informed and read the latest breaking news and updates on Argentina from AP News, the definitive source for independent journalism.&quot;}, {\&#39;title\&#39;: \&#39;Argentina | Buenos Aires Times\&#39;, \&#39;href\&#39;: \&#39;https://www.batimes.com.ar/section/argentina\&#39;, \&#39;body\&#39;: &quot;News of argentina. Homepage for the Buenos Aires Times, Argentina\&#39;s only English-language newspaper. News from Argentina and beyond - in English. ... 06-07-2024 05:23 US Ambassador Marc Stanley pays tributes to Argentine politicians from previous and current governments as he welcomes more than 1,000 guests to the Palacio Bosch for annual ...&quot;}, {\&#39;title\&#39;: \&#39;Argentina - BBC News\&#39;, \&#39;href\&#39;: \&#39;https://www.bbc.com/news/topics/c77jz3mdm3rt\&#39;, \&#39;body\&#39;: &quot;Important to get winning start - Messi. Lionel Messi reflects on the importance of a winning start after Argentina\&#39;s 2-0 win against Canada in the opening game of Copa America. All the latest ...&quot;}]&#39;}
+
+LLM Response:  ChatCompletion(id=&#39;chatcmpl-9ljfqqMxBlTEynOqEYVtHvyYJBUSh&#39;, choices=[Choice(finish_reason=&#39;stop&#39;, index=0, logprobs=None, message=ChatCompletionMessage(content=&#39;### Exchange Rates:\n1. **USD to JPY (Japan):** 1 USD is approximately 158.52 JPY.\n2. **USD to PLN (Poland):** 1 USD is approximately 3.91 PLN.\n\n### Current News in Argentina:\nHere are some sources where you can find the latest news about Argentina:\n\n1. [**Al Jazeera - Argentina**](https://www.aljazeera.com/where/argentina)\n   - Provides fact-based news, exclusive video footage, photos, and updated maps on developments in Argentina.\n\n2. [**Buenos Aires Times**](https://www.batimes.com.ar/)\n   - The only English-language newspaper in Argentina. Covers news from Argentina and beyond, including analysis in politics, finance, economy, culture, and sports.\n\n3. [**AP News - Argentina**](https://apnews.com/hub/argentina)\n   - Offers the latest breaking news and updates on Argentina, covering various topics including politics and current events.\n\n4. [**BBC News - Argentina**](https://www.bbc.com/news/topics/c77jz3mdm3rt)\n   - Features news articles and updates on important events and personalities, such as sports insights from Lionel Messi.\n\nFeel free to explore these sources for more in-depth and up-to-date information.&#39;, role=&#39;assistant&#39;, function_call=None, tool_calls=None))], created=1721164014, model=&#39;gpt-4o-2024-05-13&#39;, object=&#39;chat.completion&#39;, system_fingerprint=&#39;fp_5e997b69d8&#39;, usage=CompletionUsage(completion_tokens=270, prompt_tokens=563, total_tokens=833))
+
+---Formatted LLM Response---
+
+ ### Exchange Rates:
+1. **USD to JPY (Japan):** 1 USD is approximately 158.52 JPY.
+2. **USD to PLN (Poland):** 1 USD is approximately 3.91 PLN.
+
+### Current News in Argentina:
+Here are some sources where you can find the latest news about Argentina:
+
+1. [**Al Jazeera - Argentina**](https://www.aljazeera.com/where/argentina)
+   - Provides fact-based news, exclusive video footage, photos, and updated maps on developments in Argentina.
+
+2. [**Buenos Aires Times**](https://www.batimes.com.ar/)
+   - The only English-language newspaper in Argentina. Covers news from Argentina and beyond, including analysis in politics, finance, economy, culture, and sports.
+
+3. [**AP News - Argentina**](https://apnews.com/hub/argentina)
+   - Offers the latest breaking news and updates on Argentina, covering various topics including politics and current events.
+
+4. [**BBC News - Argentina**](https://www.bbc.com/news/topics/c77jz3mdm3rt)
+   - Features news articles and updates on important events and personalities, such as sports insights from Lionel Messi.
+
+Feel free to explore these sources for more in-depth and up-to-date information.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="function-calling-behavior">
+<h2>Function Calling Behavior<a class="headerlink" href="#function-calling-behavior" title="Link to this heading">#</a></h2>
+<p>The default behavior for <code class="docutils literal notranslate"><span class="pre">tool_choice</span></code> is <code class="docutils literal notranslate"><span class="pre">tool_choice:</span> <span class="pre">&quot;auto&quot;</span></code>. This lets the model decide whether to call functions and, if so, which functions to call.</p>
+<p>Three ways to customize the default behavior depending on your use case:</p>
+<ol class="arabic simple">
+<li><p>To force the model to always call one or more functions, you can set <code class="docutils literal notranslate"><span class="pre">tool_choice:</span> <span class="pre">&quot;required&quot;</span></code>. The model will then select which function(s) to call.</p></li>
+<li><p>To force the model to call only one specific function, you can set <code class="docutils literal notranslate"><span class="pre">tool_choice:</span> <span class="pre">{&quot;type&quot;:</span> <span class="pre">&quot;function&quot;,</span> <span class="pre">&quot;function&quot;:</span> <span class="pre">{&quot;name&quot;:</span> <span class="pre">&quot;my_function&quot;}}</span></code>.</p></li>
+<li><p>To disable function calling and force the model to only generate a user-facing message, you can set <code class="docutils literal notranslate"><span class="pre">tool_choice:</span> <span class="pre">&quot;none&quot;</span></code>.</p></li>
+</ol>
+<p>Additionally, there exists the option for <strong>Parallel Function Calling</strong></p>
+<p>Parallel function calling is the model’s ability to perform multiple function calls together, allowing the effects and results of these function calls to be resolved in parallel. This is especially useful if functions take a long time, and reduces round trips with the API. For example, the model may call functions to get the weather in 3 different locations at the same time, which will result in a message with 3 function calls in the tool_calls array, each with an id. To respond to these function calls, add 3 new messages to the conversation, each containing the result of one function call, with a tool_call_id referencing the id from tool_calls.</p>
+<ul class="simple">
+<li><p>Parallel function calling can be disabled by passing <code class="docutils literal notranslate"><span class="pre">parallel_tool_calls:</span> <span class="pre">false</span></code> in the request. The model will only call one function at a time when parallel function calling is disabled.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="more-advanced-functions">
+<h2>More Advanced Functions<a class="headerlink" href="#more-advanced-functions" title="Link to this heading">#</a></h2>
+<p>Those were relatively simple examples, let’s look at setting up more advanced functions.</p>
+<p>An easy way to manage more complicated and advanced function properties are with <a class="reference external" href="https://docs.pydantic.dev/latest/concepts/json_schema/">Pydantic JSON Schemas</a>, as demonstrated below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">HttpUrl</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="c1"># Defining the tool properties with Pydantic</span>
+<span class="k">class</span> <span class="nc">SendEmailCampaign</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">recipients</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="o">...</span><span class="p">,</span> 
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;List of strings, each an email address. Example: [&#39;example1@mail.com&#39;, &#39;example2@mail.com&#39;]&quot;</span>
+    <span class="p">)</span>
+    <span class="n">subject</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="o">...</span><span class="p">,</span> 
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;String specifying the email&#39;s subject line. Example: &#39;Exciting News!&#39;&quot;</span>
+    <span class="p">)</span>
+    <span class="n">body_text</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="o">...</span><span class="p">,</span> 
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Plain text content of the email body. Example: &#39;We have some exciting updates to share with you.&#39;&quot;</span>
+    <span class="p">)</span>
+    <span class="n">attachments</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">HttpUrl</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="p">[],</span> 
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;List of URLs to attachment files. Example: [&#39;http://example.com/attachment1.pdf&#39;, &#39;http://example.com/attachment2.png&#39;]&quot;</span>
+    <span class="p">)</span>
+    <span class="n">personalization</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="p">{},</span> 
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Dictionary for personalizing email content. Key is recipient email, value is a dictionary of variables. Example: {&#39;example1@mail.com&#39;: {&#39;first_name&#39;: &#39;John&#39;}, &#39;example2@mail.com&#39;: {&#39;first_name&#39;: &#39;Jane&#39;}}&quot;</span>
+    <span class="p">)</span>
+    <span class="n">send_time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span> 
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The time when the email campaign is to be sent. Example: &#39;2024-07-13T14:30:00&#39;&quot;</span>
+    <span class="p">)</span>
+    <span class="n">priority</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">,</span> 
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Email priority level. Options: &#39;low&#39;, &#39;normal&#39;, &#39;high&#39;. Example: &#39;high&#39;&quot;</span><span class="p">,</span> 
+        <span class="n">enum</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;low&quot;</span><span class="p">,</span> <span class="s2">&quot;normal&quot;</span><span class="p">,</span> <span class="s2">&quot;high&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">tracking</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;open&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;click&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span> 
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Tracking options for the email. Keys can be &#39;open&#39; and &#39;click&#39;, values are booleans. Example: {&#39;open&#39;: True, &#39;click&#39;: True}&quot;</span>
+    <span class="p">)</span>
+    <span class="n">campaign_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span> 
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Unique identifier for the email campaign for tracking purposes. Example: &#39;campaign_12345&#39;&quot;</span>
+    <span class="p">)</span>
+
+<span class="c1"># Creating the Tool with PyDantic Schema</span>
+<span class="n">email_campaign_tool</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;function&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;function&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;send_email_campaign&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Send out a marketing email campaign&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="n">SendEmailCampaign</span><span class="o">.</span><span class="n">schema</span><span class="p">(),</span> <span class="c1"># Passing in our Pydantic schema</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">email_campaign_tool</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;type&#39;: &#39;function&#39;,
+  &#39;function&#39;: {&#39;name&#39;: &#39;send_email_campaign&#39;,
+   &#39;description&#39;: &#39;Send out a marketing email campaign&#39;,
+   &#39;parameters&#39;: {&#39;properties&#39;: {&#39;recipients&#39;: {&#39;description&#39;: &quot;List of strings, each an email address. Example: [&#39;example1@mail.com&#39;, &#39;example2@mail.com&#39;]&quot;,
+      &#39;items&#39;: {&#39;type&#39;: &#39;string&#39;},
+      &#39;title&#39;: &#39;Recipients&#39;,
+      &#39;type&#39;: &#39;array&#39;},
+     &#39;subject&#39;: {&#39;description&#39;: &quot;String specifying the email&#39;s subject line. Example: &#39;Exciting News!&#39;&quot;,
+      &#39;title&#39;: &#39;Subject&#39;,
+      &#39;type&#39;: &#39;string&#39;},
+     &#39;body_text&#39;: {&#39;description&#39;: &quot;Plain text content of the email body. Example: &#39;We have some exciting updates to share with you.&#39;&quot;,
+      &#39;title&#39;: &#39;Body Text&#39;,
+      &#39;type&#39;: &#39;string&#39;},
+     &#39;attachments&#39;: {&#39;anyOf&#39;: [{&#39;items&#39;: {&#39;format&#39;: &#39;uri&#39;,
+         &#39;maxLength&#39;: 2083,
+         &#39;minLength&#39;: 1,
+         &#39;type&#39;: &#39;string&#39;},
+        &#39;type&#39;: &#39;array&#39;},
+       {&#39;type&#39;: &#39;null&#39;}],
+      &#39;default&#39;: [],
+      &#39;description&#39;: &quot;List of URLs to attachment files. Example: [&#39;http://example.com/attachment1.pdf&#39;, &#39;http://example.com/attachment2.png&#39;]&quot;,
+      &#39;title&#39;: &#39;Attachments&#39;},
+     &#39;personalization&#39;: {&#39;anyOf&#39;: [{&#39;additionalProperties&#39;: {&#39;additionalProperties&#39;: {&#39;type&#39;: &#39;string&#39;},
+         &#39;type&#39;: &#39;object&#39;},
+        &#39;type&#39;: &#39;object&#39;},
+       {&#39;type&#39;: &#39;null&#39;}],
+      &#39;default&#39;: {},
+      &#39;description&#39;: &quot;Dictionary for personalizing email content. Key is recipient email, value is a dictionary of variables. Example: {&#39;example1@mail.com&#39;: {&#39;first_name&#39;: &#39;John&#39;}, &#39;example2@mail.com&#39;: {&#39;first_name&#39;: &#39;Jane&#39;}}&quot;,
+      &#39;title&#39;: &#39;Personalization&#39;},
+     &#39;send_time&#39;: {&#39;anyOf&#39;: [{&#39;format&#39;: &#39;date-time&#39;, &#39;type&#39;: &#39;string&#39;},
+       {&#39;type&#39;: &#39;null&#39;}],
+      &#39;default&#39;: None,
+      &#39;description&#39;: &quot;The time when the email campaign is to be sent. Example: &#39;2024-07-13T14:30:00&#39;&quot;,
+      &#39;title&#39;: &#39;Send Time&#39;},
+     &#39;priority&#39;: {&#39;anyOf&#39;: [{&#39;type&#39;: &#39;string&#39;}, {&#39;type&#39;: &#39;null&#39;}],
+      &#39;default&#39;: &#39;normal&#39;,
+      &#39;description&#39;: &quot;Email priority level. Options: &#39;low&#39;, &#39;normal&#39;, &#39;high&#39;. Example: &#39;high&#39;&quot;,
+      &#39;enum&#39;: [&#39;low&#39;, &#39;normal&#39;, &#39;high&#39;],
+      &#39;title&#39;: &#39;Priority&#39;},
+     &#39;tracking&#39;: {&#39;anyOf&#39;: [{&#39;additionalProperties&#39;: {&#39;type&#39;: &#39;boolean&#39;},
+        &#39;type&#39;: &#39;object&#39;},
+       {&#39;type&#39;: &#39;null&#39;}],
+      &#39;default&#39;: {&#39;open&#39;: True, &#39;click&#39;: True},
+      &#39;description&#39;: &quot;Tracking options for the email. Keys can be &#39;open&#39; and &#39;click&#39;, values are booleans. Example: {&#39;open&#39;: True, &#39;click&#39;: True}&quot;,
+      &#39;title&#39;: &#39;Tracking&#39;},
+     &#39;campaign_id&#39;: {&#39;anyOf&#39;: [{&#39;type&#39;: &#39;string&#39;}, {&#39;type&#39;: &#39;null&#39;}],
+      &#39;default&#39;: None,
+      &#39;description&#39;: &quot;Unique identifier for the email campaign for tracking purposes. Example: &#39;campaign_12345&#39;&quot;,
+      &#39;title&#39;: &#39;Campaign Id&#39;}},
+    &#39;required&#39;: [&#39;recipients&#39;, &#39;subject&#39;, &#39;body_text&#39;],
+    &#39;title&#39;: &#39;SendEmailCampaign&#39;,
+    &#39;type&#39;: &#39;object&#39;}}}]
+</pre></div>
+</div>
+</div>
+</div>
+<p>And trying it out:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">&quot;Can you send an email to adamlucek@youtube.com, samaltman@openai.com, and elonmusk@twitter.com about the cool youtube channel https://www.youtube.com/@AdamLucek </span>
+<span class="s2">for July 20th at 8 am pst, this is high priority and include just click tracking and name personalization, </span>
+<span class="s2">the campaign is campaign_13, </span>
+<span class="s2">also add my linkedin as an attachment https://www.linkedin.com/in/adamrlucek/,</span>
+<span class="s2">Sign off your response with Adam Ł in the body.</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">messages</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> 
+             <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">prompt</span><span class="p">}]</span>
+
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o&quot;</span><span class="p">,</span>
+        <span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">,</span>
+        <span class="n">tools</span><span class="o">=</span><span class="n">email_campaign_tool</span><span class="p">,</span>
+        <span class="n">tool_choice</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>  <span class="c1"># auto is default, but we&#39;ll be explicit</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pprint_response</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Full Response ---
+
+ChatCompletion(id=&#39;chatcmpl-9ljvcOfHyOD8K5uxBVjTKZF56Dd5F&#39;, choices=[Choice(finish_reason=&#39;tool_calls&#39;, index=0, logprobs=None, message=ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_lFaVbiJ2EC93zu1k7vfzG5j1&#39;, function=Function(arguments=&#39;{&quot;recipients&quot;: [&quot;adamlucek@youtube.com&quot;, &quot;samaltman@openai.com&quot;, &quot;elonmusk@twitter.com&quot;], &quot;subject&quot;: &quot;Check Out This Cool YouTube Channel!&quot;, &quot;body_text&quot;: &quot;Hello,\\n\\nI wanted to share an amazing YouTube channel that I think you\&#39;ll love: https://www.youtube.com/@AdamLucek.\\n\\nBest Regards,\\nAdam Ł&quot;, &quot;attachments&quot;: [&quot;https://www.linkedin.com/in/adamrlucek/&quot;], &quot;personalization&quot;: {&quot;adamlucek@youtube.com&quot;: {&quot;first_name&quot;: &quot;Adam&quot;}, &quot;samaltman@openai.com&quot;: {&quot;first_name&quot;: &quot;Sam&quot;}, &quot;elonmusk@twitter.com&quot;: {&quot;first_name&quot;: &quot;Elon&quot;}}, &quot;send_time&quot;: &quot;2023-07-20T08:00:00-08:00&quot;, &quot;priority&quot;: &quot;high&quot;, &quot;tracking&quot;: {&quot;click&quot;: true}, &quot;campaign_id&quot;: &quot;campaign_13&quot;}&#39;, name=&#39;send_email_campaign&#39;), type=&#39;function&#39;)]))], created=1721164992, model=&#39;gpt-4o-2024-05-13&#39;, object=&#39;chat.completion&#39;, system_fingerprint=&#39;fp_c4e5b6fa31&#39;, usage=CompletionUsage(completion_tokens=203, prompt_tokens=553, total_tokens=756)) 
+
+--- Chat Completion Message ---
+
+ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_lFaVbiJ2EC93zu1k7vfzG5j1&#39;, function=Function(arguments=&#39;{&quot;recipients&quot;: [&quot;adamlucek@youtube.com&quot;, &quot;samaltman@openai.com&quot;, &quot;elonmusk@twitter.com&quot;], &quot;subject&quot;: &quot;Check Out This Cool YouTube Channel!&quot;, &quot;body_text&quot;: &quot;Hello,\\n\\nI wanted to share an amazing YouTube channel that I think you\&#39;ll love: https://www.youtube.com/@AdamLucek.\\n\\nBest Regards,\\nAdam Ł&quot;, &quot;attachments&quot;: [&quot;https://www.linkedin.com/in/adamrlucek/&quot;], &quot;personalization&quot;: {&quot;adamlucek@youtube.com&quot;: {&quot;first_name&quot;: &quot;Adam&quot;}, &quot;samaltman@openai.com&quot;: {&quot;first_name&quot;: &quot;Sam&quot;}, &quot;elonmusk@twitter.com&quot;: {&quot;first_name&quot;: &quot;Elon&quot;}}, &quot;send_time&quot;: &quot;2023-07-20T08:00:00-08:00&quot;, &quot;priority&quot;: &quot;high&quot;, &quot;tracking&quot;: {&quot;click&quot;: true}, &quot;campaign_id&quot;: &quot;campaign_13&quot;}&#39;, name=&#39;send_email_campaign&#39;), type=&#39;function&#39;)]) 
+
+--- Tool Call 1 ---
+
+Function: send_email_campaign
+
+Arguments: {&quot;recipients&quot;: [&quot;adamlucek@youtube.com&quot;, &quot;samaltman@openai.com&quot;, &quot;elonmusk@twitter.com&quot;], &quot;subject&quot;: &quot;Check Out This Cool YouTube Channel!&quot;, &quot;body_text&quot;: &quot;Hello,\n\nI wanted to share an amazing YouTube channel that I think you&#39;ll love: https://www.youtube.com/@AdamLucek.\n\nBest Regards,\nAdam Ł&quot;, &quot;attachments&quot;: [&quot;https://www.linkedin.com/in/adamrlucek/&quot;], &quot;personalization&quot;: {&quot;adamlucek@youtube.com&quot;: {&quot;first_name&quot;: &quot;Adam&quot;}, &quot;samaltman@openai.com&quot;: {&quot;first_name&quot;: &quot;Sam&quot;}, &quot;elonmusk@twitter.com&quot;: {&quot;first_name&quot;: &quot;Elon&quot;}}, &quot;send_time&quot;: &quot;2023-07-20T08:00:00-08:00&quot;, &quot;priority&quot;: &quot;high&quot;, &quot;tracking&quot;: {&quot;click&quot;: true}, &quot;campaign_id&quot;: &quot;campaign_13&quot;}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example function of sending off an Email Campaign</span>
+<span class="k">def</span> <span class="nf">send_email_campaign</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Validate and parse the data using the SendEmailCampaign model</span>
+        <span class="n">campaign</span> <span class="o">=</span> <span class="n">SendEmailCampaign</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span>
+        
+        <span class="c1"># Simulate sending the email campaign</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Sending email campaign &#39;</span><span class="si">{</span><span class="n">campaign</span><span class="o">.</span><span class="n">campaign_id</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">&#39;N/A&#39;</span><span class="si">}</span><span class="s2">&#39; with priority &#39;</span><span class="si">{</span><span class="n">campaign</span><span class="o">.</span><span class="n">priority</span><span class="si">}</span><span class="s2">&#39;:&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">recipient</span> <span class="ow">in</span> <span class="n">campaign</span><span class="o">.</span><span class="n">recipients</span><span class="p">:</span>
+            <span class="n">personalized_subject</span> <span class="o">=</span> <span class="n">campaign</span><span class="o">.</span><span class="n">subject</span>
+            <span class="k">if</span> <span class="n">recipient</span> <span class="ow">in</span> <span class="n">campaign</span><span class="o">.</span><span class="n">personalization</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s1">&#39;first_name&#39;</span> <span class="ow">in</span> <span class="n">campaign</span><span class="o">.</span><span class="n">personalization</span><span class="p">[</span><span class="n">recipient</span><span class="p">]:</span>
+                    <span class="n">personalized_subject</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">campaign</span><span class="o">.</span><span class="n">personalization</span><span class="p">[</span><span class="n">recipient</span><span class="p">][</span><span class="s1">&#39;first_name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">campaign</span><span class="o">.</span><span class="n">subject</span><span class="si">}</span><span class="s2">&quot;</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-----&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">To: </span><span class="si">{</span><span class="n">recipient</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Subject: </span><span class="si">{</span><span class="n">personalized_subject</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Body: </span><span class="si">{</span><span class="n">campaign</span><span class="o">.</span><span class="n">body_text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">campaign</span><span class="o">.</span><span class="n">attachments</span><span class="p">:</span>
+                <span class="n">attachment_urls</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">campaign</span><span class="o">.</span><span class="n">attachments</span><span class="p">]</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Attachments: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">attachment_urls</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-----&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Scheduled Send Time: </span><span class="si">{</span><span class="n">campaign</span><span class="o">.</span><span class="n">send_time</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">&#39;Immediate&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Campaign ID: </span><span class="si">{</span><span class="n">campaign</span><span class="o">.</span><span class="n">campaign_id</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">&#39;N/A&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tracking: </span><span class="si">{</span><span class="n">campaign</span><span class="o">.</span><span class="n">tracking</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to send email campaign: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">args</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">tool_calls</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">arguments</span><span class="p">)</span>
+<span class="n">send_email_campaign</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sending email campaign &#39;campaign_13&#39; with priority &#39;high&#39;:
+-----
+
+To: adamlucek@youtube.com
+Subject: Adam, Check Out This Cool YouTube Channel!
+Body: Hello,
+
+I wanted to share an amazing YouTube channel that I think you&#39;ll love: https://www.youtube.com/@AdamLucek.
+
+Best Regards,
+Adam Ł
+	Attachments: https://www.linkedin.com/in/adamrlucek/
+-----
+
+To: samaltman@openai.com
+Subject: Sam, Check Out This Cool YouTube Channel!
+Body: Hello,
+
+I wanted to share an amazing YouTube channel that I think you&#39;ll love: https://www.youtube.com/@AdamLucek.
+
+Best Regards,
+Adam Ł
+	Attachments: https://www.linkedin.com/in/adamrlucek/
+-----
+
+To: elonmusk@twitter.com
+Subject: Elon, Check Out This Cool YouTube Channel!
+Body: Hello,
+
+I wanted to share an amazing YouTube channel that I think you&#39;ll love: https://www.youtube.com/@AdamLucek.
+
+Best Regards,
+Adam Ł
+	Attachments: https://www.linkedin.com/in/adamrlucek/
+-----
+
+Scheduled Send Time: 2023-07-20 08:00:00-08:00
+Campaign ID: campaign_13
+Tracking: {&#39;click&#39;: True}
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>One thing to note</strong>, if you have too many functions or your functions are very complicated, it’s possible to do further <a class="reference external" href="https://platform.openai.com/docs/guides/fine-tuning/fine-tuning-examples">fine-tuning</a> to address this</p>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="other-models-w-langchain">
+<h1>Other Models w/LangChain<a class="headerlink" href="#other-models-w-langchain" title="Link to this heading">#</a></h1>
+<p>Function calling with OpenAI models is cool, but let’s also show what other models support function calling, and how to easily format your tools for different LLMs with LangChain’s <a class="reference external" href="https://python.langchain.com/v0.1/docs/modules/model_io/chat/function_calling/">integrations</a></p>
+<p>Here are some common providers and their specific model function calling documentation: <a class="reference external" href="https://platform.openai.com/docs/guides/function-calling">OpenAI</a>, <a class="reference external" href="https://docs.anthropic.com/en/docs/build-with-claude/tool-use">Anthropic</a>, <a class="reference external" href="https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/function-calling">Google</a>, <a class="reference external" href="https://docs.cohere.com/docs/tools">Cohere</a>, <a class="reference external" href="https://fireworks.ai/blog/firefunction-v1-gpt-4-level-function-calling">Fireworks.ai</a>, <a class="reference external" href="https://console.groq.com/docs/tool-use">Groq</a>, <a class="reference external" href="https://docs.mistral.ai/capabilities/function_calling/">Mistral</a>, <a class="reference external" href="https://docs.together.ai/docs/function-calling">Together.ai</a></p>
+<p>Langchain makes it very easy to plug and play with function calling using compatible LLMs with their standardized message and tool framework</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain_anthropic</span> <span class="kn">import</span> <span class="n">ChatAnthropic</span>
+
+<span class="c1"># Claude 3.5 Sonnet</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">ChatAnthropic</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;claude-3-5-sonnet-20240620&quot;</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="defining-tools">
+<h2>Defining Tools<a class="headerlink" href="#defining-tools" title="Link to this heading">#</a></h2>
+<p>LangChain offers multiple ways of defining tools, you can:</p>
+<ul class="simple">
+<li><p>Use the <code class="docutils literal notranslate"><span class="pre">&#64;tool</span></code> decorator along with a description on an exisiting function</p></li>
+<li><p>Use Pydantic schemas to define tool arguments</p></li>
+<li><p>Use <a class="reference external" href="https://python.langchain.com/v0.1/docs/integrations/tools/">built in tools</a> as part of LangChain’s integrations</p></li>
+<li><p>Use a combination of all above methods to define <a class="reference external" href="https://python.langchain.com/v0.1/docs/modules/tools/custom_tools/">custom tools</a> from LangChain’s BaseTool class</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain_core.tools</span> <span class="kn">import</span> <span class="n">tool</span>
+
+<span class="c1"># Using the tool decorator to attach onto an existing function</span>
+<span class="nd">@tool</span>
+<span class="k">def</span> <span class="nf">get_exchange_rate</span><span class="p">(</span><span class="n">base_currency</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target_currency</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">date</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;latest&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the latest exchange rate between two currency. Date defaults latest if not provided.&quot;&quot;&quot;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/</span><span class="si">{</span><span class="n">base_currency</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">.json&quot;</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">base_currency</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">target_currency</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to fetch exchange rate: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># Using Pydantic schemas (non-invokable tool)</span>
+<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+
+<span class="k">class</span> <span class="nc">SendEmailCampaignLC</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="s2">&quot;Send a marketing email campaign out to your mailing list&quot;</span>
+    
+    <span class="n">recipients</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="o">...</span><span class="p">,</span> 
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;List of strings, each an email address. Example: [&#39;example1@mail.com&#39;, &#39;example2@mail.com&#39;]&quot;</span>
+    <span class="p">)</span>
+    <span class="n">subject</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="o">...</span><span class="p">,</span> 
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;String specifying the email&#39;s subject line. Example: &#39;Exciting News!&#39;&quot;</span>
+    <span class="p">)</span>
+    <span class="n">body_text</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="o">...</span><span class="p">,</span> 
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Plain text content of the email body. Example: &#39;We have some exciting updates to share with you.&#39;&quot;</span>
+    <span class="p">)</span>
+
+<span class="c1"># Using built in LangChain tool integrations</span>
+<span class="kn">from</span> <span class="nn">langchain_community.utilities</span> <span class="kn">import</span> <span class="n">DuckDuckGoSearchAPIWrapper</span>
+<span class="kn">from</span> <span class="nn">langchain_community.tools</span> <span class="kn">import</span> <span class="n">DuckDuckGoSearchResults</span>
+
+<span class="n">wrapper</span> <span class="o">=</span> <span class="n">DuckDuckGoSearchAPIWrapper</span><span class="p">(</span><span class="n">max_results</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">web_search</span> <span class="o">=</span> <span class="n">DuckDuckGoSearchResults</span><span class="p">(</span><span class="n">api_wrapper</span><span class="o">=</span><span class="n">wrapper</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">get_exchange_rate</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;base_currency&quot;</span><span class="p">:</span> <span class="s2">&quot;usd&quot;</span><span class="p">,</span> <span class="s2">&quot;target_currency&quot;</span><span class="p">:</span> <span class="s2">&quot;jpy&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>158.51506391
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">web_search</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;Fun things to do in SF&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;[snippet: If you want the best views of San Francisco, take a hike to Twin Peaks. These famous grassy peaks rise 922 feet in elevation, making them the second highest point in the city (after Mount Davidson ..., title: 30 Top-Rated Things to Do in San Francisco | U.S. News Travel, link: https://travel.usnews.com/San_Francisco_CA/Things_To_Do/], [snippet: Other hot spots include Cavaña, a Latin American-inspired bar in Mission Bay, and Rise Over Run, a lush drinking destination on the top floor of the LINE Hotel. Clara Hogan. Advertising. 3 ..., title: 50 Best Things to Do in San Francisco in 2024 - Time Out, link: https://www.timeout.com/san-francisco/things-to-do/best-things-to-do-in-san-francisco], [snippet: 213 Cool, Hidden, and Unusual Things to Do in San Francisco, California. From the Gold Rush to Silicon Valley, the Bay Area has long attracted people from all over the country and the world. And ..., title: 213 Cool and Unusual Things to Do in San Francisco, link: https://www.atlasobscura.com/things-to-do/san-francisco-california], [snippet: The audio tour is one of the best things to do in San Francisco for tourists, but even locals will have plenty to learn on a visit to this historic island. 13. Ride a cable car. Photo by Ragnar Vorel on Unsplash. SF&#39;s cable cars are the only moving national landmark in the United States, dating back to 1873., title: 53 Best Attractions, Events, And Things To Do In San Francisco, link: https://secretsanfrancisco.com/things-to-do-san-francisco/]&quot;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="attaching-tools-to-llm-object">
+<h2>Attaching tools to LLM object<a class="headerlink" href="#attaching-tools-to-llm-object" title="Link to this heading">#</a></h2>
+<p>Using LangChain’s <code class="docutils literal notranslate"><span class="pre">.bind_tools()</span></code> method, we can automatically format the tools to the right format for the model provider and connect them to the LLM anytime we use it.</p>
+<p>This is also where you can pass in the <code class="docutils literal notranslate"><span class="pre">tool_choice</span></code> argument, however Anthropic doesn’t support this feature currently for the example.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tools</span> <span class="o">=</span> <span class="p">[</span><span class="n">web_search</span><span class="p">,</span> <span class="n">SendEmailCampaignLC</span><span class="p">,</span> <span class="n">get_exchange_rate</span><span class="p">]</span>
+
+<span class="n">llm_tools</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">bind_tools</span><span class="p">(</span><span class="n">tools</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now the LLM has the ability to use and send back Tool messages</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># prompt = &quot;How much is a dollar worth in Japan right now&quot;</span>
+<span class="c1"># prompt = &quot;Can you send an email to adamlucek@youtube.com, samaltman@openai.com, and elonmusk@twitter.com about the cool youtube channel https://www.youtube.com/@AdamLucek&quot;</span>
+<span class="c1"># prompt = &quot;When was langgraph cloud released?&quot;</span>
+<span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;When was langchain founded? and how much is a dollar worth in japan rn&quot;</span>
+
+<span class="n">output</span> <span class="o">=</span> <span class="n">llm_tools</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">---Response---&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">content</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;text&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">---Tool Calls---&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">tool_calls</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Response---
+To answer your questions, I&#39;ll need to use two different tools: one for the search about LangChain and another for the current exchange rate. Let me fetch that information for you.
+
+---Tool Calls---
+[{&#39;name&#39;: &#39;duckduckgo_results_json&#39;, &#39;args&#39;: {&#39;query&#39;: &#39;When was LangChain founded&#39;}, &#39;id&#39;: &#39;toolu_01FtmJZQHLXuHTWs52APGFEn&#39;, &#39;type&#39;: &#39;tool_call&#39;}, {&#39;name&#39;: &#39;get_exchange_rate&#39;, &#39;args&#39;: {&#39;base_currency&#39;: &#39;USD&#39;, &#39;target_currency&#39;: &#39;JPY&#39;}, &#39;id&#39;: &#39;toolu_011kr5hsYLCrwesD4UmdhsAJ&#39;, &#39;type&#39;: &#39;tool_call&#39;}]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="handling-tool-calls">
+<h2>Handling Tool Calls<a class="headerlink" href="#handling-tool-calls" title="Link to this heading">#</a></h2>
+<p>Execute and feed back the tools once we got the arguments from the LLM, now that the tools and messages are formatted by LangChain</p>
+<p>Tools can be directly invoked when formatted as a LangChain tool, simplifying the execution process greatly</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain_core.messages</span> <span class="kn">import</span> <span class="n">HumanMessage</span><span class="p">,</span> <span class="n">ToolMessage</span>
+
+<span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;When was langchain founded? and how much is a dollar worth in japan rn&quot;</span>
+
+<span class="n">messages</span> <span class="o">=</span> <span class="p">[</span><span class="n">HumanMessage</span><span class="p">(</span><span class="n">query</span><span class="p">)]</span>
+<span class="n">ai_msg</span> <span class="o">=</span> <span class="n">llm_tools</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
+<span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ai_msg</span><span class="p">)</span>
+
+<span class="c1"># Only using web search and exchange rate, and the Pydantic schema is not a full function, just a container for arguments</span>
+<span class="k">for</span> <span class="n">tool_call</span> <span class="ow">in</span> <span class="n">ai_msg</span><span class="o">.</span><span class="n">tool_calls</span><span class="p">:</span>
+    <span class="n">selected_tool</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;duckduckgo_results_json&quot;</span><span class="p">:</span> <span class="n">web_search</span><span class="p">,</span> <span class="s2">&quot;get_exchange_rate&quot;</span><span class="p">:</span> <span class="n">get_exchange_rate</span><span class="p">}[</span><span class="n">tool_call</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
+    <span class="n">tool_output</span> <span class="o">=</span> <span class="n">selected_tool</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">tool_call</span><span class="p">[</span><span class="s2">&quot;args&quot;</span><span class="p">])</span>
+    <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ToolMessage</span><span class="p">(</span><span class="n">tool_output</span><span class="p">,</span> <span class="n">tool_call_id</span><span class="o">=</span><span class="n">tool_call</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]))</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">messages</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-------&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">messages</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2">: &quot;</span><span class="p">,</span> <span class="n">messages</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-------
+human:  content=&#39;When was langchain founded? and how much is a dollar worth in japan rn&#39;
+-------
+ai:  content=[{&#39;text&#39;: &quot;To answer your questions, I&#39;ll need to use two different tools: one to search for information about LangChain&#39;s founding, and another to check the current exchange rate between US dollars and Japanese yen. Let me do that for you.&quot;, &#39;type&#39;: &#39;text&#39;}, {&#39;id&#39;: &#39;toolu_01UVv5mjsF5EzGYkagSxxSv1&#39;, &#39;input&#39;: {&#39;query&#39;: &#39;When was LangChain founded&#39;}, &#39;name&#39;: &#39;duckduckgo_results_json&#39;, &#39;type&#39;: &#39;tool_use&#39;}, {&#39;id&#39;: &#39;toolu_01AcWtXxsfK9o43RHGCyYpKD&#39;, &#39;input&#39;: {&#39;base_currency&#39;: &#39;USD&#39;, &#39;target_currency&#39;: &#39;JPY&#39;}, &#39;name&#39;: &#39;get_exchange_rate&#39;, &#39;type&#39;: &#39;tool_use&#39;}] response_metadata={&#39;id&#39;: &#39;msg_01Tbm7WGDuGPaV2uHAhPoM4L&#39;, &#39;model&#39;: &#39;claude-3-5-sonnet-20240620&#39;, &#39;stop_reason&#39;: &#39;tool_use&#39;, &#39;stop_sequence&#39;: None, &#39;usage&#39;: {&#39;input_tokens&#39;: 707, &#39;output_tokens&#39;: 176}} id=&#39;run-ad4c2bef-f767-41f7-a475-ebd32f95f7f6-0&#39; tool_calls=[{&#39;name&#39;: &#39;duckduckgo_results_json&#39;, &#39;args&#39;: {&#39;query&#39;: &#39;When was LangChain founded&#39;}, &#39;id&#39;: &#39;toolu_01UVv5mjsF5EzGYkagSxxSv1&#39;, &#39;type&#39;: &#39;tool_call&#39;}, {&#39;name&#39;: &#39;get_exchange_rate&#39;, &#39;args&#39;: {&#39;base_currency&#39;: &#39;USD&#39;, &#39;target_currency&#39;: &#39;JPY&#39;}, &#39;id&#39;: &#39;toolu_01AcWtXxsfK9o43RHGCyYpKD&#39;, &#39;type&#39;: &#39;tool_call&#39;}] usage_metadata={&#39;input_tokens&#39;: 707, &#39;output_tokens&#39;: 176, &#39;total_tokens&#39;: 883}
+-------
+tool:  content=&quot;[snippet: LangChain is a framework designed to facilitate the development of applications powered by language models. It enables applications to be context-aware, connecting language models to various ..., title: Introduction to LangChain | by Zilliz | Medium, link: https://medium.com/@zilliz_learn/introduction-to-langchain-b01618c82f3c], [snippet: The first commit to LangChain shows its humble origins as a light wrapper around Python&#39;s formatter.format for prompt templating.But as Harrison tells the story, even his first experience with text-davinci-002 in early 2022 was focused on chatting with data from their internal company Notion 2 and Slack, what is now known as Retrieval Augmented Generation (RAG)., title: The Point of LangChain — with Harrison Chase of LangChain, link: https://www.latent.space/p/langchain], [snippet: LangChain on Github. In October 2022, LangChain started as an open-source project created by Harrison Chase. In April 2023, LangChain became a startup and has released more services besides ..., title: What is Langchain? Explained in Everyday Langauge for AI Beginners, link: https://medium.com/ai-for-absolute-beginners/what-is-langchain-explained-in-everyday-langauge-for-ai-beginners-fc8ffa6fb5f2], [snippet: LangChain is a framework that supports the development of applications that run on large language models (LLMs). In software development, a framework acts as a template for building apps, containing a collection of resources created and tested by developers and engineers. Since LangChain is open-source, anyone can access it and tailor it to ..., title: What Is LangChain? | Built In, link: https://builtin.com/articles/langchain]&quot; tool_call_id=&#39;toolu_01UVv5mjsF5EzGYkagSxxSv1&#39;
+-------
+tool:  content=&#39;158.51506391&#39; tool_call_id=&#39;toolu_01AcWtXxsfK9o43RHGCyYpKD&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Putting the recorded messages history together, all formatted correctly with their types of messages, we get the final answer:</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">final_response</span> <span class="o">=</span> <span class="n">llm_tools</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">final_response</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Now, let me answer your questions based on the information I&#39;ve gathered:
+
+1. When was LangChain founded?
+Based on the search results, LangChain was founded in October 2022. It started as an open-source project created by Harrison Chase. The project has since grown, and in April 2023, LangChain became a startup and expanded its services.
+
+2. How much is a dollar worth in Japan right now?
+According to the current exchange rate, 1 US Dollar (USD) is worth 158.51506391 Japanese Yen (JPY).
+
+So, to summarize:
+- LangChain was founded in October 2022.
+- Currently, 1 USD = 158.52 JPY (rounded to two decimal places for simplicity).
+
+Is there anything else you&#39;d like to know about these topics?
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="agents-the-final-frontier-of-tools">
+<h1>Agents: The Final Frontier of Tools<a class="headerlink" href="#agents-the-final-frontier-of-tools" title="Link to this heading">#</a></h1>
+<p>The most common use case for tools and function calling is for creating <a class="reference external" href="https://aws.amazon.com/what-is/ai-agents/">agentic systems</a>.</p>
+<p>We can use <a class="reference external" href="https://python.langchain.com/v0.1/docs/modules/agents/quick_start/">LangChain’s built in agent builders</a> like the OpenAI functions agent to easily attach our tools to an agentic flow, and execute it all in one, or add more complex chain-of-thought reasoning with tools like the <a class="reference external" href="https://python.langchain.com/v0.1/docs/modules/agents/agent_types/react/">ReAct agent</a>.</p>
+<section id="tool-calling-agent">
+<h2>Tool Calling Agent<a class="headerlink" href="#tool-calling-agent" title="Link to this heading">#</a></h2>
+<p>Simple flow that will essentially do what we’ve been setting up manually, <a class="reference external" href="https://smith.langchain.com/hub/hwchase17/openai-functions-agent?organizationId=130ad41c-23ab-5f86-ba94-80f9634e5dca">prompt link here</a>, with calling tools, executing tools, and then returning a final response.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain</span> <span class="kn">import</span> <span class="n">hub</span>
+<span class="kn">from</span> <span class="nn">langchain.agents</span> <span class="kn">import</span> <span class="n">create_tool_calling_agent</span>
+<span class="kn">from</span> <span class="nn">langchain.agents</span> <span class="kn">import</span> <span class="n">AgentExecutor</span>
+
+<span class="c1"># Get the prompt</span>
+<span class="n">oaif_prompt</span> <span class="o">=</span> <span class="n">hub</span><span class="o">.</span><span class="n">pull</span><span class="p">(</span><span class="s2">&quot;hwchase17/openai-functions-agent&quot;</span><span class="p">)</span>
+
+<span class="n">llm</span> <span class="o">=</span> <span class="n">ChatAnthropic</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;claude-3-5-sonnet-20240620&quot;</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">tools</span> <span class="o">=</span> <span class="p">[</span><span class="n">web_search</span><span class="p">,</span> <span class="n">get_exchange_rate</span><span class="p">]</span>
+
+<span class="c1"># Create the agent</span>
+<span class="n">oaif_agent</span> <span class="o">=</span> <span class="n">create_tool_calling_agent</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="n">tools</span><span class="p">,</span> <span class="n">oaif_prompt</span><span class="p">)</span>
+
+<span class="c1"># Create the Agent Executor</span>
+<span class="c1"># This is the runtime for an agent. This is what actually calls the agent, executes the actions it chooses, passes the action outputs back to the agent, and repeats. I</span>
+<span class="n">oaif_agent_executor</span> <span class="o">=</span> <span class="n">AgentExecutor</span><span class="p">(</span><span class="n">agent</span><span class="o">=</span><span class="n">oaif_agent</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="n">tools</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Invoking the Agent</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;When was langgraph cloud released? and how much is a dollar worth in japan rn&quot;</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">oaif_agent_executor</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="n">query</span><span class="p">})</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;text&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">&gt; Entering new AgentExecutor chain...</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">Invoking: `duckduckgo_results_json` with `{&#39;query&#39;: &#39;langgraph cloud release date&#39;}`</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">responded: [{&#39;text&#39;: &quot;To answer your questions, I&#39;ll need to use two different tools: one for searching about langgraph cloud, and another for checking the current exchange rate between US dollars and Japanese yen. Let me fetch that information for you.&quot;, &#39;type&#39;: &#39;text&#39;, &#39;index&#39;: 0}, {&#39;id&#39;: &#39;toolu_01Y9eWd1uKY3vS7Am5kkW5DW&#39;, &#39;input&#39;: {}, &#39;name&#39;: &#39;duckduckgo_results_json&#39;, &#39;type&#39;: &#39;tool_use&#39;, &#39;index&#39;: 1, &#39;partial_json&#39;: &#39;{&quot;query&quot;: &quot;langgraph cloud release date&quot;}&#39;}, {&#39;id&#39;: &#39;toolu_01A8ZCAmdDmKjfyW8c4cKYKA&#39;, &#39;input&#39;: {}, &#39;name&#39;: &#39;get_exchange_rate&#39;, &#39;type&#39;: &#39;tool_use&#39;, &#39;index&#39;: 2, &#39;partial_json&#39;: &#39;{&quot;base_currency&quot;: &quot;USD&quot;, &quot;target_currency&quot;: &quot;JPY&quot;}&#39;}]</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[snippet: Announcing LangGraph v0.1 &amp; LangGraph Cloud: Running agents at scale, reliably. Our new infrastructure for running agents at scale, LangGraph Cloud, is available in beta. We also have a new stable release of LangGraph. At LangChain, we aim to make it easy to build LLM applications - systems that connect LLMs to external sources of data and ..., title: Announcing LangGraph v0.1 &amp; LangGraph Cloud: Running agents at scale ..., link: https://blog.langchain.dev/langgraph-cloud/], [snippet: This builds upon our latest stable release of LangGraph v0.1, which gives you control in building agents with support for human-in-the-loop collaboration (e.g. humans can approve or edit agent actions) and first-class streaming support. Join the waitlist today for LangGraph Cloud. And to learn more, read our blog post announcement., title: [Week of 6/24] LangChain Release Notes, link: https://blog.langchain.dev/week-of-6-24-langchain-release-notes/], [snippet: LangGraph. LangGraph is framework-agnostic, with each node functioning as a regular Python function. It extends the core Runnable API (a shared interface for streaming, async, and batch calls) to facilitate: Seamless state management across multiple conversation turns or tool calls., title: LangChain Just Launched LangGraph Cloud | by Cobus Greyling | Jul, 2024 ..., link: https://cobusgreyling.medium.com/langchain-just-launched-langgraph-cloud-bf8f65e45a54], [snippet: LangGraph helps construct a powerful agent executor that allows for loops in logic while keeping track of application state. Agents constructed with LangGraph can handle more ambiguous inputs and accomplish tasks more consistently. These agents can: Force call a tool. Wait for human-in-the-loop approval. Manage agent steps., title: [Week of 1/22/24] LangChain Release Notes, link: https://blog.langchain.dev/week-of-1-22-24-langchain-release-notes/]</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">Invoking: `get_exchange_rate` with `{&#39;base_currency&#39;: &#39;USD&#39;, &#39;target_currency&#39;: &#39;JPY&#39;}`</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">responded: [{&#39;text&#39;: &quot;To answer your questions, I&#39;ll need to use two different tools: one for searching about langgraph cloud, and another for checking the current exchange rate between US dollars and Japanese yen. Let me fetch that information for you.&quot;, &#39;type&#39;: &#39;text&#39;, &#39;index&#39;: 0}, {&#39;id&#39;: &#39;toolu_01Y9eWd1uKY3vS7Am5kkW5DW&#39;, &#39;input&#39;: {}, &#39;name&#39;: &#39;duckduckgo_results_json&#39;, &#39;type&#39;: &#39;tool_use&#39;, &#39;index&#39;: 1, &#39;partial_json&#39;: &#39;{&quot;query&quot;: &quot;langgraph cloud release date&quot;}&#39;}, {&#39;id&#39;: &#39;toolu_01A8ZCAmdDmKjfyW8c4cKYKA&#39;, &#39;input&#39;: {}, &#39;name&#39;: &#39;get_exchange_rate&#39;, &#39;type&#39;: &#39;tool_use&#39;, &#39;index&#39;: 2, &#39;partial_json&#39;: &#39;{&quot;base_currency&quot;: &quot;USD&quot;, &quot;target_currency&quot;: &quot;JPY&quot;}&#39;}]</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">158.51506391</span><span class=" -Color -Color-Bold -Color-Bold-Green">[{&#39;text&#39;: &quot;\n\nNow, let me answer your questions based on the information I&#39;ve gathered:\n\n1. When was langgraph cloud released?\n\nBased on the search results, LangGraph Cloud was announced and released in beta in June 2023. The exact release date isn&#39;t specified, but we can see from the blog post titles and snippets that it was announced around June 24, 2023. The announcement was made alongside the stable release of LangGraph v0.1.\n\n2. How much is a dollar worth in Japan right now?\n\nAccording to the current exchange rate, 1 US Dollar (USD) is worth 158.51 Japanese Yen (JPY).\n\nTo put it another way, $1 USD = ¥158.51 JPY at the current exchange rate.\n\nIs there anything else you&#39;d like to know about LangGraph Cloud or currency exchange rates?&quot;, &#39;type&#39;: &#39;text&#39;, &#39;index&#39;: 0}]</span>
+
+<span class=" -Color -Color-Bold">&gt; Finished chain.</span>
+
+ 
+
+Now, let me answer your questions based on the information I&#39;ve gathered:
+
+1. When was langgraph cloud released?
+
+Based on the search results, LangGraph Cloud was announced and released in beta in June 2023. The exact release date isn&#39;t specified, but we can see from the blog post titles and snippets that it was announced around June 24, 2023. The announcement was made alongside the stable release of LangGraph v0.1.
+
+2. How much is a dollar worth in Japan right now?
+
+According to the current exchange rate, 1 US Dollar (USD) is worth 158.51 Japanese Yen (JPY).
+
+To put it another way, $1 USD = ¥158.51 JPY at the current exchange rate.
+
+Is there anything else you&#39;d like to know about LangGraph Cloud or currency exchange rates?
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="react-agent-chain-of-thought-with-tool-execution">
+<h2>ReAct Agent - Chain-of-Thought with Tool Execution<a class="headerlink" href="#react-agent-chain-of-thought-with-tool-execution" title="Link to this heading">#</a></h2>
+<p>LLM flow based off the <a class="reference external" href="https://react-lm.github.io/">ReAct: Synergizing Reasoning and Acting in Language Models Paper</a>, <a class="reference external" href="https://smith.langchain.com/hub/hwchase17/react?organizationId=130ad41c-23ab-5f86-ba94-80f9634e5dca">prompt link here</a>. The prompt and flow looks a little like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Use</span> <span class="n">the</span> <span class="n">following</span> <span class="nb">format</span><span class="p">:</span>
+
+<span class="n">Question</span><span class="p">:</span> <span class="n">the</span> <span class="nb">input</span> <span class="n">question</span> <span class="n">you</span> <span class="n">must</span> <span class="n">answer</span>
+
+<span class="n">Thought</span><span class="p">:</span> <span class="n">you</span> <span class="n">should</span> <span class="n">always</span> <span class="n">think</span> <span class="n">about</span> <span class="n">what</span> <span class="n">to</span> <span class="n">do</span>
+
+<span class="n">Action</span><span class="p">:</span> <span class="n">the</span> <span class="n">action</span> <span class="n">to</span> <span class="n">take</span><span class="p">,</span> <span class="n">should</span> <span class="n">be</span> <span class="n">one</span> <span class="n">of</span> <span class="p">[{</span><span class="n">tool_names</span><span class="p">}]</span>
+
+<span class="n">Action</span> <span class="n">Input</span><span class="p">:</span> <span class="n">the</span> <span class="nb">input</span> <span class="n">to</span> <span class="n">the</span> <span class="n">action</span>
+
+<span class="n">Observation</span><span class="p">:</span> <span class="n">the</span> <span class="n">result</span> <span class="n">of</span> <span class="n">the</span> <span class="n">action</span>
+
+<span class="o">...</span> <span class="p">(</span><span class="n">this</span> <span class="n">Thought</span><span class="o">/</span><span class="n">Action</span><span class="o">/</span><span class="n">Action</span> <span class="n">Input</span><span class="o">/</span><span class="n">Observation</span> <span class="n">can</span> <span class="n">repeat</span> <span class="n">N</span> <span class="n">times</span><span class="p">)</span>
+
+<span class="n">Thought</span><span class="p">:</span> <span class="n">I</span> <span class="n">now</span> <span class="n">know</span> <span class="n">the</span> <span class="n">final</span> <span class="n">answer</span>
+
+<span class="n">Final</span> <span class="n">Answer</span><span class="p">:</span> <span class="n">the</span> <span class="n">final</span> <span class="n">answer</span> <span class="n">to</span> <span class="n">the</span> <span class="n">original</span> <span class="nb">input</span> <span class="n">question</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain.agents</span> <span class="kn">import</span> <span class="n">create_react_agent</span>
+
+<span class="n">react_prompt</span> <span class="o">=</span> <span class="n">hub</span><span class="o">.</span><span class="n">pull</span><span class="p">(</span><span class="s2">&quot;hwchase17/react&quot;</span><span class="p">)</span>
+<span class="n">react_agent</span> <span class="o">=</span> <span class="n">create_react_agent</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="n">tools</span><span class="p">,</span> <span class="n">react_prompt</span><span class="p">)</span>
+<span class="n">react_agent_executor</span> <span class="o">=</span> <span class="n">AgentExecutor</span><span class="p">(</span><span class="n">agent</span><span class="o">=</span><span class="n">react_agent</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="n">tools</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;When was langgraph cloud released? When was LangChain founded?&quot;</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">react_agent_executor</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="n">query</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">&gt; Entering new AgentExecutor chain...</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">To answer this question, I&#39;ll need to search for information about langgraph cloud and LangChain. Let&#39;s start with langgraph cloud.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">Action: duckduckgo_results_json</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">Action Input: langgraph cloud release date</span>
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[snippet: Our new infrastructure for running agents at scale, LangGraph Cloud, is available in beta. We also have a new stable release of LangGraph., title: Announcing LangGraph v0.1 &amp; LangGraph Cloud: Running agents at scale ..., link: https://blog.langchain.dev/langgraph-cloud/], [snippet: This builds upon our latest stable release of LangGraph v0.1, which gives you control in building agents with support for human-in-the-loop collaboration (e.g. humans can approve or edit agent actions) and first-class streaming support. Join the waitlist today for LangGraph Cloud. And to learn more, read our blog post announcement., title: [Week of 6/24] LangChain Release Notes, link: https://blog.langchain.dev/week-of-6-24-langchain-release-notes/], [snippet: LangChain Just Launched LangGraph Cloud. LangGraph is a fairly recent addition to the ever expanding LangChain ecosystem. With the launch of LangGraph Cloud, a managed, hosted service is introduced for deploying and hosting LangGraph applications. Cobus Greyling., title: LangChain Just Launched LangGraph Cloud | by Cobus Greyling | Jul, 2024 ..., link: https://cobusgreyling.medium.com/langchain-just-launched-langgraph-cloud-bf8f65e45a54], [snippet: This builds on LangGraph v0.1, our latest stable release supporting diverse control flows - whether it&#39;s single- or multi-agent, hierarchal or sequential. You&#39;ll be able to create flexible agents with human-in-the-loop collaboration and first-class streaming support. We can&#39;t wait to see the agentic workflows you&#39;ll ship. LangGraph Cloud is available in closed beta today., title: Introducing LangGraph Cloud LangGraph helps you build reliable ..., link: https://www.threads.net/@langchain.ai/post/C8uhvFUyLUT]</span><span class=" -Color -Color-Bold -Color-Bold-Green">Based on the search results, I can answer part of the question about langgraph cloud. However, I don&#39;t have specific information about LangChain&#39;s founding date yet. Let&#39;s break this down:</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">1. Regarding langgraph cloud:</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">The search results indicate that LangGraph Cloud was recently released in beta. The most specific information comes from the LangChain release notes for the week of 6/24, which mentions LangGraph Cloud being available in beta. This suggests that LangGraph Cloud was released in beta around late June 2023.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">2. Regarding LangChain&#39;s founding date:</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">The search results don&#39;t provide information about when LangChain was founded. We need to perform another search for this information.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">Let&#39;s search for LangChain&#39;s founding date.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">Action: duckduckgo_results_json</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">Action Input: LangChain founding date</span>
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[snippet: The first commit to LangChain shows its humble origins as a light wrapper around Python&#39;s formatter.format for prompt templating.But as Harrison tells the story, even his first experience with text-davinci-002 in early 2022 was focused on chatting with data from their internal company Notion 2 and Slack, what is now known as Retrieval Augmented Generation (RAG)., title: The Point of LangChain — with Harrison Chase of LangChain, link: https://www.latent.space/p/langchain], [snippet: LangChain on Github. In October 2022, LangChain started as an open-source project created by Harrison Chase. In April 2023, LangChain became a startup and has released more services besides ..., title: What is Langchain? Explained in Everyday Langauge for AI Beginners, link: https://medium.com/ai-for-absolute-beginners/what-is-langchain-explained-in-everyday-langauge-for-ai-beginners-fc8ffa6fb5f2], [snippet: LangChain has over 100 different document loaders for all types of documents (html, pdf, code), from all types of locations (S3, public websites) and integrations with AirByte and Unstructured., title: Introduction to LangChain | by Zilliz | Medium, link: https://medium.com/@zilliz_learn/introduction-to-langchain-b01618c82f3c], [snippet: LangChain provides two types of agents that help to achieve that: action agents make decisions, take actions and make observations on the results of that actions, repeating this cycle until a ..., title: Introducing LangChain: a beginner&#39;s guide ️ | by ... - Medium, link: https://medium.com/@ellen.hoeven/introducing-langchain-a-beginners-guide-️-5e751622edb7]</span><span class=" -Color -Color-Bold -Color-Bold-Green">Based on the search results, I can now provide more information about both LangGraph Cloud and LangChain&#39;s founding. Let&#39;s compile the information:</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">1. Regarding LangGraph Cloud:</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">As mentioned earlier, LangGraph Cloud was released in beta around late June 2023. This is based on the LangChain release notes for the week of 6/24, which announced its availability in beta.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">2. Regarding LangChain&#39;s founding:</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">While we don&#39;t have an exact founding date for LangChain as a company, we can infer some key dates from the search results:</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">- The project started as an open-source initiative in October 2022, created by Harrison Chase.</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">- The earliest work on what would become LangChain seems to have begun in early 2022, when Harrison Chase first experimented with text-davinci-002 for what is now known as Retrieval Augmented Generation (RAG).</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">- In April 2023, LangChain transitioned from an open-source project to a startup.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">Now I can provide a final answer to the original questions.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">Final Answer: LangGraph Cloud was released in beta around late June 2023. As for LangChain, it wasn&#39;t founded as a company immediately. The project started as an open-source initiative in October 2022, created by Harrison Chase. The earliest work on concepts that would become LangChain began in early 2022. LangChain then transitioned from an open-source project to a startup in April 2023.</span>
+
+<span class=" -Color -Color-Bold">&gt; Finished chain.</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "nirb28/llm",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python310-sdkv2",
+            path: "./misc"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python310-sdkv2'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="attention.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Attention is all you need</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">LLM Tool/Function Calling</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-use-cases">Common use cases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-basic-sequence-of-steps-for-function-calling-is-as-follows">The basic sequence of steps for function calling is as follows:</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-llm-functions">Creating LLM Functions</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openai-function-schema">OpenAI Function Schema</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#executing-the-functions">Executing the Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#function-calling-behavior">Function Calling Behavior</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#more-advanced-functions">More Advanced Functions</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#other-models-w-langchain">Other Models w/LangChain</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-tools">Defining Tools</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attaching-tools-to-llm-object">Attaching tools to LLM object</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#handling-tool-calls">Handling Tool Calls</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#agents-the-final-frontier-of-tools">Agents: The Final Frontier of Tools</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tool-calling-agent">Tool Calling Agent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#react-agent-chain-of-thought-with-tool-execution">ReAct Agent - Chain-of-Thought with Tool Execution</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By MALTS Developement Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
