@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -440,6 +440,7 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">LLM Tool/Function Calling</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relevance">Relevance</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-use-cases">Common use cases</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-basic-sequence-of-steps-for-function-calling-is-as-follows">The basic sequence of steps for function calling is as follows:</a></li>
 </ul>
@@ -479,6 +480,11 @@
 <h1>LLM Tool/Function Calling<a class="headerlink" href="#llm-tool-function-calling" title="Link to this heading">#</a></h1>
 <p><em>Function calling is the ability to reliably connect LLMs to external tools to enable effective tool usage and interaction with external APIs.</em></p>
 <p>This is often a fine-tuned feature, not available to all models, but super useful where it is!</p>
+<section id="relevance">
+<h2>Relevance<a class="headerlink" href="#relevance" title="Link to this heading">#</a></h2>
+<p>Andrew Ng and his team performed the following analysis:
+<img alt="image-2.png" src="misc/attachment:image-2.png" /></p>
+</section>
 <section id="common-use-cases">
 <h2>Common use cases<a class="headerlink" href="#common-use-cases" title="Link to this heading">#</a></h2>
 <p>Function calling allows you to more reliably get structured data back from the model. For example, you can:</p>
@@ -573,33 +579,31 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">openai</span> <span class="kn">import</span> <span class="n">AzureOpenAI</span>
 <span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">dotenv</span> <span class="kn">import</span> <span class="n">load_dotenv</span>
 
-<span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">()</span>
+<span class="n">load_dotenv</span><span class="p">()</span>
+<span class="n">AZURE_OPENAI_API_KEY</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;AZURE_OPENAI_API_KEY&quot;</span><span class="p">)</span>
+<span class="n">AZURE_OPENAI_ENDPOINT</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;AZURE_OPENAI_ENDPOINT&quot;</span><span class="p">)</span>
+<span class="n">MODEL_NAME</span> <span class="o">=</span> <span class="s2">&quot;gpt-35-turbo&quot;</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">AzureOpenAI</span><span class="p">(</span>
+    <span class="n">api_version</span><span class="o">=</span><span class="s2">&quot;2024-02-01&quot;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="n">AZURE_OPENAI_API_KEY</span><span class="p">,</span>
+    <span class="n">azure_endpoint</span><span class="o">=</span><span class="n">AZURE_OPENAI_ENDPOINT</span>
+<span class="p">)</span>
 
 <span class="n">messages</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> 
              <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;How much is a dollar worth in Japan? How about poland? Whats the current news in Argentina?&quot;</span><span class="p">}]</span>
 
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-        <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o&quot;</span><span class="p">,</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">MODEL_NAME</span><span class="p">,</span>
         <span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">,</span>
         <span class="n">tools</span><span class="o">=</span><span class="n">first_tools</span><span class="p">,</span>
         <span class="n">tool_choice</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>  <span class="c1"># auto is default, but we&#39;ll be explicit</span>
     <span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">json</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">()</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;openai&#39;
 </pre></div>
 </div>
 </div>
@@ -632,29 +636,20 @@
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Full Response ---
 
-ChatCompletion(id=&#39;chatcmpl-9ljQtArRTkzhHmsFj3RdOQNNfhVBQ&#39;, choices=[Choice(finish_reason=&#39;tool_calls&#39;, index=0, logprobs=None, message=ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_qPo46RVBKvqzUIH19u5zdWuF&#39;, function=Function(arguments=&#39;{&quot;base_currency&quot;: &quot;USD&quot;, &quot;target_currency&quot;: &quot;JPY&quot;}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;), ChatCompletionMessageToolCall(id=&#39;call_eLFxyxINbApbtVRLi11mIjOg&#39;, function=Function(arguments=&#39;{&quot;base_currency&quot;: &quot;USD&quot;, &quot;target_currency&quot;: &quot;PLN&quot;}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;), ChatCompletionMessageToolCall(id=&#39;call_jYLIX1csd06icKV7JVi62hlf&#39;, function=Function(arguments=&#39;{&quot;search_query&quot;: &quot;current news in Argentina&quot;}&#39;, name=&#39;search_internet&#39;), type=&#39;function&#39;)]))], created=1721163087, model=&#39;gpt-4o-2024-05-13&#39;, object=&#39;chat.completion&#39;, system_fingerprint=&#39;fp_400f27fa1f&#39;, usage=CompletionUsage(completion_tokens=78, prompt_tokens=163, total_tokens=241)) 
+ChatCompletion(id=&#39;chatcmpl-ANN52LPvIWfOBoxdxuQ0Z7o6d4CrS&#39;, choices=[Choice(finish_reason=&#39;tool_calls&#39;, index=0, logprobs=None, message=ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_7aYmhXuRHf2MSRKun8uVcoUz&#39;, function=Function(arguments=&#39;{\n  &quot;base_currency&quot;: &quot;USD&quot;,\n  &quot;target_currency&quot;: &quot;JPY&quot;\n}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;)]), content_filter_results={})], created=1730133628, model=&#39;gpt-35-turbo&#39;, object=&#39;chat.completion&#39;, service_tier=None, system_fingerprint=None, usage=CompletionUsage(completion_tokens=26, prompt_tokens=171, total_tokens=197), prompt_filter_results=[{&#39;prompt_index&#39;: 0, &#39;content_filter_results&#39;: {&#39;hate&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;jailbreak&#39;: {&#39;filtered&#39;: False, &#39;detected&#39;: False}, &#39;self_harm&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;sexual&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;violence&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}}}]) 
 
 --- Chat Completion Message ---
 
-ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_qPo46RVBKvqzUIH19u5zdWuF&#39;, function=Function(arguments=&#39;{&quot;base_currency&quot;: &quot;USD&quot;, &quot;target_currency&quot;: &quot;JPY&quot;}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;), ChatCompletionMessageToolCall(id=&#39;call_eLFxyxINbApbtVRLi11mIjOg&#39;, function=Function(arguments=&#39;{&quot;base_currency&quot;: &quot;USD&quot;, &quot;target_currency&quot;: &quot;PLN&quot;}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;), ChatCompletionMessageToolCall(id=&#39;call_jYLIX1csd06icKV7JVi62hlf&#39;, function=Function(arguments=&#39;{&quot;search_query&quot;: &quot;current news in Argentina&quot;}&#39;, name=&#39;search_internet&#39;), type=&#39;function&#39;)]) 
+ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_7aYmhXuRHf2MSRKun8uVcoUz&#39;, function=Function(arguments=&#39;{\n  &quot;base_currency&quot;: &quot;USD&quot;,\n  &quot;target_currency&quot;: &quot;JPY&quot;\n}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;)]) 
 
 --- Tool Call 1 ---
 
 Function: get_exchange_rate
 
-Arguments: {&quot;base_currency&quot;: &quot;USD&quot;, &quot;target_currency&quot;: &quot;JPY&quot;}
-
---- Tool Call 2 ---
-
-Function: get_exchange_rate
-
-Arguments: {&quot;base_currency&quot;: &quot;USD&quot;, &quot;target_currency&quot;: &quot;PLN&quot;}
-
---- Tool Call 3 ---
-
-Function: search_internet
-
-Arguments: {&quot;search_query&quot;: &quot;current news in Argentina&quot;}
+Arguments: {
+  &quot;base_currency&quot;: &quot;USD&quot;,
+  &quot;target_currency&quot;: &quot;JPY&quot;
+}
 </pre></div>
 </div>
 </div>
@@ -702,7 +697,7 @@ And for our Currency Conversion, we’ll be using the Free Currency Exchange API
     
     <span class="c1"># Send the conversation and available functions to the model</span>
     <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-        <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o&quot;</span><span class="p">,</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">MODEL_NAME</span><span class="p">,</span>
         <span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">,</span>
         <span class="n">tools</span><span class="o">=</span><span class="n">tools</span><span class="p">,</span>
         <span class="n">tool_choice</span><span class="o">=</span><span class="n">tool_choice</span><span class="p">,</span>
@@ -758,7 +753,7 @@ And for our Currency Conversion, we’ll be using the Free Currency Exchange API
 
         <span class="c1"># Get a new response from the model where it can see the entire conversation including the function call outputs</span>
         <span class="n">second_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-            <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o&quot;</span><span class="p">,</span>
+            <span class="n">model</span><span class="o">=</span><span class="n">MODEL_NAME</span><span class="p">,</span>
             <span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">,</span>
         <span class="p">)</span>  
 
@@ -777,53 +772,28 @@ And for our Currency Conversion, we’ll be using the Free Currency Exchange API
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initial Message:  [{&#39;role&#39;: &#39;user&#39;, &#39;content&#39;: &#39;How much is a dollar worth in Japan? How about poland? Whats the current news in Argentina?&#39;}]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Response Message:  ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_jxoSfMRnBO3x2NbAuOYX8xSI&#39;, function=Function(arguments=&#39;{\n&quot;base_currency&quot;: &quot;USD&quot;,\n&quot;target_currency&quot;: &quot;JPY&quot;\n}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;)])
 
-Response Message:  ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_T4noNrQKJTHL9rWyfKBz5pil&#39;, function=Function(arguments=&#39;{&quot;base_currency&quot;: &quot;USD&quot;, &quot;target_currency&quot;: &quot;JPY&quot;}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;), ChatCompletionMessageToolCall(id=&#39;call_fzPLFXAH57FU0H04tpM36ay8&#39;, function=Function(arguments=&#39;{&quot;base_currency&quot;: &quot;USD&quot;, &quot;target_currency&quot;: &quot;PLN&quot;}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;), ChatCompletionMessageToolCall(id=&#39;call_TiDiLVR6PqzK50ZnwCs6CsEu&#39;, function=Function(arguments=&#39;{&quot;search_query&quot;: &quot;current news in Argentina&quot;}&#39;, name=&#39;search_internet&#39;), type=&#39;function&#39;)])
+Tool Calls:  [ChatCompletionMessageToolCall(id=&#39;call_jxoSfMRnBO3x2NbAuOYX8xSI&#39;, function=Function(arguments=&#39;{\n&quot;base_currency&quot;: &quot;USD&quot;,\n&quot;target_currency&quot;: &quot;JPY&quot;\n}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;)]
 
-Tool Calls:  [ChatCompletionMessageToolCall(id=&#39;call_T4noNrQKJTHL9rWyfKBz5pil&#39;, function=Function(arguments=&#39;{&quot;base_currency&quot;: &quot;USD&quot;, &quot;target_currency&quot;: &quot;JPY&quot;}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;), ChatCompletionMessageToolCall(id=&#39;call_fzPLFXAH57FU0H04tpM36ay8&#39;, function=Function(arguments=&#39;{&quot;base_currency&quot;: &quot;USD&quot;, &quot;target_currency&quot;: &quot;PLN&quot;}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;), ChatCompletionMessageToolCall(id=&#39;call_TiDiLVR6PqzK50ZnwCs6CsEu&#39;, function=Function(arguments=&#39;{&quot;search_query&quot;: &quot;current news in Argentina&quot;}&#39;, name=&#39;search_internet&#39;), type=&#39;function&#39;)]
+Calling &lt;function get_exchange_rate at 0x7fc47b4ea8c0&gt; with arguments {&#39;base_currency&#39;: &#39;USD&#39;, &#39;target_currency&#39;: &#39;JPY&#39;, &#39;date&#39;: &#39;latest&#39;}
 
-Calling &lt;function get_exchange_rate at 0x109d1ee80&gt; with arguments {&#39;base_currency&#39;: &#39;USD&#39;, &#39;target_currency&#39;: &#39;JPY&#39;, &#39;date&#39;: &#39;latest&#39;}
+Function Response:  153.80061303
 
-Function Response:  158.51506391
-
-Appending Message:  {&#39;tool_call_id&#39;: &#39;call_T4noNrQKJTHL9rWyfKBz5pil&#39;, &#39;role&#39;: &#39;tool&#39;, &#39;name&#39;: &#39;get_exchange_rate&#39;, &#39;content&#39;: &#39;158.51506391&#39;}
-
-Calling &lt;function get_exchange_rate at 0x109d1ee80&gt; with arguments {&#39;base_currency&#39;: &#39;USD&#39;, &#39;target_currency&#39;: &#39;PLN&#39;, &#39;date&#39;: &#39;latest&#39;}
-
-Function Response:  3.90821251
-
-Appending Message:  {&#39;tool_call_id&#39;: &#39;call_fzPLFXAH57FU0H04tpM36ay8&#39;, &#39;role&#39;: &#39;tool&#39;, &#39;name&#39;: &#39;get_exchange_rate&#39;, &#39;content&#39;: &#39;3.90821251&#39;}
-
-Calling &lt;function search_internet at 0x109d1e480&gt; with arguments {&#39;search_query&#39;: &#39;current news in Argentina&#39;}
-
-Function Response:  [{&#39;title&#39;: &quot;Argentina | Today&#39;s latest from Al Jazeera&quot;, &#39;href&#39;: &#39;https://www.aljazeera.com/where/argentina&#39;, &#39;body&#39;: &quot;Stay on top of Argentina latest developments on the ground with Al Jazeera&#39;s fact-based news, exclusive video footage, photos and updated maps.&quot;}, {&#39;title&#39;: &#39;News from Argentina and beyond - in English | Buenos Aires Times&#39;, &#39;href&#39;: &#39;https://www.batimes.com.ar/&#39;, &#39;body&#39;: &quot;Homepage for the Buenos Aires Times, Argentina&#39;s only English-language newspaper. News from Argentina and beyond - in English. News, analysis, politics, finance, economy, culture, sports - and much, much more! ... The last three years have been ones to remember for this Argentina team and with this latest victory, they are surely the ...&quot;}, {&#39;title&#39;: &#39;Argentina | AP News&#39;, &#39;href&#39;: &#39;https://apnews.com/hub/argentina&#39;, &#39;body&#39;: &quot;President Javier Milei of Argentina, who owns four clones of his dead dog Conan, has never been the most conventional occupant of Argentina&#39;s highest office. Stay informed and read the latest breaking news and updates on Argentina from AP News, the definitive source for independent journalism.&quot;}, {&#39;title&#39;: &#39;Argentina | Buenos Aires Times&#39;, &#39;href&#39;: &#39;https://www.batimes.com.ar/section/argentina&#39;, &#39;body&#39;: &quot;News of argentina. Homepage for the Buenos Aires Times, Argentina&#39;s only English-language newspaper. News from Argentina and beyond - in English. ... 06-07-2024 05:23 US Ambassador Marc Stanley pays tributes to Argentine politicians from previous and current governments as he welcomes more than 1,000 guests to the Palacio Bosch for annual ...&quot;}, {&#39;title&#39;: &#39;Argentina - BBC News&#39;, &#39;href&#39;: &#39;https://www.bbc.com/news/topics/c77jz3mdm3rt&#39;, &#39;body&#39;: &quot;Important to get winning start - Messi. Lionel Messi reflects on the importance of a winning start after Argentina&#39;s 2-0 win against Canada in the opening game of Copa America. All the latest ...&quot;}]
-
-Appending Message:  {&#39;tool_call_id&#39;: &#39;call_TiDiLVR6PqzK50ZnwCs6CsEu&#39;, &#39;role&#39;: &#39;tool&#39;, &#39;name&#39;: &#39;search_internet&#39;, &#39;content&#39;: &#39;[{\&#39;title\&#39;: &quot;Argentina | Today\&#39;s latest from Al Jazeera&quot;, \&#39;href\&#39;: \&#39;https://www.aljazeera.com/where/argentina\&#39;, \&#39;body\&#39;: &quot;Stay on top of Argentina latest developments on the ground with Al Jazeera\&#39;s fact-based news, exclusive video footage, photos and updated maps.&quot;}, {\&#39;title\&#39;: \&#39;News from Argentina and beyond - in English | Buenos Aires Times\&#39;, \&#39;href\&#39;: \&#39;https://www.batimes.com.ar/\&#39;, \&#39;body\&#39;: &quot;Homepage for the Buenos Aires Times, Argentina\&#39;s only English-language newspaper. News from Argentina and beyond - in English. News, analysis, politics, finance, economy, culture, sports - and much, much more! ... The last three years have been ones to remember for this Argentina team and with this latest victory, they are surely the ...&quot;}, {\&#39;title\&#39;: \&#39;Argentina | AP News\&#39;, \&#39;href\&#39;: \&#39;https://apnews.com/hub/argentina\&#39;, \&#39;body\&#39;: &quot;President Javier Milei of Argentina, who owns four clones of his dead dog Conan, has never been the most conventional occupant of Argentina\&#39;s highest office. Stay informed and read the latest breaking news and updates on Argentina from AP News, the definitive source for independent journalism.&quot;}, {\&#39;title\&#39;: \&#39;Argentina | Buenos Aires Times\&#39;, \&#39;href\&#39;: \&#39;https://www.batimes.com.ar/section/argentina\&#39;, \&#39;body\&#39;: &quot;News of argentina. Homepage for the Buenos Aires Times, Argentina\&#39;s only English-language newspaper. News from Argentina and beyond - in English. ... 06-07-2024 05:23 US Ambassador Marc Stanley pays tributes to Argentine politicians from previous and current governments as he welcomes more than 1,000 guests to the Palacio Bosch for annual ...&quot;}, {\&#39;title\&#39;: \&#39;Argentina - BBC News\&#39;, \&#39;href\&#39;: \&#39;https://www.bbc.com/news/topics/c77jz3mdm3rt\&#39;, \&#39;body\&#39;: &quot;Important to get winning start - Messi. Lionel Messi reflects on the importance of a winning start after Argentina\&#39;s 2-0 win against Canada in the opening game of Copa America. All the latest ...&quot;}]&#39;}
-
-LLM Response:  ChatCompletion(id=&#39;chatcmpl-9ljfqqMxBlTEynOqEYVtHvyYJBUSh&#39;, choices=[Choice(finish_reason=&#39;stop&#39;, index=0, logprobs=None, message=ChatCompletionMessage(content=&#39;### Exchange Rates:\n1. **USD to JPY (Japan):** 1 USD is approximately 158.52 JPY.\n2. **USD to PLN (Poland):** 1 USD is approximately 3.91 PLN.\n\n### Current News in Argentina:\nHere are some sources where you can find the latest news about Argentina:\n\n1. [**Al Jazeera - Argentina**](https://www.aljazeera.com/where/argentina)\n   - Provides fact-based news, exclusive video footage, photos, and updated maps on developments in Argentina.\n\n2. [**Buenos Aires Times**](https://www.batimes.com.ar/)\n   - The only English-language newspaper in Argentina. Covers news from Argentina and beyond, including analysis in politics, finance, economy, culture, and sports.\n\n3. [**AP News - Argentina**](https://apnews.com/hub/argentina)\n   - Offers the latest breaking news and updates on Argentina, covering various topics including politics and current events.\n\n4. [**BBC News - Argentina**](https://www.bbc.com/news/topics/c77jz3mdm3rt)\n   - Features news articles and updates on important events and personalities, such as sports insights from Lionel Messi.\n\nFeel free to explore these sources for more in-depth and up-to-date information.&#39;, role=&#39;assistant&#39;, function_call=None, tool_calls=None))], created=1721164014, model=&#39;gpt-4o-2024-05-13&#39;, object=&#39;chat.completion&#39;, system_fingerprint=&#39;fp_5e997b69d8&#39;, usage=CompletionUsage(completion_tokens=270, prompt_tokens=563, total_tokens=833))
+Appending Message:  {&#39;tool_call_id&#39;: &#39;call_jxoSfMRnBO3x2NbAuOYX8xSI&#39;, &#39;role&#39;: &#39;tool&#39;, &#39;name&#39;: &#39;get_exchange_rate&#39;, &#39;content&#39;: &#39;153.80061303&#39;}
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LLM Response:  ChatCompletion(id=&#39;chatcmpl-ANN531ZvEYlh1mggOhSdqivmpL4Wa&#39;, choices=[Choice(finish_reason=&#39;stop&#39;, index=0, logprobs=None, message=ChatCompletionMessage(content=&#39;As of now, 1 US dollar is worth approximately 153.80 Japanese yen. \n\nTo find out the exchange rate for Poland, could you please specify the target currency, such as Polish zloty (PLN)?\n\nRegarding the current news in Argentina, I am an AI language model and I do not have real-time data. It would be best to refer to a reliable news source or use a search engine to get the most current news updates about Argentina.&#39;, role=&#39;assistant&#39;, function_call=None, tool_calls=None), content_filter_results={&#39;hate&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;protected_material_code&#39;: {&#39;filtered&#39;: False, &#39;detected&#39;: False}, &#39;protected_material_text&#39;: {&#39;filtered&#39;: False, &#39;detected&#39;: False}, &#39;self_harm&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;sexual&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;violence&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}})], created=1730133629, model=&#39;gpt-35-turbo&#39;, object=&#39;chat.completion&#39;, service_tier=None, system_fingerprint=None, usage=CompletionUsage(completion_tokens=94, prompt_tokens=66, total_tokens=160), prompt_filter_results=[{&#39;prompt_index&#39;: 0, &#39;content_filter_results&#39;: {&#39;hate&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;jailbreak&#39;: {&#39;filtered&#39;: False, &#39;detected&#39;: False}, &#39;self_harm&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;sexual&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;violence&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}}}])
 
 ---Formatted LLM Response---
 
- ### Exchange Rates:
-1. **USD to JPY (Japan):** 1 USD is approximately 158.52 JPY.
-2. **USD to PLN (Poland):** 1 USD is approximately 3.91 PLN.
+ As of now, 1 US dollar is worth approximately 153.80 Japanese yen. 
 
-### Current News in Argentina:
-Here are some sources where you can find the latest news about Argentina:
+To find out the exchange rate for Poland, could you please specify the target currency, such as Polish zloty (PLN)?
 
-1. [**Al Jazeera - Argentina**](https://www.aljazeera.com/where/argentina)
-   - Provides fact-based news, exclusive video footage, photos, and updated maps on developments in Argentina.
-
-2. [**Buenos Aires Times**](https://www.batimes.com.ar/)
-   - The only English-language newspaper in Argentina. Covers news from Argentina and beyond, including analysis in politics, finance, economy, culture, and sports.
-
-3. [**AP News - Argentina**](https://apnews.com/hub/argentina)
-   - Offers the latest breaking news and updates on Argentina, covering various topics including politics and current events.
-
-4. [**BBC News - Argentina**](https://www.bbc.com/news/topics/c77jz3mdm3rt)
-   - Features news articles and updates on important events and personalities, such as sports insights from Lionel Messi.
-
-Feel free to explore these sources for more in-depth and up-to-date information.
+Regarding the current news in Argentina, I am an AI language model and I do not have real-time data. It would be best to refer to a reliable news source or use a search engine to get the most current news updates about Argentina.
 </pre></div>
 </div>
 </div>
@@ -990,7 +960,7 @@ Feel free to explore these sources for more in-depth and up-to-date information.
 
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-        <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o&quot;</span><span class="p">,</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">MODEL_NAME</span><span class="p">,</span>
         <span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">,</span>
         <span class="n">tools</span><span class="o">=</span><span class="n">email_campaign_tool</span><span class="p">,</span>
         <span class="n">tool_choice</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>  <span class="c1"># auto is default, but we&#39;ll be explicit</span>
@@ -1008,17 +978,33 @@ Feel free to explore these sources for more in-depth and up-to-date information.
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Full Response ---
 
-ChatCompletion(id=&#39;chatcmpl-9ljvcOfHyOD8K5uxBVjTKZF56Dd5F&#39;, choices=[Choice(finish_reason=&#39;tool_calls&#39;, index=0, logprobs=None, message=ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_lFaVbiJ2EC93zu1k7vfzG5j1&#39;, function=Function(arguments=&#39;{&quot;recipients&quot;: [&quot;adamlucek@youtube.com&quot;, &quot;samaltman@openai.com&quot;, &quot;elonmusk@twitter.com&quot;], &quot;subject&quot;: &quot;Check Out This Cool YouTube Channel!&quot;, &quot;body_text&quot;: &quot;Hello,\\n\\nI wanted to share an amazing YouTube channel that I think you\&#39;ll love: https://www.youtube.com/@AdamLucek.\\n\\nBest Regards,\\nAdam Ł&quot;, &quot;attachments&quot;: [&quot;https://www.linkedin.com/in/adamrlucek/&quot;], &quot;personalization&quot;: {&quot;adamlucek@youtube.com&quot;: {&quot;first_name&quot;: &quot;Adam&quot;}, &quot;samaltman@openai.com&quot;: {&quot;first_name&quot;: &quot;Sam&quot;}, &quot;elonmusk@twitter.com&quot;: {&quot;first_name&quot;: &quot;Elon&quot;}}, &quot;send_time&quot;: &quot;2023-07-20T08:00:00-08:00&quot;, &quot;priority&quot;: &quot;high&quot;, &quot;tracking&quot;: {&quot;click&quot;: true}, &quot;campaign_id&quot;: &quot;campaign_13&quot;}&#39;, name=&#39;send_email_campaign&#39;), type=&#39;function&#39;)]))], created=1721164992, model=&#39;gpt-4o-2024-05-13&#39;, object=&#39;chat.completion&#39;, system_fingerprint=&#39;fp_c4e5b6fa31&#39;, usage=CompletionUsage(completion_tokens=203, prompt_tokens=553, total_tokens=756)) 
+ChatCompletion(id=&#39;chatcmpl-ANN54PlBnxl4GthZnzH3IB9qe5oPv&#39;, choices=[Choice(finish_reason=&#39;tool_calls&#39;, index=0, logprobs=None, message=ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_Zjqv6luSbVScsujVteM4RHd7&#39;, function=Function(arguments=&#39;{\n  &quot;recipients&quot;: [&quot;adamlucek@youtube.com&quot;, &quot;samaltman@openai.com&quot;, &quot;elonmusk@twitter.com&quot;],\n  &quot;subject&quot;: &quot;Check out this cool YouTube channel!&quot;,\n  &quot;body_text&quot;: &quot;Hey there,\\n\\nI wanted to let you know about a cool YouTube channel called AdamLucek. You can check it out at https://www.youtube.com/@AdamLucek. It\&#39;s filled with interesting content that I think you\&#39;ll enjoy.\\n\\nAlso, I\&#39;ve attached my LinkedIn profile for your reference: https://www.linkedin.com/in/adamrlucek/.\\n\\nPlease let me know if you have any questions.\\n\\nThanks,\\nAdam Ł&quot;,\n  &quot;attachments&quot;: [&quot;https://www.linkedin.com/in/adamrlucek/&quot;],\n  &quot;personalization&quot;: {\n    &quot;adamlucek@youtube.com&quot;: {\n      &quot;first_name&quot;: &quot;Adam&quot;\n    }\n  },\n  &quot;send_time&quot;: &quot;2022-07-20T08:00:00&quot;,\n  &quot;priority&quot;: &quot;high&quot;,\n  &quot;tracking&quot;: {\n    &quot;click&quot;: true\n  },\n  &quot;campaign_id&quot;: &quot;campaign_13&quot;\n}&#39;, name=&#39;send_email_campaign&#39;), type=&#39;function&#39;)]), content_filter_results={})], created=1730133630, model=&#39;gpt-35-turbo&#39;, object=&#39;chat.completion&#39;, service_tier=None, system_fingerprint=None, usage=CompletionUsage(completion_tokens=254, prompt_tokens=482, total_tokens=736), prompt_filter_results=[{&#39;prompt_index&#39;: 0, &#39;content_filter_results&#39;: {&#39;hate&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;jailbreak&#39;: {&#39;filtered&#39;: False, &#39;detected&#39;: False}, &#39;self_harm&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;sexual&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;violence&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}}}]) 
 
 --- Chat Completion Message ---
 
-ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_lFaVbiJ2EC93zu1k7vfzG5j1&#39;, function=Function(arguments=&#39;{&quot;recipients&quot;: [&quot;adamlucek@youtube.com&quot;, &quot;samaltman@openai.com&quot;, &quot;elonmusk@twitter.com&quot;], &quot;subject&quot;: &quot;Check Out This Cool YouTube Channel!&quot;, &quot;body_text&quot;: &quot;Hello,\\n\\nI wanted to share an amazing YouTube channel that I think you\&#39;ll love: https://www.youtube.com/@AdamLucek.\\n\\nBest Regards,\\nAdam Ł&quot;, &quot;attachments&quot;: [&quot;https://www.linkedin.com/in/adamrlucek/&quot;], &quot;personalization&quot;: {&quot;adamlucek@youtube.com&quot;: {&quot;first_name&quot;: &quot;Adam&quot;}, &quot;samaltman@openai.com&quot;: {&quot;first_name&quot;: &quot;Sam&quot;}, &quot;elonmusk@twitter.com&quot;: {&quot;first_name&quot;: &quot;Elon&quot;}}, &quot;send_time&quot;: &quot;2023-07-20T08:00:00-08:00&quot;, &quot;priority&quot;: &quot;high&quot;, &quot;tracking&quot;: {&quot;click&quot;: true}, &quot;campaign_id&quot;: &quot;campaign_13&quot;}&#39;, name=&#39;send_email_campaign&#39;), type=&#39;function&#39;)]) 
+ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_Zjqv6luSbVScsujVteM4RHd7&#39;, function=Function(arguments=&#39;{\n  &quot;recipients&quot;: [&quot;adamlucek@youtube.com&quot;, &quot;samaltman@openai.com&quot;, &quot;elonmusk@twitter.com&quot;],\n  &quot;subject&quot;: &quot;Check out this cool YouTube channel!&quot;,\n  &quot;body_text&quot;: &quot;Hey there,\\n\\nI wanted to let you know about a cool YouTube channel called AdamLucek. You can check it out at https://www.youtube.com/@AdamLucek. It\&#39;s filled with interesting content that I think you\&#39;ll enjoy.\\n\\nAlso, I\&#39;ve attached my LinkedIn profile for your reference: https://www.linkedin.com/in/adamrlucek/.\\n\\nPlease let me know if you have any questions.\\n\\nThanks,\\nAdam Ł&quot;,\n  &quot;attachments&quot;: [&quot;https://www.linkedin.com/in/adamrlucek/&quot;],\n  &quot;personalization&quot;: {\n    &quot;adamlucek@youtube.com&quot;: {\n      &quot;first_name&quot;: &quot;Adam&quot;\n    }\n  },\n  &quot;send_time&quot;: &quot;2022-07-20T08:00:00&quot;,\n  &quot;priority&quot;: &quot;high&quot;,\n  &quot;tracking&quot;: {\n    &quot;click&quot;: true\n  },\n  &quot;campaign_id&quot;: &quot;campaign_13&quot;\n}&#39;, name=&#39;send_email_campaign&#39;), type=&#39;function&#39;)]) 
 
 --- Tool Call 1 ---
 
 Function: send_email_campaign
 
-Arguments: {&quot;recipients&quot;: [&quot;adamlucek@youtube.com&quot;, &quot;samaltman@openai.com&quot;, &quot;elonmusk@twitter.com&quot;], &quot;subject&quot;: &quot;Check Out This Cool YouTube Channel!&quot;, &quot;body_text&quot;: &quot;Hello,\n\nI wanted to share an amazing YouTube channel that I think you&#39;ll love: https://www.youtube.com/@AdamLucek.\n\nBest Regards,\nAdam Ł&quot;, &quot;attachments&quot;: [&quot;https://www.linkedin.com/in/adamrlucek/&quot;], &quot;personalization&quot;: {&quot;adamlucek@youtube.com&quot;: {&quot;first_name&quot;: &quot;Adam&quot;}, &quot;samaltman@openai.com&quot;: {&quot;first_name&quot;: &quot;Sam&quot;}, &quot;elonmusk@twitter.com&quot;: {&quot;first_name&quot;: &quot;Elon&quot;}}, &quot;send_time&quot;: &quot;2023-07-20T08:00:00-08:00&quot;, &quot;priority&quot;: &quot;high&quot;, &quot;tracking&quot;: {&quot;click&quot;: true}, &quot;campaign_id&quot;: &quot;campaign_13&quot;}
+Arguments: {
+  &quot;recipients&quot;: [&quot;adamlucek@youtube.com&quot;, &quot;samaltman@openai.com&quot;, &quot;elonmusk@twitter.com&quot;],
+  &quot;subject&quot;: &quot;Check out this cool YouTube channel!&quot;,
+  &quot;body_text&quot;: &quot;Hey there,\n\nI wanted to let you know about a cool YouTube channel called AdamLucek. You can check it out at https://www.youtube.com/@AdamLucek. It&#39;s filled with interesting content that I think you&#39;ll enjoy.\n\nAlso, I&#39;ve attached my LinkedIn profile for your reference: https://www.linkedin.com/in/adamrlucek/.\n\nPlease let me know if you have any questions.\n\nThanks,\nAdam Ł&quot;,
+  &quot;attachments&quot;: [&quot;https://www.linkedin.com/in/adamrlucek/&quot;],
+  &quot;personalization&quot;: {
+    &quot;adamlucek@youtube.com&quot;: {
+      &quot;first_name&quot;: &quot;Adam&quot;
+    }
+  },
+  &quot;send_time&quot;: &quot;2022-07-20T08:00:00&quot;,
+  &quot;priority&quot;: &quot;high&quot;,
+  &quot;tracking&quot;: {
+    &quot;click&quot;: true
+  },
+  &quot;campaign_id&quot;: &quot;campaign_13&quot;
+}
 </pre></div>
 </div>
 </div>
@@ -1064,39 +1050,51 @@ Arguments: {&quot;recipients&quot;: [&quot;adamlucek@youtube.com&quot;, &quot;sa
 -----
 
 To: adamlucek@youtube.com
-Subject: Adam, Check Out This Cool YouTube Channel!
-Body: Hello,
+Subject: Adam, Check out this cool YouTube channel!
+Body: Hey there,
 
-I wanted to share an amazing YouTube channel that I think you&#39;ll love: https://www.youtube.com/@AdamLucek.
+I wanted to let you know about a cool YouTube channel called AdamLucek. You can check it out at https://www.youtube.com/@AdamLucek. It&#39;s filled with interesting content that I think you&#39;ll enjoy.
 
-Best Regards,
+Also, I&#39;ve attached my LinkedIn profile for your reference: https://www.linkedin.com/in/adamrlucek/.
+
+Please let me know if you have any questions.
+
+Thanks,
 Adam Ł
 	Attachments: https://www.linkedin.com/in/adamrlucek/
 -----
 
 To: samaltman@openai.com
-Subject: Sam, Check Out This Cool YouTube Channel!
-Body: Hello,
+Subject: Check out this cool YouTube channel!
+Body: Hey there,
 
-I wanted to share an amazing YouTube channel that I think you&#39;ll love: https://www.youtube.com/@AdamLucek.
+I wanted to let you know about a cool YouTube channel called AdamLucek. You can check it out at https://www.youtube.com/@AdamLucek. It&#39;s filled with interesting content that I think you&#39;ll enjoy.
 
-Best Regards,
+Also, I&#39;ve attached my LinkedIn profile for your reference: https://www.linkedin.com/in/adamrlucek/.
+
+Please let me know if you have any questions.
+
+Thanks,
 Adam Ł
 	Attachments: https://www.linkedin.com/in/adamrlucek/
 -----
 
 To: elonmusk@twitter.com
-Subject: Elon, Check Out This Cool YouTube Channel!
-Body: Hello,
+Subject: Check out this cool YouTube channel!
+Body: Hey there,
 
-I wanted to share an amazing YouTube channel that I think you&#39;ll love: https://www.youtube.com/@AdamLucek.
+I wanted to let you know about a cool YouTube channel called AdamLucek. You can check it out at https://www.youtube.com/@AdamLucek. It&#39;s filled with interesting content that I think you&#39;ll enjoy.
 
-Best Regards,
+Also, I&#39;ve attached my LinkedIn profile for your reference: https://www.linkedin.com/in/adamrlucek/.
+
+Please let me know if you have any questions.
+
+Thanks,
 Adam Ł
 	Attachments: https://www.linkedin.com/in/adamrlucek/
 -----
 
-Scheduled Send Time: 2023-07-20 08:00:00-08:00
+Scheduled Send Time: 2022-07-20 08:00:00
 Campaign ID: campaign_13
 Tracking: {&#39;click&#39;: True}
 </pre></div>
@@ -1177,6 +1175,17 @@ Tracking: {&#39;click&#39;: True}
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/anaconda/envs/azureml_py38/lib/python3.10/site-packages/IPython/core/interactiveshell.py:3577: LangChainDeprecationWarning: As of langchain-core 0.3.0, LangChain uses pydantic v2 internally. The langchain_core.pydantic_v1 module was a compatibility shim for pydantic v1, and should no longer be used. Please update the code to import from Pydantic directly.
+
+For example, replace imports like: `from langchain_core.pydantic_v1 import BaseModel`
+with: `from pydantic import BaseModel`
+or the v1 compatibility namespace if you are working in a code base that has not been fully upgraded to pydantic 2 yet. 	from pydantic.v1 import BaseModel
+
+  exec(code_obj, self.user_global_ns, self.user_ns)
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1185,7 +1194,7 @@ Tracking: {&#39;click&#39;: True}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>158.51506391
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>153.80061303
 </pre></div>
 </div>
 </div>
@@ -1197,7 +1206,7 @@ Tracking: {&#39;click&#39;: True}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;[snippet: If you want the best views of San Francisco, take a hike to Twin Peaks. These famous grassy peaks rise 922 feet in elevation, making them the second highest point in the city (after Mount Davidson ..., title: 30 Top-Rated Things to Do in San Francisco | U.S. News Travel, link: https://travel.usnews.com/San_Francisco_CA/Things_To_Do/], [snippet: Other hot spots include Cavaña, a Latin American-inspired bar in Mission Bay, and Rise Over Run, a lush drinking destination on the top floor of the LINE Hotel. Clara Hogan. Advertising. 3 ..., title: 50 Best Things to Do in San Francisco in 2024 - Time Out, link: https://www.timeout.com/san-francisco/things-to-do/best-things-to-do-in-san-francisco], [snippet: 213 Cool, Hidden, and Unusual Things to Do in San Francisco, California. From the Gold Rush to Silicon Valley, the Bay Area has long attracted people from all over the country and the world. And ..., title: 213 Cool and Unusual Things to Do in San Francisco, link: https://www.atlasobscura.com/things-to-do/san-francisco-california], [snippet: The audio tour is one of the best things to do in San Francisco for tourists, but even locals will have plenty to learn on a visit to this historic island. 13. Ride a cable car. Photo by Ragnar Vorel on Unsplash. SF&#39;s cable cars are the only moving national landmark in the United States, dating back to 1873., title: 53 Best Attractions, Events, And Things To Do In San Francisco, link: https://secretsanfrancisco.com/things-to-do-san-francisco/]&quot;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;snippet: If you want the best views of San Francisco, take a hike to Twin Peaks. These famous grassy peaks rise 922 feet in elevation, making them the second highest point in the city (after Mount Davidson ..., title: 30 Top-Rated Things to Do in San Francisco | U.S. News Travel, link: https://travel.usnews.com/San_Francisco_CA/Things_To_Do/, snippet: Afterward, hike to the summit of Mt. Livermore, bike the five-mile Perimeter Trail or take a break at several picnic sites. Check availability. Advertising. 13. The Painted Ladies. Things to do ..., title: 50 Best Things to Do in San Francisco in 2024 - Time Out, link: https://www.timeout.com/san-francisco/things-to-do/best-things-to-do-in-san-francisco, snippet: The audio tour is one of the best things to do in San Francisco for tourists, but even locals will have plenty to learn on a visit to this historic island. 15. Ride a cable car. Photo by Ragnar Vorel on Unsplash. SF&#39;s cable cars are the only moving national landmark in the United States, dating back to 1873., title: 50 Essential Activities For Your San Francisco Bucket List, link: https://secretsanfrancisco.com/things-to-do-san-francisco/, snippet: Coming to the Tenderloin Museum is great for both fun and education in San Francisco, California. It&#39;s open from Tuesdays to Sundays from 10 a.m. to 5 p.m. Admission is $10 for adults, and $6 for students, seniors, and youths, ages 13 to 21. Address: 398 Eddy St, San Francisco, CA 94102, United States. 3., title: 30 Fun Things To Do &amp; Places To Visit In San Francisco (CA) - Busy Tourist, link: https://www.busytourist.com/things-to-do-in-san-francisco-ca/&quot;
 </pre></div>
 </div>
 </div>
@@ -1233,11 +1242,192 @@ Tracking: {&#39;click&#39;: True}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Response---
-To answer your questions, I&#39;ll need to use two different tools: one for the search about LangChain and another for the current exchange rate. Let me fetch that information for you.
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">17</span><span class="p">],</span> <span class="n">line</span> <span class="mi">6</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># prompt = &quot;How much is a dollar worth in Japan right now&quot;</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="c1"># prompt = &quot;Can you send an email to adamlucek@youtube.com, samaltman@openai.com, and elonmusk@twitter.com about the cool youtube channel https://www.youtube.com/@AdamLucek&quot;</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="c1"># prompt = &quot;When was langgraph cloud released?&quot;</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;When was langchain founded? and how much is a dollar worth in japan rn&quot;</span>
+<span class="ne">----&gt; </span><span class="mi">6</span> <span class="n">output</span> <span class="o">=</span> <span class="n">llm_tools</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">---Response---&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="nb">print</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">content</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;text&#39;</span><span class="p">])</span>
 
----Tool Calls---
-[{&#39;name&#39;: &#39;duckduckgo_results_json&#39;, &#39;args&#39;: {&#39;query&#39;: &#39;When was LangChain founded&#39;}, &#39;id&#39;: &#39;toolu_01FtmJZQHLXuHTWs52APGFEn&#39;, &#39;type&#39;: &#39;tool_call&#39;}, {&#39;name&#39;: &#39;get_exchange_rate&#39;, &#39;args&#39;: {&#39;base_currency&#39;: &#39;USD&#39;, &#39;target_currency&#39;: &#39;JPY&#39;}, &#39;id&#39;: &#39;toolu_011kr5hsYLCrwesD4UmdhsAJ&#39;, &#39;type&#39;: &#39;tool_call&#39;}]
+<span class="nn">File /anaconda/envs/azureml_py38/lib/python3.10/site-packages/langchain_core/runnables/base.py:5354,</span> in <span class="ni">RunnableBindingBase.invoke</span><span class="nt">(self, input, config, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">5348</span> <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">5349</span>     <span class="bp">self</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">5350</span>     <span class="nb">input</span><span class="p">:</span> <span class="n">Input</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">5351</span>     <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">5352</span>     <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">5353</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Output</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">5354</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">5355</span>         <span class="nb">input</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">5356</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_merge_configs</span><span class="p">(</span><span class="n">config</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">5357</span>         <span class="o">**</span><span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">},</span>
+<span class="g g-Whitespace">   </span><span class="mi">5358</span>     <span class="p">)</span>
+
+<span class="nn">File /anaconda/envs/azureml_py38/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py:286,</span> in <span class="ni">BaseChatModel.invoke</span><span class="nt">(self, input, config, stop, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">275</span> <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">276</span>     <span class="bp">self</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">277</span>     <span class="nb">input</span><span class="p">:</span> <span class="n">LanguageModelInput</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">281</span>     <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">282</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseMessage</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">283</span>     <span class="n">config</span> <span class="o">=</span> <span class="n">ensure_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">284</span>     <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">285</span>         <span class="n">ChatGeneration</span><span class="p">,</span>
+<span class="ne">--&gt; </span><span class="mi">286</span>         <span class="bp">self</span><span class="o">.</span><span class="n">generate_prompt</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">287</span>             <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_input</span><span class="p">(</span><span class="nb">input</span><span class="p">)],</span>
+<span class="g g-Whitespace">    </span><span class="mi">288</span>             <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">289</span>             <span class="n">callbacks</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;callbacks&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">290</span>             <span class="n">tags</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tags&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">291</span>             <span class="n">metadata</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;metadata&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">292</span>             <span class="n">run_name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;run_name&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">293</span>             <span class="n">run_id</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;run_id&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">294</span>             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">295</span>         <span class="p">)</span><span class="o">.</span><span class="n">generations</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">296</span>     <span class="p">)</span><span class="o">.</span><span class="n">message</span>
+
+<span class="nn">File /anaconda/envs/azureml_py38/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py:786,</span> in <span class="ni">BaseChatModel.generate_prompt</span><span class="nt">(self, prompts, stop, callbacks, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">778</span> <span class="k">def</span> <span class="nf">generate_prompt</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">779</span>     <span class="bp">self</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">780</span>     <span class="n">prompts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">PromptValue</span><span class="p">],</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">783</span>     <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">784</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LLMResult</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">785</span>     <span class="n">prompt_messages</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">to_messages</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">prompts</span><span class="p">]</span>
+<span class="ne">--&gt; </span><span class="mi">786</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">prompt_messages</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /anaconda/envs/azureml_py38/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py:643,</span> in <span class="ni">BaseChatModel.generate</span><span class="nt">(self, messages, stop, callbacks, tags, metadata, run_name, run_id, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">641</span>         <span class="k">if</span> <span class="n">run_managers</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">642</span>             <span class="n">run_managers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">on_llm_error</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">LLMResult</span><span class="p">(</span><span class="n">generations</span><span class="o">=</span><span class="p">[]))</span>
+<span class="ne">--&gt; </span><span class="mi">643</span>         <span class="k">raise</span> <span class="n">e</span>
+<span class="g g-Whitespace">    </span><span class="mi">644</span> <span class="n">flattened_outputs</span> <span class="o">=</span> <span class="p">[</span>
+<span class="g g-Whitespace">    </span><span class="mi">645</span>     <span class="n">LLMResult</span><span class="p">(</span><span class="n">generations</span><span class="o">=</span><span class="p">[</span><span class="n">res</span><span class="o">.</span><span class="n">generations</span><span class="p">],</span> <span class="n">llm_output</span><span class="o">=</span><span class="n">res</span><span class="o">.</span><span class="n">llm_output</span><span class="p">)</span>  <span class="c1"># type: ignore[list-item]</span>
+<span class="g g-Whitespace">    </span><span class="mi">646</span>     <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">results</span>
+<span class="g g-Whitespace">    </span><span class="mi">647</span> <span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">648</span> <span class="n">llm_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_combine_llm_outputs</span><span class="p">([</span><span class="n">res</span><span class="o">.</span><span class="n">llm_output</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">results</span><span class="p">])</span>
+
+<span class="nn">File /anaconda/envs/azureml_py38/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py:633,</span> in <span class="ni">BaseChatModel.generate</span><span class="nt">(self, messages, stop, callbacks, tags, metadata, run_name, run_id, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">630</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">messages</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">631</span>     <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">632</span>         <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+<span class="ne">--&gt; </span><span class="mi">633</span>             <span class="bp">self</span><span class="o">.</span><span class="n">_generate_with_cache</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">634</span>                 <span class="n">m</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">635</span>                 <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">636</span>                 <span class="n">run_manager</span><span class="o">=</span><span class="n">run_managers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">run_managers</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">637</span>                 <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">638</span>             <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">639</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">640</span>     <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">641</span>         <span class="k">if</span> <span class="n">run_managers</span><span class="p">:</span>
+
+<span class="nn">File /anaconda/envs/azureml_py38/lib/python3.10/site-packages/langchain_core/language_models/chat_models.py:851,</span> in <span class="ni">BaseChatModel._generate_with_cache</span><span class="nt">(self, messages, stop, run_manager, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">849</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">850</span>     <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_generate</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;run_manager&quot;</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">851</span>         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">852</span>             <span class="n">messages</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">,</span> <span class="n">run_manager</span><span class="o">=</span><span class="n">run_manager</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="g g-Whitespace">    </span><span class="mi">853</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">854</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">855</span>         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate</span><span class="p">(</span><span class="n">messages</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /anaconda/envs/azureml_py38/lib/python3.10/site-packages/langchain_anthropic/chat_models.py:789,</span> in <span class="ni">ChatAnthropic._generate</span><span class="nt">(self, messages, stop, run_manager, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">787</span>     <span class="k">return</span> <span class="n">generate_from_stream</span><span class="p">(</span><span class="n">stream_iter</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">788</span> <span class="n">payload</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request_payload</span><span class="p">(</span><span class="n">messages</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">789</span> <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="o">**</span><span class="n">payload</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">790</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_output</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /anaconda/envs/azureml_py38/lib/python3.10/site-packages/anthropic/_utils/_utils.py:274,</span> in <span class="ni">required_args.&lt;locals&gt;.inner.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">272</span>             <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Missing required argument: </span><span class="si">{</span><span class="n">quote</span><span class="p">(</span><span class="n">missing</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">273</span>     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">274</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /anaconda/envs/azureml_py38/lib/python3.10/site-packages/anthropic/resources/messages.py:888,</span> in <span class="ni">Messages.create</span><span class="nt">(self, max_tokens, messages, model, metadata, stop_sequences, stream, system, temperature, tool_choice, tools, top_k, top_p, extra_headers, extra_query, extra_body, timeout)</span>
+<span class="g g-Whitespace">    </span><span class="mi">881</span> <span class="k">if</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">DEPRECATED_MODELS</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">882</span>     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">883</span>         <span class="sa">f</span><span class="s2">&quot;The model &#39;</span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">&#39; is deprecated and will reach end-of-life on </span><span class="si">{</span><span class="n">DEPRECATED_MODELS</span><span class="p">[</span><span class="n">model</span><span class="p">]</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">Please migrate to a newer model. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">884</span>         <span class="ne">DeprecationWarning</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">885</span>         <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">886</span>     <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">888</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">889</span>     <span class="s2">&quot;/v1/messages&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">890</span>     <span class="n">body</span><span class="o">=</span><span class="n">maybe_transform</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">891</span>         <span class="p">{</span>
+<span class="g g-Whitespace">    </span><span class="mi">892</span>             <span class="s2">&quot;max_tokens&quot;</span><span class="p">:</span> <span class="n">max_tokens</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">893</span>             <span class="s2">&quot;messages&quot;</span><span class="p">:</span> <span class="n">messages</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">894</span>             <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">895</span>             <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="n">metadata</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">896</span>             <span class="s2">&quot;stop_sequences&quot;</span><span class="p">:</span> <span class="n">stop_sequences</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">897</span>             <span class="s2">&quot;stream&quot;</span><span class="p">:</span> <span class="n">stream</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">898</span>             <span class="s2">&quot;system&quot;</span><span class="p">:</span> <span class="n">system</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">899</span>             <span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="n">temperature</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">900</span>             <span class="s2">&quot;tool_choice&quot;</span><span class="p">:</span> <span class="n">tool_choice</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">901</span>             <span class="s2">&quot;tools&quot;</span><span class="p">:</span> <span class="n">tools</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">902</span>             <span class="s2">&quot;top_k&quot;</span><span class="p">:</span> <span class="n">top_k</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">903</span>             <span class="s2">&quot;top_p&quot;</span><span class="p">:</span> <span class="n">top_p</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">904</span>         <span class="p">},</span>
+<span class="g g-Whitespace">    </span><span class="mi">905</span>         <span class="n">message_create_params</span><span class="o">.</span><span class="n">MessageCreateParams</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">906</span>     <span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">907</span>     <span class="n">options</span><span class="o">=</span><span class="n">make_request_options</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">908</span>         <span class="n">extra_headers</span><span class="o">=</span><span class="n">extra_headers</span><span class="p">,</span> <span class="n">extra_query</span><span class="o">=</span><span class="n">extra_query</span><span class="p">,</span> <span class="n">extra_body</span><span class="o">=</span><span class="n">extra_body</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span>
+<span class="g g-Whitespace">    </span><span class="mi">909</span>     <span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">910</span>     <span class="n">cast_to</span><span class="o">=</span><span class="n">Message</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">911</span>     <span class="n">stream</span><span class="o">=</span><span class="n">stream</span> <span class="ow">or</span> <span class="kc">False</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">912</span>     <span class="n">stream_cls</span><span class="o">=</span><span class="n">Stream</span><span class="p">[</span><span class="n">RawMessageStreamEvent</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">913</span> <span class="p">)</span>
+
+<span class="nn">File /anaconda/envs/azureml_py38/lib/python3.10/site-packages/anthropic/_base_client.py:1277,</span> in <span class="ni">SyncAPIClient.post</span><span class="nt">(self, path, cast_to, body, options, files, stream, stream_cls)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1263</span> <span class="k">def</span> <span class="nf">post</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1264</span>     <span class="bp">self</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1265</span>     <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1272</span>     <span class="n">stream_cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">_StreamT</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1273</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResponseT</span> <span class="o">|</span> <span class="n">_StreamT</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1274</span>     <span class="n">opts</span> <span class="o">=</span> <span class="n">FinalRequestOptions</span><span class="o">.</span><span class="n">construct</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1275</span>         <span class="n">method</span><span class="o">=</span><span class="s2">&quot;post&quot;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">json_data</span><span class="o">=</span><span class="n">body</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="n">to_httpx_files</span><span class="p">(</span><span class="n">files</span><span class="p">),</span> <span class="o">**</span><span class="n">options</span>
+<span class="g g-Whitespace">   </span><span class="mi">1276</span>     <span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1277</span>     <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">ResponseT</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">cast_to</span><span class="p">,</span> <span class="n">opts</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">stream</span><span class="p">,</span> <span class="n">stream_cls</span><span class="o">=</span><span class="n">stream_cls</span><span class="p">))</span>
+
+<span class="nn">File /anaconda/envs/azureml_py38/lib/python3.10/site-packages/anthropic/_base_client.py:954,</span> in <span class="ni">SyncAPIClient.request</span><span class="nt">(self, cast_to, options, remaining_retries, stream, stream_cls)</span>
+<span class="g g-Whitespace">    </span><span class="mi">951</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">952</span>     <span class="n">retries_taken</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="ne">--&gt; </span><span class="mi">954</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">955</span>     <span class="n">cast_to</span><span class="o">=</span><span class="n">cast_to</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">956</span>     <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">957</span>     <span class="n">stream</span><span class="o">=</span><span class="n">stream</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">958</span>     <span class="n">stream_cls</span><span class="o">=</span><span class="n">stream_cls</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">959</span>     <span class="n">retries_taken</span><span class="o">=</span><span class="n">retries_taken</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">960</span> <span class="p">)</span>
+
+<span class="nn">File /anaconda/envs/azureml_py38/lib/python3.10/site-packages/anthropic/_base_client.py:980,</span> in <span class="ni">SyncAPIClient._request</span><span class="nt">(self, cast_to, options, retries_taken, stream, stream_cls)</span>
+<span class="g g-Whitespace">    </span><span class="mi">977</span> <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_options</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">979</span> <span class="n">remaining_retries</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get_max_retries</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_retries</span><span class="p">)</span> <span class="o">-</span> <span class="n">retries_taken</span>
+<span class="ne">--&gt; </span><span class="mi">980</span> <span class="n">request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_request</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">retries_taken</span><span class="o">=</span><span class="n">retries_taken</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">981</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">983</span> <span class="n">kwargs</span><span class="p">:</span> <span class="n">HttpxSendArgs</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="nn">File /anaconda/envs/azureml_py38/lib/python3.10/site-packages/anthropic/_base_client.py:465,</span> in <span class="ni">BaseClient._build_request</span><span class="nt">(self, options, retries_taken)</span>
+<span class="g g-Whitespace">    </span><span class="mi">462</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">463</span>         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected JSON data type, </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">json_data</span><span class="p">)</span><span class="si">}</span><span class="s2">, cannot merge with `extra_body`&quot;</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">465</span> <span class="n">headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_headers</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">retries_taken</span><span class="o">=</span><span class="n">retries_taken</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">466</span> <span class="n">params</span> <span class="o">=</span> <span class="n">_merge_mappings</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default_query</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">467</span> <span class="n">content_type</span> <span class="o">=</span> <span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">)</span>
+
+<span class="nn">File /anaconda/envs/azureml_py38/lib/python3.10/site-packages/anthropic/_base_client.py:413,</span> in <span class="ni">BaseClient._build_headers</span><span class="nt">(self, options, retries_taken)</span>
+<span class="g g-Whitespace">    </span><span class="mi">411</span> <span class="n">custom_headers</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">headers</span> <span class="ow">or</span> <span class="p">{}</span>
+<span class="g g-Whitespace">    </span><span class="mi">412</span> <span class="n">headers_dict</span> <span class="o">=</span> <span class="n">_merge_mappings</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default_headers</span><span class="p">,</span> <span class="n">custom_headers</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">413</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_headers</span><span class="p">(</span><span class="n">headers_dict</span><span class="p">,</span> <span class="n">custom_headers</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">415</span> <span class="c1"># headers are case-insensitive while dictionaries are not.</span>
+<span class="g g-Whitespace">    </span><span class="mi">416</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">httpx</span><span class="o">.</span><span class="n">Headers</span><span class="p">(</span><span class="n">headers_dict</span><span class="p">)</span>
+
+<span class="nn">File /anaconda/envs/azureml_py38/lib/python3.10/site-packages/anthropic/_client.py:194,</span> in <span class="ni">Anthropic._validate_headers</span><span class="nt">(self, headers, custom_headers)</span>
+<span class="g g-Whitespace">    </span><span class="mi">191</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">custom_headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Authorization&quot;</span><span class="p">),</span> <span class="n">Omit</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">192</span>     <span class="k">return</span>
+<span class="ne">--&gt; </span><span class="mi">194</span> <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">195</span>     <span class="s1">&#39;&quot;Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted&quot;&#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">196</span> <span class="p">)</span>
+
+<span class="ne">TypeError</span>: &quot;Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted&quot;
 </pre></div>
 </div>
 </div>
@@ -1417,6 +1607,19 @@ Is there anything else you&#39;d like to know about LangGraph Cloud or currency 
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">42</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">langchain.agents</span> <span class="kn">import</span> <span class="n">create_react_agent</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">react_prompt</span> <span class="o">=</span> <span class="n">hub</span><span class="o">.</span><span class="n">pull</span><span class="p">(</span><span class="s2">&quot;hwchase17/react&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">react_agent</span> <span class="o">=</span> <span class="n">create_react_agent</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="n">tools</span><span class="p">,</span> <span class="n">react_prompt</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">react_agent_executor</span> <span class="o">=</span> <span class="n">AgentExecutor</span><span class="p">(</span><span class="n">agent</span><span class="o">=</span><span class="n">react_agent</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="n">tools</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;hub&#39; is not defined
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1427,40 +1630,13 @@ Is there anything else you&#39;d like to know about LangGraph Cloud or currency 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">&gt; Entering new AgentExecutor chain...</span>
-<span class=" -Color -Color-Bold -Color-Bold-Green">To answer this question, I&#39;ll need to search for information about langgraph cloud and LangChain. Let&#39;s start with langgraph cloud.</span>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">41</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;When was langgraph cloud released? When was LangChain founded?&quot;</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">response</span> <span class="o">=</span> <span class="n">react_agent_executor</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="n">query</span><span class="p">})</span>
 
-<span class=" -Color -Color-Bold -Color-Bold-Green">Action: duckduckgo_results_json</span>
-<span class=" -Color -Color-Bold -Color-Bold-Green">Action Input: langgraph cloud release date</span>
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">[snippet: Our new infrastructure for running agents at scale, LangGraph Cloud, is available in beta. We also have a new stable release of LangGraph., title: Announcing LangGraph v0.1 &amp; LangGraph Cloud: Running agents at scale ..., link: https://blog.langchain.dev/langgraph-cloud/], [snippet: This builds upon our latest stable release of LangGraph v0.1, which gives you control in building agents with support for human-in-the-loop collaboration (e.g. humans can approve or edit agent actions) and first-class streaming support. Join the waitlist today for LangGraph Cloud. And to learn more, read our blog post announcement., title: [Week of 6/24] LangChain Release Notes, link: https://blog.langchain.dev/week-of-6-24-langchain-release-notes/], [snippet: LangChain Just Launched LangGraph Cloud. LangGraph is a fairly recent addition to the ever expanding LangChain ecosystem. With the launch of LangGraph Cloud, a managed, hosted service is introduced for deploying and hosting LangGraph applications. Cobus Greyling., title: LangChain Just Launched LangGraph Cloud | by Cobus Greyling | Jul, 2024 ..., link: https://cobusgreyling.medium.com/langchain-just-launched-langgraph-cloud-bf8f65e45a54], [snippet: This builds on LangGraph v0.1, our latest stable release supporting diverse control flows - whether it&#39;s single- or multi-agent, hierarchal or sequential. You&#39;ll be able to create flexible agents with human-in-the-loop collaboration and first-class streaming support. We can&#39;t wait to see the agentic workflows you&#39;ll ship. LangGraph Cloud is available in closed beta today., title: Introducing LangGraph Cloud LangGraph helps you build reliable ..., link: https://www.threads.net/@langchain.ai/post/C8uhvFUyLUT]</span><span class=" -Color -Color-Bold -Color-Bold-Green">Based on the search results, I can answer part of the question about langgraph cloud. However, I don&#39;t have specific information about LangChain&#39;s founding date yet. Let&#39;s break this down:</span>
-
-<span class=" -Color -Color-Bold -Color-Bold-Green">1. Regarding langgraph cloud:</span>
-<span class=" -Color -Color-Bold -Color-Bold-Green">The search results indicate that LangGraph Cloud was recently released in beta. The most specific information comes from the LangChain release notes for the week of 6/24, which mentions LangGraph Cloud being available in beta. This suggests that LangGraph Cloud was released in beta around late June 2023.</span>
-
-<span class=" -Color -Color-Bold -Color-Bold-Green">2. Regarding LangChain&#39;s founding date:</span>
-<span class=" -Color -Color-Bold -Color-Bold-Green">The search results don&#39;t provide information about when LangChain was founded. We need to perform another search for this information.</span>
-
-<span class=" -Color -Color-Bold -Color-Bold-Green">Let&#39;s search for LangChain&#39;s founding date.</span>
-
-<span class=" -Color -Color-Bold -Color-Bold-Green">Action: duckduckgo_results_json</span>
-<span class=" -Color -Color-Bold -Color-Bold-Green">Action Input: LangChain founding date</span>
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">[snippet: The first commit to LangChain shows its humble origins as a light wrapper around Python&#39;s formatter.format for prompt templating.But as Harrison tells the story, even his first experience with text-davinci-002 in early 2022 was focused on chatting with data from their internal company Notion 2 and Slack, what is now known as Retrieval Augmented Generation (RAG)., title: The Point of LangChain — with Harrison Chase of LangChain, link: https://www.latent.space/p/langchain], [snippet: LangChain on Github. In October 2022, LangChain started as an open-source project created by Harrison Chase. In April 2023, LangChain became a startup and has released more services besides ..., title: What is Langchain? Explained in Everyday Langauge for AI Beginners, link: https://medium.com/ai-for-absolute-beginners/what-is-langchain-explained-in-everyday-langauge-for-ai-beginners-fc8ffa6fb5f2], [snippet: LangChain has over 100 different document loaders for all types of documents (html, pdf, code), from all types of locations (S3, public websites) and integrations with AirByte and Unstructured., title: Introduction to LangChain | by Zilliz | Medium, link: https://medium.com/@zilliz_learn/introduction-to-langchain-b01618c82f3c], [snippet: LangChain provides two types of agents that help to achieve that: action agents make decisions, take actions and make observations on the results of that actions, repeating this cycle until a ..., title: Introducing LangChain: a beginner&#39;s guide ️ | by ... - Medium, link: https://medium.com/@ellen.hoeven/introducing-langchain-a-beginners-guide-️-5e751622edb7]</span><span class=" -Color -Color-Bold -Color-Bold-Green">Based on the search results, I can now provide more information about both LangGraph Cloud and LangChain&#39;s founding. Let&#39;s compile the information:</span>
-
-<span class=" -Color -Color-Bold -Color-Bold-Green">1. Regarding LangGraph Cloud:</span>
-<span class=" -Color -Color-Bold -Color-Bold-Green">As mentioned earlier, LangGraph Cloud was released in beta around late June 2023. This is based on the LangChain release notes for the week of 6/24, which announced its availability in beta.</span>
-
-<span class=" -Color -Color-Bold -Color-Bold-Green">2. Regarding LangChain&#39;s founding:</span>
-<span class=" -Color -Color-Bold -Color-Bold-Green">While we don&#39;t have an exact founding date for LangChain as a company, we can infer some key dates from the search results:</span>
-
-<span class=" -Color -Color-Bold -Color-Bold-Green">- The project started as an open-source initiative in October 2022, created by Harrison Chase.</span>
-<span class=" -Color -Color-Bold -Color-Bold-Green">- The earliest work on what would become LangChain seems to have begun in early 2022, when Harrison Chase first experimented with text-davinci-002 for what is now known as Retrieval Augmented Generation (RAG).</span>
-<span class=" -Color -Color-Bold -Color-Bold-Green">- In April 2023, LangChain transitioned from an open-source project to a startup.</span>
-
-<span class=" -Color -Color-Bold -Color-Bold-Green">Now I can provide a final answer to the original questions.</span>
-
-<span class=" -Color -Color-Bold -Color-Bold-Green">Final Answer: LangGraph Cloud was released in beta around late June 2023. As for LangChain, it wasn&#39;t founded as a company immediately. The project started as an open-source initiative in October 2022, created by Harrison Chase. The earliest work on concepts that would become LangChain began in early 2022. LangChain then transitioned from an open-source project to a startup in April 2023.</span>
-
-<span class=" -Color -Color-Bold">&gt; Finished chain.</span>
+<span class="ne">NameError</span>: name &#39;react_agent_executor&#39; is not defined
 </pre></div>
 </div>
 </div>
@@ -1480,13 +1656,13 @@ Is there anything else you&#39;d like to know about LangGraph Cloud or currency 
             mode: "python"
         },
         kernelOptions: {
-            name: "python310-sdkv2",
+            name: "python3",
             path: "./misc"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python310-sdkv2'</script>
+    <script>kernelName = 'python3'</script>
 
                 </article>
               
@@ -1525,6 +1701,7 @@ Is there anything else you&#39;d like to know about LangGraph Cloud or currency 
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">LLM Tool/Function Calling</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relevance">Relevance</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-use-cases">Common use cases</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-basic-sequence-of-steps-for-function-calling-is-as-follows">The basic sequence of steps for function calling is as follows:</a></li>
 </ul>

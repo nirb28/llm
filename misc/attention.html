@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -527,17 +527,27 @@ with your book. For more information about this, see <a class="reference externa
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1">#!pip install transformers</span>
-<span class="ne">----&gt; </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">torch</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoModel</span><span class="p">,</span> <span class="n">AutoTokenizer</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;torch&#39;
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/anaconda/envs/azureml_py38/lib/python3.10/site-packages/transformers/utils/generic.py:441: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  _torch_pytree._register_pytree_node(
 </pre></div>
 </div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/anaconda/envs/azureml_py38/lib/python3.10/site-packages/huggingface_hub/file_download.py:1150: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/anaconda/envs/azureml_py38/lib/python3.10/site-packages/transformers/utils/generic.py:309: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  _torch_pytree._register_pytree_node(
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/anaconda/envs/azureml_py38/lib/python3.10/site-packages/transformers/utils/generic.py:309: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  _torch_pytree._register_pytree_node(
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/anaconda/envs/azureml_py38/lib/python3.10/site-packages/huggingface_hub/file_download.py:1150: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+</pre></div>
+</div>
+<img alt="../_images/04b8fcfae6b7a6dab1dd70e9325bb16854048f3f148d55ad6bfe8db06e020a09.png" src="../_images/04b8fcfae6b7a6dab1dd70e9325bb16854048f3f148d55ad6bfe8db06e020a09.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -555,7 +565,7 @@ with your book. For more information about this, see <a class="reference externa
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/15db2b3dc1cd82e028824d834b018285500101d9702187928dbb06bdc1ad9bfb.png" src="../_images/15db2b3dc1cd82e028824d834b018285500101d9702187928dbb06bdc1ad9bfb.png" />
+<img alt="../_images/ddf6dcd166f38bc488eefe149832a5f1a007168a513c15f6e02c7ea35ec4dc27.png" src="../_images/ddf6dcd166f38bc488eefe149832a5f1a007168a513c15f6e02c7ea35ec4dc27.png" />
 </div>
 </div>
 <p>The attention weights show that the words fox and dog have higher weights than the others, which shows the BERT model paying attention to these words and considering them as the main subject in the sentences.</p>
@@ -574,7 +584,7 @@ with your book. For more information about this, see <a class="reference externa
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/927dd6adfd21b8f14dd712e1c9f975577258c3f2107f1c712ee0ef60264e1b27.png" src="../_images/927dd6adfd21b8f14dd712e1c9f975577258c3f2107f1c712ee0ef60264e1b27.png" />
+<img alt="../_images/91618a2144c1334a70075c7d456d9caef8be9ca312a9a5977b7c074cfbb4909a.png" src="../_images/91618a2144c1334a70075c7d456d9caef8be9ca312a9a5977b7c074cfbb4909a.png" />
 </div>
 </div>
 </section>
