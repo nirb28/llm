@@ -57,10 +57,12 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'inference/inference';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'inference/inference_md';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Attention is all you need" href="../misc/attention.html" />
+    <link rel="prev" title="Welcome to an introduction to the MALTS approach to LLM" href="../intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -123,8 +125,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -172,8 +172,8 @@
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="inference_md.html">LLM Inference</a></li>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">LLM Inference</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="../misc/attention.html">Attention is all you need</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../misc/agents.html">LLM Tool/Function Calling</a></li>
@@ -226,73 +226,6 @@
 
 
 
-<div class="dropdown dropdown-launch-buttons">
-  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
-    <i class="fas fa-rocket"></i>
-  </button>
-  <ul class="dropdown-menu">
-      
-      
-      
-      <li><a href="https://mybinder.org/v2/gh/nirb28/llm/main?urlpath=tree/demoes/llm-book/inference/inference.ipynb" target="_blank"
-   class="btn btn-sm dropdown-item"
-   title="Launch on Binder"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  
-    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
-  </span>
-<span class="btn__text-container">Binder</span>
-</a>
-</li>
-      
-      
-      
-      
-      <li><a href="https://colab.research.google.com/github/nirb28/llm/blob/main/demoes/llm-book/inference/inference.ipynb" target="_blank"
-   class="btn btn-sm dropdown-item"
-   title="Launch on Colab"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  
-    <img alt="Colab logo" src="../_static/images/logo_colab.png">
-  </span>
-<span class="btn__text-container">Colab</span>
-</a>
-</li>
-      
-      
-      
-      
-      <li>
-<button onclick="initThebeSBT()"
-  class="btn btn-sm btn-launch-thebe dropdown-item"
-  title="Launch Thebe"
-  data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fas fa-play"></i>
-  </span>
-<span class="btn__text-container">Live Code</span>
-</button>
-</li>
-      
-  </ul>
-</div>
-
-
-
-
-
-
 <div class="dropdown dropdown-source-buttons">
   <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
     <i class="fab fa-github"></i>
@@ -318,7 +251,7 @@
       
       
       
-      <li><a href="https://github.com/nirb28/llm/edit/main/demoes/llm-book/inference/inference.ipynb" target="_blank"
+      <li><a href="https://github.com/nirb28/llm/edit/main/demoes/llm-book/inference/inference_md.md" target="_blank"
    class="btn btn-sm btn-source-edit-button dropdown-item"
    title="Suggest edit"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -335,7 +268,7 @@
       
       
       
-      <li><a href="https://github.com/nirb28/llm/issues/new?title=Issue%20on%20page%20%2Finference/inference.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/nirb28/llm/issues/new?title=Issue%20on%20page%20%2Finference/inference_md.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -365,7 +298,7 @@
       
       
       
-      <li><a href="../_sources/inference/inference.ipynb" target="_blank"
+      <li><a href="../_sources/inference/inference_md.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -375,7 +308,7 @@
 <span class="btn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="btn__text-container">.ipynb</span>
+<span class="btn__text-container">.md</span>
 </a>
 </li>
       
@@ -481,7 +414,7 @@ document.write(`
 <h1>LLM Inference<a class="headerlink" href="#llm-inference" title="Link to this heading">#</a></h1>
 <p>Large Language Model (LLM) inference presents unique challenges due to the complexity of the models and the computational demands of generating responses. Optimizing LLM performance involves balancing factors such as sequence length, model size, and specific use case requirements, with no one-size-fits-all solution for efficient inference across diverse applications.</p>
 <p>Lets take a look at what are we working with here:</p>
-<p><img alt="image.png" src="inference/attachment:image.png" /></p>
+<p><img alt="image.png" src="../_images/image.png" /></p>
 <p>The size of an LLM significantly impacts its inference performance and resource requirements. Larger models with billions of parameters, such as GPT-4 with an estimated 1.7 trillion parameters, demand substantial memory and computational power. For instance, deploying GPT-4 using Nvidia H100 GPUs would require approximately 40 GPUs just to store the model parameters. This memory requirement increases further when accounting for key-value caches, which grow linearly with batch size.</p>
 <ul class="simple">
 <li><p>Larger models generally offer improved capabilities but at the cost of increased inference complexity and resource demands.</p></li>
@@ -489,9 +422,9 @@ document.write(`
 <li><p>Techniques like quantization, pruning, and knowledge distillation are being explored to reduce model size while maintaining performance, enabling more efficient inference on resource-constrained devices</p></li>
 </ul>
 <p>At batch_size of 1, the KV cache memory is a small percentage of total memory.
-<img alt="image.png" src="inference/attachment:image.png" /></p>
+<img alt="image.png" src="../_images/image.png" /></p>
 <p>At a batch size of 32, static allocation of KV cache dominates the total memory
-<img alt="image-2.png" src="inference/attachment:image-2.png" /></p>
+<img alt="image-2.png" src="../_images/image-2.png" /></p>
 <p>Total size of KV cache in bytes = (batch_size) x 2 x (sequence_length) x (num_layers) x (hidden_size) x SizeOf(FP16)</p>
 <p>The sequence_length is the maximum number of tokens (sum of input and output tokens) allowed per user request for the model. Factor 2 is for each key and value in the KV pair. These are usually stored in 16-bit precision format (2Bytes each). num_layer is the number of transformer attention layers. The hidden_size is the dimension of the model-specific attention layer.</p>
 <p>Inference metrics for Large Language Models (LLMs) are crucial for evaluating and optimizing performance. Key metrics include:</p>
@@ -569,6 +502,24 @@ document.write(`
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="../intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Welcome to an introduction to the MALTS approach to LLM</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../misc/attention.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Attention is all you need</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
