@@ -1,165 +1,324 @@
 
 <!DOCTYPE html>
 
-
-<html lang="en" data-content_root="../" >
-
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LLM Tool/Function Calling &#8212; LLM - Challenges and Opportunities</title>
   
   
   
   <script data-cfasync="false">
-    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
-  <!-- So that users can add custom icons -->
-  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
-  <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
 
-    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../_static/copybutton.js?v=f281be69"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=4ec06e9971c5264fbd345897d5258098f11cc577" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=8bf782fb4ee92b3d3646425e50f299c4e1fd152d"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../_static/design-tabs.js?v=f930bc37"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'misc/agents';</script>
-    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Welcome to Data 88: Data Science and Economics Connector Course!" href="lab01.html" />
     <link rel="prev" title="Attention is all you need" href="attention.html" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
   </head>
   
   
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="light">
 
   
   
-  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
-  
-  <div id="pst-scroll-pixel-helper"></div>
-  
-  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
   
-  <dialog id="pst-search-dialog">
-    
-<form class="bd-search d-flex align-items-center"
-      action="../search.html"
-      method="get">
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="fa-solid fa-magnifying-glass"></i>
-  <input type="search"
-         class="form-control"
-         name="q"
-         placeholder="Search this book..."
-         aria-label="Search this book..."
-         autocomplete="off"
-         autocorrect="off"
-         autocapitalize="off"
-         spellcheck="false"/>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form>
-  </dialog>
-
-  <div class="pst-async-banner-revealer d-none">
-  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
-</div>
+    </div>
+  </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
-    </header>
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../intro.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../inference/inference.html">
+                        LLM Inference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="attention.html">
+                        Attention is all you need
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        LLM Tool/Function Calling
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="lab01.html">
+                        Welcome to Data 88: Data Science and Economics Connector Course!
+                      </a>
+                    </li>
+                
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
+      
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
   
 
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      
-      
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar">
         
-
   
   <div class="sidebar-header-items sidebar-primary__section">
     
     
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../inference/inference.html">
+                        LLM Inference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="attention.html">
+                        Attention is all you need
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        LLM Tool/Function Calling
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="lab01.html">
+                        Welcome to Data 88: Data Science and Economics Connector Course!
+                      </a>
+                    </li>
+                
+    </ul>
+</nav>
+      </div>
+      
+      </div>
     
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
     
   </div>
-  
-    <div class="sidebar-primary-items__start sidebar-primary__section">
-        <div class="sidebar-primary-item">
 
   
-    
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item">
   
+
 
 <a class="navbar-brand logo" href="../intro.html">
-  
-  
-  
-  
-  
-    
-    
-      
-    
-    
-    <img src="../_static/logo.png" class="logo__image only-light" alt="LLM - Challenges and Opportunities - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="LLM - Challenges and Opportunities - Home"/>
-  
-  
-</a></div>
-        <div class="sidebar-primary-item">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button></div>
-        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    </div>
+    <div class="sidebar-start-items__item">
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../inference/inference.html">LLM Inference</a></li>
@@ -174,47 +333,42 @@
 </ul>
 
     </div>
-</nav></div>
+</nav>
     </div>
-  
-  
-  <div class="sidebar-primary-items__end sidebar-primary__section">
   </div>
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
   
   <div id="rtd-footer-container"></div>
 
-
       </div>
-      
-      <main id="main-content" class="bd-main" role="main">
+      <main id="main-content" class="bd-main">
         
         
 
 <div class="sbt-scroll-pixel-helper"></div>
 
-          <div class="bd-content">
-            <div class="bd-article-container">
-              
-              <div class="bd-header-article d-print-none">
-<div class="header-article-items header-article__inner">
-  
-    <div class="header-article-items__start">
-      
-        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <span class="fa-solid fa-bars"></span>
-</button></div>
-      
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        <label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" data-toggle="tooltip" data-placement="right" title="Toggle primary sidebar">
+            <span class="fa-solid fa-bars"></span>
+        </label>
     </div>
-  
-  
-    <div class="header-article-items__end">
-      
-        <div class="header-article-item">
-
-<div class="article-header-buttons">
-
-
-
+    <div class="header-article__right">
 
 
 <div class="dropdown dropdown-launch-buttons">
@@ -222,50 +376,44 @@
     <i class="fas fa-rocket"></i>
   </button>
   <ul class="dropdown-menu">
-      
-      
-      
       <li><a href="https://mybinder.org/v2/gh/nirb28/llm/main?urlpath=tree/demoes/llm-book/misc/agents.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
-   title="Launch on Binder"
-   data-bs-placement="left" data-bs-toggle="tooltip"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
 >
   
 
 <span class="btn__icon-container">
   
-    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+    <img src="../_static/images/logo_binder.svg">
   </span>
 <span class="btn__text-container">Binder</span>
 </a>
-</li>
-      
-      
-      
+</a>
       
       <li><a href="https://colab.research.google.com/github/nirb28/llm/blob/main/demoes/llm-book/misc/agents.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
-   title="Launch on Colab"
-   data-bs-placement="left" data-bs-toggle="tooltip"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
 >
   
 
 <span class="btn__icon-container">
   
-    <img alt="Colab logo" src="../_static/images/logo_colab.png">
+    <img src="../_static/images/logo_colab.png">
   </span>
 <span class="btn__text-container">Colab</span>
 </a>
-</li>
-      
-      
-      
+</a>
       
       <li>
 <button onclick="initThebeSBT()"
   class="btn btn-sm btn-launch-thebe dropdown-item"
-  title="Launch Thebe"
-  data-bs-placement="left" data-bs-toggle="tooltip"
+  data-toggle="tooltip"
+data-placement="left"
+title="Launch Thebe"
 >
   
 
@@ -274,130 +422,16 @@
   </span>
 <span class="btn__text-container">Live Code</span>
 </button>
-</li>
+</a>
       
   </ul>
 </div>
-
-
-
-
-
-
-<div class="dropdown dropdown-source-buttons">
-  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
-    <i class="fab fa-github"></i>
-  </button>
-  <ul class="dropdown-menu">
-      
-      
-      
-      <li><a href="https://github.com/nirb28/llm" target="_blank"
-   class="btn btn-sm btn-source-repository-button dropdown-item"
-   title="Source repository"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fab fa-github"></i>
-  </span>
-<span class="btn__text-container">Repository</span>
-</a>
-</li>
-      
-      
-      
-      
-      <li><a href="https://github.com/nirb28/llm/edit/main/demoes/llm-book/misc/agents.ipynb" target="_blank"
-   class="btn btn-sm btn-source-edit-button dropdown-item"
-   title="Suggest edit"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fas fa-pencil-alt"></i>
-  </span>
-<span class="btn__text-container">Suggest edit</span>
-</a>
-</li>
-      
-      
-      
-      
-      <li><a href="https://github.com/nirb28/llm/issues/new?title=Issue%20on%20page%20%2Fmisc/agents.html&body=Your%20issue%20content%20here." target="_blank"
-   class="btn btn-sm btn-source-issues-button dropdown-item"
-   title="Open an issue"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fas fa-lightbulb"></i>
-  </span>
-<span class="btn__text-container">Open issue</span>
-</a>
-</li>
-      
-  </ul>
-</div>
-
-
-
-
-
-
-<div class="dropdown dropdown-download-buttons">
-  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
-    <i class="fas fa-download"></i>
-  </button>
-  <ul class="dropdown-menu">
-      
-      
-      
-      <li><a href="../_sources/misc/agents.ipynb" target="_blank"
-   class="btn btn-sm btn-download-source-button dropdown-item"
-   title="Download source file"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="btn__text-container">.ipynb</span>
-</a>
-</li>
-      
-      
-      
-      
-      <li>
-<button onclick="window.print()"
-  class="btn btn-sm btn-download-pdf-button dropdown-item"
-  title="Print to PDF"
-  data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="btn__text-container">.pdf</span>
-</button>
-</li>
-      
-  </ul>
-</div>
-
-
-
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
-  title="Fullscreen mode"
-  data-bs-placement="bottom" data-bs-toggle="tooltip"
+  class="btn btn-sm"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
 >
   
 
@@ -409,27 +443,107 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
-
-
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-</button>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</button>
-</div></div>
-      
-    </div>
+<div class="dropdown dropdown-repository-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      <li><a href="https://github.com/nirb28/llm" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
   
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">repository</span>
+</a>
+</a>
+      
+      <li><a href="https://github.com/nirb28/llm/issues/new?title=Issue%20on%20page%20%2Fmisc/agents.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">open issue</span>
+</a>
+</a>
+      
+      <li><a href="https://github.com/nirb28/llm/edit/main/demoes/llm-book/misc/agents.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">suggest edit</span>
+</a>
+</a>
+      
+  </ul>
 </div>
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      <li><a href="../_sources/misc/agents.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</a>
+      
+      <li>
+<button onclick="printPdf(this)"
+  class="btn btn-sm dropdown-item"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</a>
+      
+  </ul>
 </div>
-              
-              
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary" data-toggle="tooltip" data-placement="left" title="Toggle secondary sidebar">
+            <span class="fa-solid fa-list"></span>
+        </label>
+    </div>
+</div>
+            </div>
+            
+            
 
 <div id="jb-print-docs-body" class="onlyprint">
     <h1>LLM Tool/Function Calling</h1>
@@ -442,30 +556,94 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">LLM Tool/Function Calling</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relevance">Relevance</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-use-cases">Common use cases</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-basic-sequence-of-steps-for-function-calling-is-as-follows">The basic sequence of steps for function calling is as follows:</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-llm-functions">Creating LLM Functions</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openai-function-schema">OpenAI Function Schema</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#executing-the-functions">Executing the Functions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#function-calling-behavior">Function Calling Behavior</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#more-advanced-functions">More Advanced Functions</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#other-models-w-langchain">Other Models w/LangChain</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-tools">Defining Tools</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attaching-tools-to-llm-object">Attaching tools to LLM object</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#handling-tool-calls">Handling Tool Calls</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#agents-the-final-frontier-of-tools">Agents: The Final Frontier of Tools</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tool-calling-agent">Tool Calling Agent</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#react-agent-chain-of-thought-with-tool-execution">ReAct Agent - Chain-of-Thought with Tool Execution</a></li>
-</ul>
-</li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   LLM Tool/Function Calling
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#relevance">
+     Relevance
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#common-use-cases">
+     Common use cases
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-basic-sequence-of-steps-for-function-calling-is-as-follows">
+     The basic sequence of steps for function calling is as follows:
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#creating-llm-functions">
+   Creating LLM Functions
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#openai-function-schema">
+     OpenAI Function Schema
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#executing-the-functions">
+     Executing the Functions
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#function-calling-behavior">
+     Function Calling Behavior
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#more-advanced-functions">
+     More Advanced Functions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#other-models-w-langchain">
+   Other Models w/LangChain
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#defining-tools">
+     Defining Tools
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#attaching-tools-to-llm-object">
+     Attaching tools to LLM object
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#handling-tool-calls">
+     Handling Tool Calls
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#agents-the-final-frontier-of-tools">
+   Agents: The Final Frontier of Tools
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tool-calling-agent">
+     Tool Calling Agent
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#react-agent-chain-of-thought-with-tool-execution">
+     ReAct Agent - Chain-of-Thought with Tool Execution
+    </a>
+   </li>
+  </ul>
+ </li>
 </ul>
 
             </nav>
@@ -473,23 +651,20 @@
     </div>
 </div>
 
+            <article class="bd-article" role="main">
               
-                
-<div id="searchbox"></div>
-                <article class="bd-article">
-                  
   <p><img alt="image.png" src="misc/attachment:image.png" /></p>
-<section class="tex2jax_ignore mathjax_ignore" id="llm-tool-function-calling">
-<h1>LLM Tool/Function Calling<a class="headerlink" href="#llm-tool-function-calling" title="Link to this heading">#</a></h1>
+<div class="tex2jax_ignore mathjax_ignore section" id="llm-tool-function-calling">
+<h1>LLM Tool/Function Calling<a class="headerlink" href="#llm-tool-function-calling" title="Permalink to this heading">#</a></h1>
 <p><em>Function calling is the ability to reliably connect LLMs to external tools to enable effective tool usage and interaction with external APIs.</em></p>
 <p>This is often a fine-tuned feature, not available to all models, but super useful where it is!</p>
-<section id="relevance">
-<h2>Relevance<a class="headerlink" href="#relevance" title="Link to this heading">#</a></h2>
+<div class="section" id="relevance">
+<h2>Relevance<a class="headerlink" href="#relevance" title="Permalink to this heading">#</a></h2>
 <p>Andrew Ng and his team performed the following analysis:
 <img alt="image-2.png" src="misc/attachment:image-2.png" /></p>
-</section>
-<section id="common-use-cases">
-<h2>Common use cases<a class="headerlink" href="#common-use-cases" title="Link to this heading">#</a></h2>
+</div>
+<div class="section" id="common-use-cases">
+<h2>Common use cases<a class="headerlink" href="#common-use-cases" title="Permalink to this heading">#</a></h2>
 <p>Function calling allows you to more reliably get structured data back from the model. For example, you can:</p>
 <ul class="simple">
 <li><p>Create assistants that answer questions by calling external APIs</p>
@@ -508,9 +683,9 @@
 </ul>
 </li>
 </ul>
-</section>
-<section id="the-basic-sequence-of-steps-for-function-calling-is-as-follows">
-<h2>The basic sequence of steps for function calling is as follows:<a class="headerlink" href="#the-basic-sequence-of-steps-for-function-calling-is-as-follows" title="Link to this heading">#</a></h2>
+</div>
+<div class="section" id="the-basic-sequence-of-steps-for-function-calling-is-as-follows">
+<h2>The basic sequence of steps for function calling is as follows:<a class="headerlink" href="#the-basic-sequence-of-steps-for-function-calling-is-as-follows" title="Permalink to this heading">#</a></h2>
 <ol class="arabic simple">
 <li><p>Call the model with the user query and a set of functions defined in the functions parameter.</p></li>
 <li><p>The model can choose to call one or more functions; if so, the content will be a stringified JSON object adhering to your custom schema</p></li>
@@ -518,13 +693,13 @@
 <li><p>Call the model again by appending the function response as a new message, and let the model summarize the results back to the user.</p></li>
 </ol>
 <p>While the name implies that the model is performing some action, this is actually not the case! The model is coming up with the arguments to a tool, and actually running the tool (or not) is up to the user</p>
-</section>
-</section>
+</div>
+</div>
 <hr class="docutils" />
-<section class="tex2jax_ignore mathjax_ignore" id="creating-llm-functions">
-<h1>Creating LLM Functions<a class="headerlink" href="#creating-llm-functions" title="Link to this heading">#</a></h1>
-<section id="openai-function-schema">
-<h2>OpenAI Function Schema<a class="headerlink" href="#openai-function-schema" title="Link to this heading">#</a></h2>
+<div class="tex2jax_ignore mathjax_ignore section" id="creating-llm-functions">
+<h1>Creating LLM Functions<a class="headerlink" href="#creating-llm-functions" title="Permalink to this heading">#</a></h1>
+<div class="section" id="openai-function-schema">
+<h2>OpenAI Function Schema<a class="headerlink" href="#openai-function-schema" title="Permalink to this heading">#</a></h2>
 <p><strong><a class="reference external" href="https://platform.openai.com/docs/guides/function-calling">OpenAI Function Calling Documentation</a></strong></p>
 <p><em>According to the JSON standard, a JSON value is one of the following JSON-language data types: object, array, number, string, Boolean (value true or false), or null (value null). All values except objects and arrays are scalar.</em></p>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/JSON#Data_types">https://en.wikipedia.org/wiki/JSON#Data_types</a></p>
@@ -639,11 +814,11 @@
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Full Response ---
 
-ChatCompletion(id=&#39;chatcmpl-ANOlLSyXhrIKS0I37mZJpENlhD0MS&#39;, choices=[Choice(finish_reason=&#39;tool_calls&#39;, index=0, logprobs=None, message=ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_SyN0qXvaLdWTQFiqyIu8SIyO&#39;, function=Function(arguments=&#39;{\n  &quot;base_currency&quot;: &quot;USD&quot;,\n  &quot;target_currency&quot;: &quot;JPY&quot;\n}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;)]), content_filter_results={})], created=1730140095, model=&#39;gpt-35-turbo&#39;, object=&#39;chat.completion&#39;, service_tier=None, system_fingerprint=None, usage=CompletionUsage(completion_tokens=26, prompt_tokens=171, total_tokens=197), prompt_filter_results=[{&#39;prompt_index&#39;: 0, &#39;content_filter_results&#39;: {&#39;hate&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;jailbreak&#39;: {&#39;filtered&#39;: False, &#39;detected&#39;: False}, &#39;self_harm&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;sexual&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;violence&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}}}]) 
+ChatCompletion(id=&#39;chatcmpl-ANP19scl71NDuScvJhmk5FuCeQZXY&#39;, choices=[Choice(finish_reason=&#39;tool_calls&#39;, index=0, logprobs=None, message=ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_ybN0oVKJpmDhnZxVbfp8AkXS&#39;, function=Function(arguments=&#39;{\n  &quot;base_currency&quot;: &quot;USD&quot;,\n  &quot;target_currency&quot;: &quot;JPY&quot;\n}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;)]), content_filter_results={})], created=1730141075, model=&#39;gpt-35-turbo&#39;, object=&#39;chat.completion&#39;, service_tier=None, system_fingerprint=None, usage=CompletionUsage(completion_tokens=26, prompt_tokens=171, total_tokens=197), prompt_filter_results=[{&#39;prompt_index&#39;: 0, &#39;content_filter_results&#39;: {&#39;hate&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;jailbreak&#39;: {&#39;filtered&#39;: False, &#39;detected&#39;: False}, &#39;self_harm&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;sexual&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;violence&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}}}]) 
 
 --- Chat Completion Message ---
 
-ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_SyN0qXvaLdWTQFiqyIu8SIyO&#39;, function=Function(arguments=&#39;{\n  &quot;base_currency&quot;: &quot;USD&quot;,\n  &quot;target_currency&quot;: &quot;JPY&quot;\n}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;)]) 
+ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_ybN0oVKJpmDhnZxVbfp8AkXS&#39;, function=Function(arguments=&#39;{\n  &quot;base_currency&quot;: &quot;USD&quot;,\n  &quot;target_currency&quot;: &quot;JPY&quot;\n}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;)]) 
 
 --- Tool Call 1 ---
 
@@ -657,10 +832,10 @@ Arguments: {
 </div>
 </div>
 </div>
-</section>
+</div>
 <hr class="docutils" />
-<section id="executing-the-functions">
-<h2>Executing the Functions<a class="headerlink" href="#executing-the-functions" title="Link to this heading">#</a></h2>
+<div class="section" id="executing-the-functions">
+<h2>Executing the Functions<a class="headerlink" href="#executing-the-functions" title="Permalink to this heading">#</a></h2>
 <p>As the LLM is just populating the arguments for calling the function, it is up to us to actually execute the functions.</p>
 <p>For our Web Search tool, we’ll be using the DuckDuckGo API: <a class="reference external" href="https://pypi.org/project/duckduckgo-search/">https://pypi.org/project/duckduckgo-search/</a><br />
 And for our Currency Conversion, we’ll be using the Free Currency Exchange API: <a class="github reference external" href="https://github.com/fawazahmed0/exchange-api">fawazahmed0/exchange-api</a></p>
@@ -777,32 +952,34 @@ And for our Currency Conversion, we’ll be using the Free Currency Exchange API
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initial Message:  [{&#39;role&#39;: &#39;user&#39;, &#39;content&#39;: &#39;How much is a dollar worth in Japan? How about poland? Whats the current news in Argentina?&#39;}]
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Response Message:  ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_jxoSfMRnBO3x2NbAuOYX8xSI&#39;, function=Function(arguments=&#39;{\n  &quot;base_currency&quot;: &quot;USD&quot;,\n  &quot;target_currency&quot;: &quot;JPY&quot;\n}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;)])
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Response Message:  ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_QWcexpJaQgEl5LQkNySP0qqI&#39;, function=Function(arguments=&#39;{\n  &quot;base_currency&quot;: &quot;USD&quot;,\n  &quot;target_currency&quot;: &quot;JPY&quot;\n}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;)])
 
-Tool Calls:  [ChatCompletionMessageToolCall(id=&#39;call_jxoSfMRnBO3x2NbAuOYX8xSI&#39;, function=Function(arguments=&#39;{\n  &quot;base_currency&quot;: &quot;USD&quot;,\n  &quot;target_currency&quot;: &quot;JPY&quot;\n}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;)]
+Tool Calls:  [ChatCompletionMessageToolCall(id=&#39;call_QWcexpJaQgEl5LQkNySP0qqI&#39;, function=Function(arguments=&#39;{\n  &quot;base_currency&quot;: &quot;USD&quot;,\n  &quot;target_currency&quot;: &quot;JPY&quot;\n}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;)]
 
-Calling &lt;function get_exchange_rate at 0x7fb45fccaa70&gt; with arguments {&#39;base_currency&#39;: &#39;USD&#39;, &#39;target_currency&#39;: &#39;JPY&#39;, &#39;date&#39;: &#39;latest&#39;}
+Calling &lt;function get_exchange_rate at 0x7f06ad04feb0&gt; with arguments {&#39;base_currency&#39;: &#39;USD&#39;, &#39;target_currency&#39;: &#39;JPY&#39;, &#39;date&#39;: &#39;latest&#39;}
 
 Function Response:  153.80061303
 
-Appending Message:  {&#39;tool_call_id&#39;: &#39;call_jxoSfMRnBO3x2NbAuOYX8xSI&#39;, &#39;role&#39;: &#39;tool&#39;, &#39;name&#39;: &#39;get_exchange_rate&#39;, &#39;content&#39;: &#39;153.80061303&#39;}
+Appending Message:  {&#39;tool_call_id&#39;: &#39;call_QWcexpJaQgEl5LQkNySP0qqI&#39;, &#39;role&#39;: &#39;tool&#39;, &#39;name&#39;: &#39;get_exchange_rate&#39;, &#39;content&#39;: &#39;153.80061303&#39;}
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LLM Response:  ChatCompletion(id=&#39;chatcmpl-ANOlNWa74dEU8WEgcG9m8uyF7fB4D&#39;, choices=[Choice(finish_reason=&#39;stop&#39;, index=0, logprobs=None, message=ChatCompletionMessage(content=&#39;As of the current exchange rate, 1 US dollar is worth approximately 153.80 Japanese yen.\n\nNow, let me fetch the exchange rate for the Polish zloty (PLN).&#39;, role=&#39;assistant&#39;, function_call=None, tool_calls=None), content_filter_results={&#39;hate&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;self_harm&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;sexual&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;violence&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}})], created=1730140097, model=&#39;gpt-35-turbo&#39;, object=&#39;chat.completion&#39;, service_tier=None, system_fingerprint=None, usage=CompletionUsage(completion_tokens=39, prompt_tokens=68, total_tokens=107), prompt_filter_results=[{&#39;prompt_index&#39;: 0, &#39;content_filter_results&#39;: {&#39;hate&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;jailbreak&#39;: {&#39;filtered&#39;: False, &#39;detected&#39;: False}, &#39;self_harm&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;sexual&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;violence&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}}}])
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LLM Response:  ChatCompletion(id=&#39;chatcmpl-ANP1ARbMQekvOCfRwCOgX1S6GPlkr&#39;, choices=[Choice(finish_reason=&#39;stop&#39;, index=0, logprobs=None, message=ChatCompletionMessage(content=&#39;As of the current exchange rate, one US dollar is worth approximately 153.80 Japanese yen. \n\nTo find out the exchange rate for Poland, please specify if you are referring to the Polish zloty (PLN) or any other currency.\n\nRegarding the current news in Argentina, I apologize, but I am an AI language model and do not have real-time information. It is advised to check reliable news sources or websites to get the most up-to-date news about Argentina.&#39;, role=&#39;assistant&#39;, function_call=None, tool_calls=None), content_filter_results={&#39;hate&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;protected_material_code&#39;: {&#39;filtered&#39;: False, &#39;detected&#39;: False}, &#39;protected_material_text&#39;: {&#39;filtered&#39;: False, &#39;detected&#39;: False}, &#39;self_harm&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;sexual&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;violence&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}})], created=1730141076, model=&#39;gpt-35-turbo&#39;, object=&#39;chat.completion&#39;, service_tier=None, system_fingerprint=None, usage=CompletionUsage(completion_tokens=97, prompt_tokens=68, total_tokens=165), prompt_filter_results=[{&#39;prompt_index&#39;: 0, &#39;content_filter_results&#39;: {&#39;hate&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;jailbreak&#39;: {&#39;filtered&#39;: False, &#39;detected&#39;: False}, &#39;self_harm&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;sexual&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;violence&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}}}])
 
 ---Formatted LLM Response---
 
- As of the current exchange rate, 1 US dollar is worth approximately 153.80 Japanese yen.
+ As of the current exchange rate, one US dollar is worth approximately 153.80 Japanese yen. 
 
-Now, let me fetch the exchange rate for the Polish zloty (PLN).
+To find out the exchange rate for Poland, please specify if you are referring to the Polish zloty (PLN) or any other currency.
+
+Regarding the current news in Argentina, I apologize, but I am an AI language model and do not have real-time information. It is advised to check reliable news sources or websites to get the most up-to-date news about Argentina.
 </pre></div>
 </div>
 </div>
 </div>
-</section>
+</div>
 <hr class="docutils" />
-<section id="function-calling-behavior">
-<h2>Function Calling Behavior<a class="headerlink" href="#function-calling-behavior" title="Link to this heading">#</a></h2>
+<div class="section" id="function-calling-behavior">
+<h2>Function Calling Behavior<a class="headerlink" href="#function-calling-behavior" title="Permalink to this heading">#</a></h2>
 <p>The default behavior for <code class="docutils literal notranslate"><span class="pre">tool_choice</span></code> is <code class="docutils literal notranslate"><span class="pre">tool_choice:</span> <span class="pre">&quot;auto&quot;</span></code>. This lets the model decide whether to call functions and, if so, which functions to call.</p>
 <p>Three ways to customize the default behavior depending on your use case:</p>
 <ol class="arabic simple">
@@ -815,10 +992,10 @@ Now, let me fetch the exchange rate for the Polish zloty (PLN).
 <ul class="simple">
 <li><p>Parallel function calling can be disabled by passing <code class="docutils literal notranslate"><span class="pre">parallel_tool_calls:</span> <span class="pre">false</span></code> in the request. The model will only call one function at a time when parallel function calling is disabled.</p></li>
 </ul>
-</section>
+</div>
 <hr class="docutils" />
-<section id="more-advanced-functions">
-<h2>More Advanced Functions<a class="headerlink" href="#more-advanced-functions" title="Link to this heading">#</a></h2>
+<div class="section" id="more-advanced-functions">
+<h2>More Advanced Functions<a class="headerlink" href="#more-advanced-functions" title="Permalink to this heading">#</a></h2>
 <p>Those were relatively simple examples, let’s look at setting up more advanced functions.</p>
 <p>An easy way to manage more complicated and advanced function properties are with <a class="reference external" href="https://docs.pydantic.dev/latest/concepts/json_schema/">Pydantic JSON Schemas</a>, as demonstrated below.</p>
 <div class="cell docutils container">
@@ -979,11 +1156,11 @@ Now, let me fetch the exchange rate for the Polish zloty (PLN).
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Full Response ---
 
-ChatCompletion(id=&#39;chatcmpl-ANOlNc2Kx6iEWaz71bpFYlB0t1SAA&#39;, choices=[Choice(finish_reason=&#39;tool_calls&#39;, index=0, logprobs=None, message=ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_pjlFFn5A74in0GsKiNdcp6H1&#39;, function=Function(arguments=&#39;{\n  &quot;recipients&quot;: [&quot;adamlucek@youtube.com&quot;, &quot;samaltman@openai.com&quot;, &quot;elonmusk@twitter.com&quot;],\n  &quot;subject&quot;: &quot;Check out the cool YouTube channel!&quot;,\n  &quot;body_text&quot;: &quot;Hey,\\n\\nI wanted to share this amazing YouTube channel with you: https://www.youtube.com/@AdamLucek.\\n\\nPlease check it out!\\n\\nBest,\\nAdam Ł&quot;,\n  &quot;attachments&quot;: [&quot;https://www.linkedin.com/in/adamrlucek/&quot;],\n  &quot;send_time&quot;: &quot;2024-07-20T08:00:00&quot;,\n  &quot;priority&quot;: &quot;high&quot;,\n  &quot;tracking&quot;: {&quot;click&quot;: true},\n  &quot;personalization&quot;: {\n    &quot;adamlucek@youtube.com&quot;: {\n      &quot;first_name&quot;: &quot;Adam&quot;\n    },\n    &quot;samaltman@openai.com&quot;: {\n      &quot;first_name&quot;: &quot;Sam&quot;\n    },\n    &quot;elonmusk@twitter.com&quot;: {\n      &quot;first_name&quot;: &quot;Elon&quot;\n    }\n  },\n  &quot;campaign_id&quot;: &quot;campaign_13&quot;\n}&#39;, name=&#39;send_email_campaign&#39;), type=&#39;function&#39;)]), content_filter_results={})], created=1730140097, model=&#39;gpt-35-turbo&#39;, object=&#39;chat.completion&#39;, service_tier=None, system_fingerprint=None, usage=CompletionUsage(completion_tokens=234, prompt_tokens=482, total_tokens=716), prompt_filter_results=[{&#39;prompt_index&#39;: 0, &#39;content_filter_results&#39;: {&#39;hate&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;jailbreak&#39;: {&#39;filtered&#39;: False, &#39;detected&#39;: False}, &#39;self_harm&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;sexual&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;violence&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}}}]) 
+ChatCompletion(id=&#39;chatcmpl-ANP1CtJe3BGsR1RbSOivqGaqbXPpc&#39;, choices=[Choice(finish_reason=&#39;tool_calls&#39;, index=0, logprobs=None, message=ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_Regu2d5r8sNyWEo3oQ5A0rDz&#39;, function=Function(arguments=&#39;{\n  &quot;recipients&quot;: [&quot;adamlucek@youtube.com&quot;, &quot;samaltman@openai.com&quot;, &quot;elonmusk@twitter.com&quot;],\n  &quot;subject&quot;: &quot;Check out this cool YouTube channel&quot;,\n  &quot;body_text&quot;: &quot;Hi,\\n\\nI wanted to share with you a cool YouTube channel that you might be interested in: https://www.youtube.com/@AdamLucek\\n\\nPlease take a look and let me know what you think.\\n\\nBest,\\nAdam Ł&quot;,\n  &quot;attachments&quot;: [&quot;https://www.linkedin.com/in/adamrlucek/&quot;],\n  &quot;personalization&quot;: {\n    &quot;adamlucek@youtube.com&quot;: {\n      &quot;first_name&quot;: &quot;Adam&quot;\n    },\n    &quot;samaltman@openai.com&quot;: {\n      &quot;first_name&quot;: &quot;Sam&quot;\n    },\n    &quot;elonmusk@twitter.com&quot;: {\n      &quot;first_name&quot;: &quot;Elon&quot;\n    }\n  },\n  &quot;send_time&quot;: &quot;2022-07-20T08:00:00&quot;,\n  &quot;priority&quot;: &quot;high&quot;,\n  &quot;tracking&quot;: {\n    &quot;click&quot;: true\n  },\n  &quot;campaign_id&quot;: &quot;campaign_13&quot;\n}&#39;, name=&#39;send_email_campaign&#39;), type=&#39;function&#39;)]), content_filter_results={})], created=1730141078, model=&#39;gpt-35-turbo&#39;, object=&#39;chat.completion&#39;, service_tier=None, system_fingerprint=None, usage=CompletionUsage(completion_tokens=250, prompt_tokens=482, total_tokens=732), prompt_filter_results=[{&#39;prompt_index&#39;: 0, &#39;content_filter_results&#39;: {&#39;hate&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;jailbreak&#39;: {&#39;filtered&#39;: False, &#39;detected&#39;: False}, &#39;self_harm&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;sexual&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;violence&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}}}]) 
 
 --- Chat Completion Message ---
 
-ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_pjlFFn5A74in0GsKiNdcp6H1&#39;, function=Function(arguments=&#39;{\n  &quot;recipients&quot;: [&quot;adamlucek@youtube.com&quot;, &quot;samaltman@openai.com&quot;, &quot;elonmusk@twitter.com&quot;],\n  &quot;subject&quot;: &quot;Check out the cool YouTube channel!&quot;,\n  &quot;body_text&quot;: &quot;Hey,\\n\\nI wanted to share this amazing YouTube channel with you: https://www.youtube.com/@AdamLucek.\\n\\nPlease check it out!\\n\\nBest,\\nAdam Ł&quot;,\n  &quot;attachments&quot;: [&quot;https://www.linkedin.com/in/adamrlucek/&quot;],\n  &quot;send_time&quot;: &quot;2024-07-20T08:00:00&quot;,\n  &quot;priority&quot;: &quot;high&quot;,\n  &quot;tracking&quot;: {&quot;click&quot;: true},\n  &quot;personalization&quot;: {\n    &quot;adamlucek@youtube.com&quot;: {\n      &quot;first_name&quot;: &quot;Adam&quot;\n    },\n    &quot;samaltman@openai.com&quot;: {\n      &quot;first_name&quot;: &quot;Sam&quot;\n    },\n    &quot;elonmusk@twitter.com&quot;: {\n      &quot;first_name&quot;: &quot;Elon&quot;\n    }\n  },\n  &quot;campaign_id&quot;: &quot;campaign_13&quot;\n}&#39;, name=&#39;send_email_campaign&#39;), type=&#39;function&#39;)]) 
+ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_Regu2d5r8sNyWEo3oQ5A0rDz&#39;, function=Function(arguments=&#39;{\n  &quot;recipients&quot;: [&quot;adamlucek@youtube.com&quot;, &quot;samaltman@openai.com&quot;, &quot;elonmusk@twitter.com&quot;],\n  &quot;subject&quot;: &quot;Check out this cool YouTube channel&quot;,\n  &quot;body_text&quot;: &quot;Hi,\\n\\nI wanted to share with you a cool YouTube channel that you might be interested in: https://www.youtube.com/@AdamLucek\\n\\nPlease take a look and let me know what you think.\\n\\nBest,\\nAdam Ł&quot;,\n  &quot;attachments&quot;: [&quot;https://www.linkedin.com/in/adamrlucek/&quot;],\n  &quot;personalization&quot;: {\n    &quot;adamlucek@youtube.com&quot;: {\n      &quot;first_name&quot;: &quot;Adam&quot;\n    },\n    &quot;samaltman@openai.com&quot;: {\n      &quot;first_name&quot;: &quot;Sam&quot;\n    },\n    &quot;elonmusk@twitter.com&quot;: {\n      &quot;first_name&quot;: &quot;Elon&quot;\n    }\n  },\n  &quot;send_time&quot;: &quot;2022-07-20T08:00:00&quot;,\n  &quot;priority&quot;: &quot;high&quot;,\n  &quot;tracking&quot;: {\n    &quot;click&quot;: true\n  },\n  &quot;campaign_id&quot;: &quot;campaign_13&quot;\n}&#39;, name=&#39;send_email_campaign&#39;), type=&#39;function&#39;)]) 
 
 --- Tool Call 1 ---
 
@@ -991,12 +1168,9 @@ Function: send_email_campaign
 
 Arguments: {
   &quot;recipients&quot;: [&quot;adamlucek@youtube.com&quot;, &quot;samaltman@openai.com&quot;, &quot;elonmusk@twitter.com&quot;],
-  &quot;subject&quot;: &quot;Check out the cool YouTube channel!&quot;,
-  &quot;body_text&quot;: &quot;Hey,\n\nI wanted to share this amazing YouTube channel with you: https://www.youtube.com/@AdamLucek.\n\nPlease check it out!\n\nBest,\nAdam Ł&quot;,
+  &quot;subject&quot;: &quot;Check out this cool YouTube channel&quot;,
+  &quot;body_text&quot;: &quot;Hi,\n\nI wanted to share with you a cool YouTube channel that you might be interested in: https://www.youtube.com/@AdamLucek\n\nPlease take a look and let me know what you think.\n\nBest,\nAdam Ł&quot;,
   &quot;attachments&quot;: [&quot;https://www.linkedin.com/in/adamrlucek/&quot;],
-  &quot;send_time&quot;: &quot;2024-07-20T08:00:00&quot;,
-  &quot;priority&quot;: &quot;high&quot;,
-  &quot;tracking&quot;: {&quot;click&quot;: true},
   &quot;personalization&quot;: {
     &quot;adamlucek@youtube.com&quot;: {
       &quot;first_name&quot;: &quot;Adam&quot;
@@ -1007,6 +1181,11 @@ Arguments: {
     &quot;elonmusk@twitter.com&quot;: {
       &quot;first_name&quot;: &quot;Elon&quot;
     }
+  },
+  &quot;send_time&quot;: &quot;2022-07-20T08:00:00&quot;,
+  &quot;priority&quot;: &quot;high&quot;,
+  &quot;tracking&quot;: {
+    &quot;click&quot;: true
   },
   &quot;campaign_id&quot;: &quot;campaign_13&quot;
 }
@@ -1055,12 +1234,12 @@ Arguments: {
 -----
 
 To: adamlucek@youtube.com
-Subject: Adam, Check out the cool YouTube channel!
-Body: Hey,
+Subject: Adam, Check out this cool YouTube channel
+Body: Hi,
 
-I wanted to share this amazing YouTube channel with you: https://www.youtube.com/@AdamLucek.
+I wanted to share with you a cool YouTube channel that you might be interested in: https://www.youtube.com/@AdamLucek
 
-Please check it out!
+Please take a look and let me know what you think.
 
 Best,
 Adam Ł
@@ -1068,12 +1247,12 @@ Adam Ł
 -----
 
 To: samaltman@openai.com
-Subject: Sam, Check out the cool YouTube channel!
-Body: Hey,
+Subject: Sam, Check out this cool YouTube channel
+Body: Hi,
 
-I wanted to share this amazing YouTube channel with you: https://www.youtube.com/@AdamLucek.
+I wanted to share with you a cool YouTube channel that you might be interested in: https://www.youtube.com/@AdamLucek
 
-Please check it out!
+Please take a look and let me know what you think.
 
 Best,
 Adam Ł
@@ -1081,19 +1260,19 @@ Adam Ł
 -----
 
 To: elonmusk@twitter.com
-Subject: Elon, Check out the cool YouTube channel!
-Body: Hey,
+Subject: Elon, Check out this cool YouTube channel
+Body: Hi,
 
-I wanted to share this amazing YouTube channel with you: https://www.youtube.com/@AdamLucek.
+I wanted to share with you a cool YouTube channel that you might be interested in: https://www.youtube.com/@AdamLucek
 
-Please check it out!
+Please take a look and let me know what you think.
 
 Best,
 Adam Ł
 	Attachments: https://www.linkedin.com/in/adamrlucek/
 -----
 
-Scheduled Send Time: 2024-07-20 08:00:00
+Scheduled Send Time: 2022-07-20 08:00:00
 Campaign ID: campaign_13
 Tracking: {&#39;click&#39;: True}
 </pre></div>
@@ -1101,11 +1280,11 @@ Tracking: {&#39;click&#39;: True}
 </div>
 </div>
 <p><strong>One thing to note</strong>, if you have too many functions or your functions are very complicated, it’s possible to do further <a class="reference external" href="https://platform.openai.com/docs/guides/fine-tuning/fine-tuning-examples">fine-tuning</a> to address this</p>
-</section>
-</section>
+</div>
+</div>
 <hr class="docutils" />
-<section class="tex2jax_ignore mathjax_ignore" id="other-models-w-langchain">
-<h1>Other Models w/LangChain<a class="headerlink" href="#other-models-w-langchain" title="Link to this heading">#</a></h1>
+<div class="tex2jax_ignore mathjax_ignore section" id="other-models-w-langchain">
+<h1>Other Models w/LangChain<a class="headerlink" href="#other-models-w-langchain" title="Permalink to this heading">#</a></h1>
 <p>Function calling with OpenAI models is cool, but let’s also show what other models support function calling, and how to easily format your tools for different LLMs with LangChain’s <a class="reference external" href="https://python.langchain.com/v0.1/docs/modules/model_io/chat/function_calling/">integrations</a></p>
 <p>Here are some common providers and their specific model function calling documentation: <a class="reference external" href="https://platform.openai.com/docs/guides/function-calling">OpenAI</a>, <a class="reference external" href="https://docs.anthropic.com/en/docs/build-with-claude/tool-use">Anthropic</a>, <a class="reference external" href="https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/function-calling">Google</a>, <a class="reference external" href="https://docs.cohere.com/docs/tools">Cohere</a>, <a class="reference external" href="https://fireworks.ai/blog/firefunction-v1-gpt-4-level-function-calling">Fireworks.ai</a>, <a class="reference external" href="https://console.groq.com/docs/tool-use">Groq</a>, <a class="reference external" href="https://docs.mistral.ai/capabilities/function_calling/">Mistral</a>, <a class="reference external" href="https://docs.together.ai/docs/function-calling">Together.ai</a></p>
 <p>Langchain makes it very easy to plug and play with function calling using compatible LLMs with their standardized message and tool framework</p>
@@ -1119,8 +1298,8 @@ Tracking: {&#39;click&#39;: True}
 </div>
 </div>
 </div>
-<section id="defining-tools">
-<h2>Defining Tools<a class="headerlink" href="#defining-tools" title="Link to this heading">#</a></h2>
+<div class="section" id="defining-tools">
+<h2>Defining Tools<a class="headerlink" href="#defining-tools" title="Permalink to this heading">#</a></h2>
 <p>LangChain offers multiple ways of defining tools, you can:</p>
 <ul class="simple">
 <li><p>Use the <code class="docutils literal notranslate"><span class="pre">&#64;tool</span></code> decorator along with a description on an exisiting function</p></li>
@@ -1210,9 +1389,9 @@ or the v1 compatibility namespace if you are working in a code base that has not
 </div>
 </div>
 </div>
-</section>
-<section id="attaching-tools-to-llm-object">
-<h2>Attaching tools to LLM object<a class="headerlink" href="#attaching-tools-to-llm-object" title="Link to this heading">#</a></h2>
+</div>
+<div class="section" id="attaching-tools-to-llm-object">
+<h2>Attaching tools to LLM object<a class="headerlink" href="#attaching-tools-to-llm-object" title="Permalink to this heading">#</a></h2>
 <p>Using LangChain’s <code class="docutils literal notranslate"><span class="pre">.bind_tools()</span></code> method, we can automatically format the tools to the right format for the model provider and connect them to the LLM anytime we use it.</p>
 <p>This is also where you can pass in the <code class="docutils literal notranslate"><span class="pre">tool_choice</span></code> argument, however Anthropic doesn’t support this feature currently for the example.</p>
 <div class="cell docutils container">
@@ -1431,9 +1610,9 @@ or the v1 compatibility namespace if you are working in a code base that has not
 </div>
 </div>
 </div>
-</section>
-<section id="handling-tool-calls">
-<h2>Handling Tool Calls<a class="headerlink" href="#handling-tool-calls" title="Link to this heading">#</a></h2>
+</div>
+<div class="section" id="handling-tool-calls">
+<h2>Handling Tool Calls<a class="headerlink" href="#handling-tool-calls" title="Permalink to this heading">#</a></h2>
 <p>Execute and feed back the tools once we got the arguments from the LLM, now that the tools and messages are formatted by LangChain</p>
 <p>Tools can be directly invoked when formatted as a LangChain tool, simplifying the execution process greatly</p>
 <div class="cell docutils container">
@@ -1497,15 +1676,15 @@ Is there anything else you&#39;d like to know about these topics?
 </div>
 </div>
 </div>
-</section>
-</section>
+</div>
+</div>
 <hr class="docutils" />
-<section class="tex2jax_ignore mathjax_ignore" id="agents-the-final-frontier-of-tools">
-<h1>Agents: The Final Frontier of Tools<a class="headerlink" href="#agents-the-final-frontier-of-tools" title="Link to this heading">#</a></h1>
+<div class="tex2jax_ignore mathjax_ignore section" id="agents-the-final-frontier-of-tools">
+<h1>Agents: The Final Frontier of Tools<a class="headerlink" href="#agents-the-final-frontier-of-tools" title="Permalink to this heading">#</a></h1>
 <p>The most common use case for tools and function calling is for creating <a class="reference external" href="https://aws.amazon.com/what-is/ai-agents/">agentic systems</a>.</p>
 <p>We can use <a class="reference external" href="https://python.langchain.com/v0.1/docs/modules/agents/quick_start/">LangChain’s built in agent builders</a> like the OpenAI functions agent to easily attach our tools to an agentic flow, and execute it all in one, or add more complex chain-of-thought reasoning with tools like the <a class="reference external" href="https://python.langchain.com/v0.1/docs/modules/agents/agent_types/react/">ReAct agent</a>.</p>
-<section id="tool-calling-agent">
-<h2>Tool Calling Agent<a class="headerlink" href="#tool-calling-agent" title="Link to this heading">#</a></h2>
+<div class="section" id="tool-calling-agent">
+<h2>Tool Calling Agent<a class="headerlink" href="#tool-calling-agent" title="Permalink to this heading">#</a></h2>
 <p>Simple flow that will essentially do what we’ve been setting up manually, <a class="reference external" href="https://smith.langchain.com/hub/hwchase17/openai-functions-agent?organizationId=130ad41c-23ab-5f86-ba94-80f9634e5dca">prompt link here</a>, with calling tools, executing tools, and then returning a final response.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1573,9 +1752,9 @@ Is there anything else you&#39;d like to know about LangGraph Cloud or currency 
 </div>
 </div>
 </div>
-</section>
-<section id="react-agent-chain-of-thought-with-tool-execution">
-<h2>ReAct Agent - Chain-of-Thought with Tool Execution<a class="headerlink" href="#react-agent-chain-of-thought-with-tool-execution" title="Link to this heading">#</a></h2>
+</div>
+<div class="section" id="react-agent-chain-of-thought-with-tool-execution">
+<h2>ReAct Agent - Chain-of-Thought with Tool Execution<a class="headerlink" href="#react-agent-chain-of-thought-with-tool-execution" title="Permalink to this heading">#</a></h2>
 <p>LLM flow based off the <a class="reference external" href="https://react-lm.github.io/">ReAct: Synergizing Reasoning and Acting in Language Models Paper</a>, <a class="reference external" href="https://smith.langchain.com/hub/hwchase17/react?organizationId=130ad41c-23ab-5f86-ba94-80f9634e5dca">prompt link here</a>. The prompt and flow looks a little like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Use</span> <span class="n">the</span> <span class="n">following</span> <span class="nb">format</span><span class="p">:</span>
 
@@ -1640,8 +1819,8 @@ Is there anything else you&#39;d like to know about LangGraph Cloud or currency 
 </div>
 </div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
     <script type="text/x-thebe-config">
     {
@@ -1663,84 +1842,143 @@ Is there anything else you&#39;d like to know about LangGraph Cloud or currency 
     </script>
     <script>kernelName = 'python3'</script>
 
-                </article>
-              
+            </article>
+            
 
-              
-              
-              
-              
-                <footer class="prev-next-footer d-print-none">
-                  
-<div class="prev-next-area">
-    <a class="left-prev"
-       href="attention.html"
-       title="previous page">
+            
+            
+            <footer class="bd-footer-article">
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="attention.html" title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Attention is all you need</p>
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Attention is all you need</p>
       </div>
-    </a>
-    <a class="right-next"
-       href="lab01.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Welcome to Data 88: Data Science and Economics Connector Course!</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
-</div>
-                </footer>
-              
-            </div>
-            
-            
-              
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
+  </a>
+  <a class='right-next' id="next-link" href="lab01.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Welcome to Data 88: Data Science and Economics Connector Course!</p>
   </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">LLM Tool/Function Calling</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relevance">Relevance</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-use-cases">Common use cases</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-basic-sequence-of-steps-for-function-calling-is-as-follows">The basic sequence of steps for function calling is as follows:</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-llm-functions">Creating LLM Functions</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openai-function-schema">OpenAI Function Schema</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#executing-the-functions">Executing the Functions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#function-calling-behavior">Function Calling Behavior</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#more-advanced-functions">More Advanced Functions</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#other-models-w-langchain">Other Models w/LangChain</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-tools">Defining Tools</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attaching-tools-to-llm-object">Attaching tools to LLM object</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#handling-tool-calls">Handling Tool Calls</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#agents-the-final-frontier-of-tools">Agents: The Final Frontier of Tools</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tool-calling-agent">Tool Calling Agent</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#react-agent-chain-of-thought-with-tool-execution">ReAct Agent - Chain-of-Thought with Tool Execution</a></li>
-</ul>
-</li>
-</ul>
-
-  </nav></div>
-
-</div></div>
-              
+  <i class="fa-solid fa-angle-right"></i>
+  </a>
+</div>
+            </footer>
             
           </div>
-          <footer class="bd-footer-content">
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   LLM Tool/Function Calling
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#relevance">
+     Relevance
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#common-use-cases">
+     Common use cases
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-basic-sequence-of-steps-for-function-calling-is-as-follows">
+     The basic sequence of steps for function calling is as follows:
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#creating-llm-functions">
+   Creating LLM Functions
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#openai-function-schema">
+     OpenAI Function Schema
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#executing-the-functions">
+     Executing the Functions
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#function-calling-behavior">
+     Function Calling Behavior
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#more-advanced-functions">
+     More Advanced Functions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#other-models-w-langchain">
+   Other Models w/LangChain
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#defining-tools">
+     Defining Tools
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#attaching-tools-to-llm-object">
+     Attaching tools to LLM object
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#handling-tool-calls">
+     Handling Tool Calls
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#agents-the-final-frontier-of-tools">
+   Agents: The Final Frontier of Tools
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tool-calling-agent">
+     Tool Calling Agent
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#react-agent-chain-of-thought-with-tool-execution">
+     ReAct Agent - Chain-of-Thought with Tool Execution
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
             
 <div class="bd-footer-content__inner container">
   
@@ -1754,18 +1992,18 @@ By MALTS Developement Team
   
   <div class="footer-item">
     
+<p class="copyright">
 
-  <p class="copyright">
-    
-      © Copyright 2023.
-      <br/>
-    
-  </p>
+    &copy; Copyright 2022.<br>
+
+</p>
 
   </div>
   
   <div class="footer-item">
-    
+    <p class="last-updated">
+Last updated on None.<br>
+</p>
   </div>
   
   <div class="footer-item">
@@ -1773,18 +2011,19 @@ By MALTS Developement Team
   </div>
   
 </div>
-          </footer>
+          </div>
+        </footer>
         
 
       </main>
     </div>
   </div>
-  
-  <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
 
-  <footer class="bd-footer">
-  </footer>
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+
   </body>
 </html>
