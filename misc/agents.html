@@ -64,6 +64,7 @@
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Welcome to Data 88: Data Science and Economics Connector Course!" href="lab01.html" />
     <link rel="prev" title="Attention is all you need" href="attention.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -167,6 +168,8 @@
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">LLM Tool/Function Calling</a></li>
 
 
+
+<li class="toctree-l1"><a class="reference internal" href="lab01.html">Welcome to Data 88: Data Science and Economics Connector Course!</a></li>
 
 </ul>
 
@@ -636,11 +639,11 @@
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Full Response ---
 
-ChatCompletion(id=&#39;chatcmpl-ANOAIgWAShYd3lnmYGCY5xXWGvBXY&#39;, choices=[Choice(finish_reason=&#39;tool_calls&#39;, index=0, logprobs=None, message=ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_Zeb8wg7FUvDlB2RQPj5Upc7H&#39;, function=Function(arguments=&#39;{\n  &quot;base_currency&quot;: &quot;USD&quot;,\n  &quot;target_currency&quot;: &quot;JPY&quot;\n}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;)]), content_filter_results={})], created=1730137798, model=&#39;gpt-35-turbo&#39;, object=&#39;chat.completion&#39;, service_tier=None, system_fingerprint=None, usage=CompletionUsage(completion_tokens=26, prompt_tokens=171, total_tokens=197), prompt_filter_results=[{&#39;prompt_index&#39;: 0, &#39;content_filter_results&#39;: {&#39;hate&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;jailbreak&#39;: {&#39;filtered&#39;: False, &#39;detected&#39;: False}, &#39;self_harm&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;sexual&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;violence&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}}}]) 
+ChatCompletion(id=&#39;chatcmpl-ANOdbeN2izx654OtLYxxUSYXd8Ze9&#39;, choices=[Choice(finish_reason=&#39;tool_calls&#39;, index=0, logprobs=None, message=ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_vFvzCRY4JbKxlspfD5w9noxo&#39;, function=Function(arguments=&#39;{\n  &quot;base_currency&quot;: &quot;USD&quot;,\n  &quot;target_currency&quot;: &quot;JPY&quot;\n}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;)]), content_filter_results={})], created=1730139615, model=&#39;gpt-35-turbo&#39;, object=&#39;chat.completion&#39;, service_tier=None, system_fingerprint=None, usage=CompletionUsage(completion_tokens=26, prompt_tokens=171, total_tokens=197), prompt_filter_results=[{&#39;prompt_index&#39;: 0, &#39;content_filter_results&#39;: {&#39;hate&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;jailbreak&#39;: {&#39;filtered&#39;: False, &#39;detected&#39;: False}, &#39;self_harm&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;sexual&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;violence&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}}}]) 
 
 --- Chat Completion Message ---
 
-ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_Zeb8wg7FUvDlB2RQPj5Upc7H&#39;, function=Function(arguments=&#39;{\n  &quot;base_currency&quot;: &quot;USD&quot;,\n  &quot;target_currency&quot;: &quot;JPY&quot;\n}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;)]) 
+ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_vFvzCRY4JbKxlspfD5w9noxo&#39;, function=Function(arguments=&#39;{\n  &quot;base_currency&quot;: &quot;USD&quot;,\n  &quot;target_currency&quot;: &quot;JPY&quot;\n}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;)]) 
 
 --- Tool Call 1 ---
 
@@ -774,24 +777,24 @@ And for our Currency Conversion, we’ll be using the Free Currency Exchange API
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initial Message:  [{&#39;role&#39;: &#39;user&#39;, &#39;content&#39;: &#39;How much is a dollar worth in Japan? How about poland? Whats the current news in Argentina?&#39;}]
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Response Message:  ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_jxoSfMRnBO3x2NbAuOYX8xSI&#39;, function=Function(arguments=&#39;{\n  &quot;base_currency&quot;: &quot;USD&quot;,\n  &quot;target_currency&quot;: &quot;JPY&quot;\n}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;)])
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Response Message:  ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_9534eLpsuYhNFvoikMxNuKDy&#39;, function=Function(arguments=&#39;{\n  &quot;base_currency&quot;: &quot;USD&quot;,\n  &quot;target_currency&quot;: &quot;JPY&quot;\n}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;)])
 
-Tool Calls:  [ChatCompletionMessageToolCall(id=&#39;call_jxoSfMRnBO3x2NbAuOYX8xSI&#39;, function=Function(arguments=&#39;{\n  &quot;base_currency&quot;: &quot;USD&quot;,\n  &quot;target_currency&quot;: &quot;JPY&quot;\n}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;)]
+Tool Calls:  [ChatCompletionMessageToolCall(id=&#39;call_9534eLpsuYhNFvoikMxNuKDy&#39;, function=Function(arguments=&#39;{\n  &quot;base_currency&quot;: &quot;USD&quot;,\n  &quot;target_currency&quot;: &quot;JPY&quot;\n}&#39;, name=&#39;get_exchange_rate&#39;), type=&#39;function&#39;)]
 
-Calling &lt;function get_exchange_rate at 0x7efe71a66950&gt; with arguments {&#39;base_currency&#39;: &#39;USD&#39;, &#39;target_currency&#39;: &#39;JPY&#39;, &#39;date&#39;: &#39;latest&#39;}
+Calling &lt;function get_exchange_rate at 0x7f81a7706b00&gt; with arguments {&#39;base_currency&#39;: &#39;USD&#39;, &#39;target_currency&#39;: &#39;JPY&#39;, &#39;date&#39;: &#39;latest&#39;}
 
 Function Response:  153.80061303
 
-Appending Message:  {&#39;tool_call_id&#39;: &#39;call_jxoSfMRnBO3x2NbAuOYX8xSI&#39;, &#39;role&#39;: &#39;tool&#39;, &#39;name&#39;: &#39;get_exchange_rate&#39;, &#39;content&#39;: &#39;153.80061303&#39;}
+Appending Message:  {&#39;tool_call_id&#39;: &#39;call_9534eLpsuYhNFvoikMxNuKDy&#39;, &#39;role&#39;: &#39;tool&#39;, &#39;name&#39;: &#39;get_exchange_rate&#39;, &#39;content&#39;: &#39;153.80061303&#39;}
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LLM Response:  ChatCompletion(id=&#39;chatcmpl-ANOAJDBEFeavhjHJ3gQpH4CzugCrW&#39;, choices=[Choice(finish_reason=&#39;stop&#39;, index=0, logprobs=None, message=ChatCompletionMessage(content=&#39;As of the current exchange rate, 1 US dollar (USD) is worth approximately 153.80 Japanese yen (JPY).\n\nLet me fetch the current exchange rate for the US dollar to Polish złoty (PLN).&#39;, role=&#39;assistant&#39;, function_call=None, tool_calls=None), content_filter_results={&#39;hate&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;self_harm&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;sexual&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;violence&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}})], created=1730137799, model=&#39;gpt-35-turbo&#39;, object=&#39;chat.completion&#39;, service_tier=None, system_fingerprint=None, usage=CompletionUsage(completion_tokens=47, prompt_tokens=68, total_tokens=115), prompt_filter_results=[{&#39;prompt_index&#39;: 0, &#39;content_filter_results&#39;: {&#39;hate&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;jailbreak&#39;: {&#39;filtered&#39;: False, &#39;detected&#39;: False}, &#39;self_harm&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;sexual&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;violence&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}}}])
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LLM Response:  ChatCompletion(id=&#39;chatcmpl-ANOdci12sP4nQCEMj0OitEdi7jJui&#39;, choices=[Choice(finish_reason=&#39;stop&#39;, index=0, logprobs=None, message=ChatCompletionMessage(content=&#39;As of the current exchange rate, one US dollar is equivalent to approximately 153.80 Japanese Yen. \n\nNow let me retrieve the exchange rate for USD to PLN (Polish Zloty).&#39;, role=&#39;assistant&#39;, function_call=None, tool_calls=None), content_filter_results={&#39;hate&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;self_harm&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;sexual&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;violence&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}})], created=1730139616, model=&#39;gpt-35-turbo&#39;, object=&#39;chat.completion&#39;, service_tier=None, system_fingerprint=None, usage=CompletionUsage(completion_tokens=42, prompt_tokens=68, total_tokens=110), prompt_filter_results=[{&#39;prompt_index&#39;: 0, &#39;content_filter_results&#39;: {&#39;hate&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;jailbreak&#39;: {&#39;filtered&#39;: False, &#39;detected&#39;: False}, &#39;self_harm&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;sexual&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;violence&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}}}])
 
 ---Formatted LLM Response---
 
- As of the current exchange rate, 1 US dollar (USD) is worth approximately 153.80 Japanese yen (JPY).
+ As of the current exchange rate, one US dollar is equivalent to approximately 153.80 Japanese Yen. 
 
-Let me fetch the current exchange rate for the US dollar to Polish złoty (PLN).
+Now let me retrieve the exchange rate for USD to PLN (Polish Zloty).
 </pre></div>
 </div>
 </div>
@@ -976,11 +979,11 @@ Let me fetch the current exchange rate for the US dollar to Polish złoty (PLN).
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Full Response ---
 
-ChatCompletion(id=&#39;chatcmpl-ANOAKzxseq9mGxTG81eZmQvn1KKKF&#39;, choices=[Choice(finish_reason=&#39;tool_calls&#39;, index=0, logprobs=None, message=ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_fgKYC9xGIYbAOTMjJDeOXqUy&#39;, function=Function(arguments=&#39;{\n  &quot;recipients&quot;: [&quot;adamlucek@youtube.com&quot;, &quot;samaltman@openai.com&quot;, &quot;elonmusk@twitter.com&quot;],\n  &quot;subject&quot;: &quot;Check out this cool YouTube channel!&quot;,\n  &quot;body_text&quot;: &quot;Hey there,\\n\\nI wanted to let you know about this awesome YouTube channel: [https://www.youtube.com/@AdamLucek](https://www.youtube.com/@AdamLucek)\\n\\nSign off your response with Adam Ł in the body.\\n\\nBest,\\nAdam&quot;,\n  &quot;attachments&quot;: [&quot;https://www.linkedin.com/in/adamrlucek/&quot;],\n  &quot;personalization&quot;: {\n    &quot;adamlucek@youtube.com&quot;: {\n      &quot;first_name&quot;: &quot;Adam&quot;\n    },\n    &quot;samaltman@openai.com&quot;: {\n      &quot;first_name&quot;: &quot;Sam&quot;\n    },\n    &quot;elonmusk@twitter.com&quot;: {\n      &quot;first_name&quot;: &quot;Elon&quot;\n    }\n  },\n  &quot;send_time&quot;: &quot;2024-07-20T08:00:00&quot;,\n  &quot;priority&quot;: &quot;high&quot;,\n  &quot;tracking&quot;: {\n    &quot;open&quot;: false,\n    &quot;click&quot;: true\n  },\n  &quot;campaign_id&quot;: &quot;campaign_13&quot;\n}&#39;, name=&#39;send_email_campaign&#39;), type=&#39;function&#39;)]), content_filter_results={})], created=1730137800, model=&#39;gpt-35-turbo&#39;, object=&#39;chat.completion&#39;, service_tier=None, system_fingerprint=None, usage=CompletionUsage(completion_tokens=263, prompt_tokens=482, total_tokens=745), prompt_filter_results=[{&#39;prompt_index&#39;: 0, &#39;content_filter_results&#39;: {&#39;hate&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;jailbreak&#39;: {&#39;filtered&#39;: False, &#39;detected&#39;: False}, &#39;self_harm&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;sexual&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;violence&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}}}]) 
+ChatCompletion(id=&#39;chatcmpl-ANOdd10i1p5A0ggPLjItMUHjoYn1O&#39;, choices=[Choice(finish_reason=&#39;tool_calls&#39;, index=0, logprobs=None, message=ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_GA1WEyrQ9yO0uys9wHF74Uv3&#39;, function=Function(arguments=&#39;{\n  &quot;recipients&quot;: [&quot;adamlucek@youtube.com&quot;, &quot;samaltman@openai.com&quot;, &quot;elonmusk@twitter.com&quot;],\n  &quot;subject&quot;: &quot;Check out the cool YouTube channel!&quot;,\n  &quot;body_text&quot;: &quot;Hey,\\n\\nI wanted to let you know about this awesome YouTube channel: https://www.youtube.com/@AdamLucek\\n\\nIt\&#39;s definitely worth checking out!\\n\\nBest,\\nAdam Ł&quot;,\n  &quot;attachments&quot;: [&quot;https://www.linkedin.com/in/adamrlucek/&quot;],\n  &quot;personalization&quot;: {\n    &quot;adamlucek@youtube.com&quot;: {&quot;first_name&quot;: &quot;Adam&quot;},\n    &quot;samaltman@openai.com&quot;: {&quot;first_name&quot;: &quot;Sam&quot;},\n    &quot;elonmusk@twitter.com&quot;: {&quot;first_name&quot;: &quot;Elon&quot;}\n  },\n  &quot;send_time&quot;: &quot;2024-07-20T08:00:00&quot;,\n  &quot;priority&quot;: &quot;high&quot;,\n  &quot;tracking&quot;: {&quot;click&quot;: true},\n  &quot;campaign_id&quot;: &quot;campaign_13&quot;\n}&#39;, name=&#39;send_email_campaign&#39;), type=&#39;function&#39;)]), content_filter_results={})], created=1730139617, model=&#39;gpt-35-turbo&#39;, object=&#39;chat.completion&#39;, service_tier=None, system_fingerprint=None, usage=CompletionUsage(completion_tokens=224, prompt_tokens=482, total_tokens=706), prompt_filter_results=[{&#39;prompt_index&#39;: 0, &#39;content_filter_results&#39;: {&#39;hate&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;jailbreak&#39;: {&#39;filtered&#39;: False, &#39;detected&#39;: False}, &#39;self_harm&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;sexual&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}, &#39;violence&#39;: {&#39;filtered&#39;: False, &#39;severity&#39;: &#39;safe&#39;}}}]) 
 
 --- Chat Completion Message ---
 
-ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_fgKYC9xGIYbAOTMjJDeOXqUy&#39;, function=Function(arguments=&#39;{\n  &quot;recipients&quot;: [&quot;adamlucek@youtube.com&quot;, &quot;samaltman@openai.com&quot;, &quot;elonmusk@twitter.com&quot;],\n  &quot;subject&quot;: &quot;Check out this cool YouTube channel!&quot;,\n  &quot;body_text&quot;: &quot;Hey there,\\n\\nI wanted to let you know about this awesome YouTube channel: [https://www.youtube.com/@AdamLucek](https://www.youtube.com/@AdamLucek)\\n\\nSign off your response with Adam Ł in the body.\\n\\nBest,\\nAdam&quot;,\n  &quot;attachments&quot;: [&quot;https://www.linkedin.com/in/adamrlucek/&quot;],\n  &quot;personalization&quot;: {\n    &quot;adamlucek@youtube.com&quot;: {\n      &quot;first_name&quot;: &quot;Adam&quot;\n    },\n    &quot;samaltman@openai.com&quot;: {\n      &quot;first_name&quot;: &quot;Sam&quot;\n    },\n    &quot;elonmusk@twitter.com&quot;: {\n      &quot;first_name&quot;: &quot;Elon&quot;\n    }\n  },\n  &quot;send_time&quot;: &quot;2024-07-20T08:00:00&quot;,\n  &quot;priority&quot;: &quot;high&quot;,\n  &quot;tracking&quot;: {\n    &quot;open&quot;: false,\n    &quot;click&quot;: true\n  },\n  &quot;campaign_id&quot;: &quot;campaign_13&quot;\n}&#39;, name=&#39;send_email_campaign&#39;), type=&#39;function&#39;)]) 
+ChatCompletionMessage(content=None, role=&#39;assistant&#39;, function_call=None, tool_calls=[ChatCompletionMessageToolCall(id=&#39;call_GA1WEyrQ9yO0uys9wHF74Uv3&#39;, function=Function(arguments=&#39;{\n  &quot;recipients&quot;: [&quot;adamlucek@youtube.com&quot;, &quot;samaltman@openai.com&quot;, &quot;elonmusk@twitter.com&quot;],\n  &quot;subject&quot;: &quot;Check out the cool YouTube channel!&quot;,\n  &quot;body_text&quot;: &quot;Hey,\\n\\nI wanted to let you know about this awesome YouTube channel: https://www.youtube.com/@AdamLucek\\n\\nIt\&#39;s definitely worth checking out!\\n\\nBest,\\nAdam Ł&quot;,\n  &quot;attachments&quot;: [&quot;https://www.linkedin.com/in/adamrlucek/&quot;],\n  &quot;personalization&quot;: {\n    &quot;adamlucek@youtube.com&quot;: {&quot;first_name&quot;: &quot;Adam&quot;},\n    &quot;samaltman@openai.com&quot;: {&quot;first_name&quot;: &quot;Sam&quot;},\n    &quot;elonmusk@twitter.com&quot;: {&quot;first_name&quot;: &quot;Elon&quot;}\n  },\n  &quot;send_time&quot;: &quot;2024-07-20T08:00:00&quot;,\n  &quot;priority&quot;: &quot;high&quot;,\n  &quot;tracking&quot;: {&quot;click&quot;: true},\n  &quot;campaign_id&quot;: &quot;campaign_13&quot;\n}&#39;, name=&#39;send_email_campaign&#39;), type=&#39;function&#39;)]) 
 
 --- Tool Call 1 ---
 
@@ -988,26 +991,17 @@ Function: send_email_campaign
 
 Arguments: {
   &quot;recipients&quot;: [&quot;adamlucek@youtube.com&quot;, &quot;samaltman@openai.com&quot;, &quot;elonmusk@twitter.com&quot;],
-  &quot;subject&quot;: &quot;Check out this cool YouTube channel!&quot;,
-  &quot;body_text&quot;: &quot;Hey there,\n\nI wanted to let you know about this awesome YouTube channel: [https://www.youtube.com/@AdamLucek](https://www.youtube.com/@AdamLucek)\n\nSign off your response with Adam Ł in the body.\n\nBest,\nAdam&quot;,
+  &quot;subject&quot;: &quot;Check out the cool YouTube channel!&quot;,
+  &quot;body_text&quot;: &quot;Hey,\n\nI wanted to let you know about this awesome YouTube channel: https://www.youtube.com/@AdamLucek\n\nIt&#39;s definitely worth checking out!\n\nBest,\nAdam Ł&quot;,
   &quot;attachments&quot;: [&quot;https://www.linkedin.com/in/adamrlucek/&quot;],
   &quot;personalization&quot;: {
-    &quot;adamlucek@youtube.com&quot;: {
-      &quot;first_name&quot;: &quot;Adam&quot;
-    },
-    &quot;samaltman@openai.com&quot;: {
-      &quot;first_name&quot;: &quot;Sam&quot;
-    },
-    &quot;elonmusk@twitter.com&quot;: {
-      &quot;first_name&quot;: &quot;Elon&quot;
-    }
+    &quot;adamlucek@youtube.com&quot;: {&quot;first_name&quot;: &quot;Adam&quot;},
+    &quot;samaltman@openai.com&quot;: {&quot;first_name&quot;: &quot;Sam&quot;},
+    &quot;elonmusk@twitter.com&quot;: {&quot;first_name&quot;: &quot;Elon&quot;}
   },
   &quot;send_time&quot;: &quot;2024-07-20T08:00:00&quot;,
   &quot;priority&quot;: &quot;high&quot;,
-  &quot;tracking&quot;: {
-    &quot;open&quot;: false,
-    &quot;click&quot;: true
-  },
+  &quot;tracking&quot;: {&quot;click&quot;: true},
   &quot;campaign_id&quot;: &quot;campaign_13&quot;
 }
 </pre></div>
@@ -1055,47 +1049,47 @@ Arguments: {
 -----
 
 To: adamlucek@youtube.com
-Subject: Adam, Check out this cool YouTube channel!
-Body: Hey there,
+Subject: Adam, Check out the cool YouTube channel!
+Body: Hey,
 
-I wanted to let you know about this awesome YouTube channel: [https://www.youtube.com/@AdamLucek](https://www.youtube.com/@AdamLucek)
+I wanted to let you know about this awesome YouTube channel: https://www.youtube.com/@AdamLucek
 
-Sign off your response with Adam Ł in the body.
+It&#39;s definitely worth checking out!
 
 Best,
-Adam
+Adam Ł
 	Attachments: https://www.linkedin.com/in/adamrlucek/
 -----
 
 To: samaltman@openai.com
-Subject: Sam, Check out this cool YouTube channel!
-Body: Hey there,
+Subject: Sam, Check out the cool YouTube channel!
+Body: Hey,
 
-I wanted to let you know about this awesome YouTube channel: [https://www.youtube.com/@AdamLucek](https://www.youtube.com/@AdamLucek)
+I wanted to let you know about this awesome YouTube channel: https://www.youtube.com/@AdamLucek
 
-Sign off your response with Adam Ł in the body.
+It&#39;s definitely worth checking out!
 
 Best,
-Adam
+Adam Ł
 	Attachments: https://www.linkedin.com/in/adamrlucek/
 -----
 
 To: elonmusk@twitter.com
-Subject: Elon, Check out this cool YouTube channel!
-Body: Hey there,
+Subject: Elon, Check out the cool YouTube channel!
+Body: Hey,
 
-I wanted to let you know about this awesome YouTube channel: [https://www.youtube.com/@AdamLucek](https://www.youtube.com/@AdamLucek)
+I wanted to let you know about this awesome YouTube channel: https://www.youtube.com/@AdamLucek
 
-Sign off your response with Adam Ł in the body.
+It&#39;s definitely worth checking out!
 
 Best,
-Adam
+Adam Ł
 	Attachments: https://www.linkedin.com/in/adamrlucek/
 -----
 
 Scheduled Send Time: 2024-07-20 08:00:00
 Campaign ID: campaign_13
-Tracking: {&#39;open&#39;: False, &#39;click&#39;: True}
+Tracking: {&#39;click&#39;: True}
 </pre></div>
 </div>
 </div>
@@ -1681,6 +1675,15 @@ Is there anything else you&#39;d like to know about LangGraph Cloud or currency 
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title">Attention is all you need</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="lab01.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Welcome to Data 88: Data Science and Economics Connector Course!</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
