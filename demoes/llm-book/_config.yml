@@ -25,6 +25,16 @@ repository:
   path_to_book: demoes/llm-book  # Optional path to your book, relative to the repository root
   branch: main  # Which branch of the repository should be used when creating links (optional)
 
+
+# Binder bits
+# Configure your Binder links, such as the URL of the BinderHub.
+launch_buttons:
+  binderhub_url: "https://mybinder.org"
+  colab_url: "https://colab.research.google.com"
+  notebook_interface: "classic"
+  thebe: true
+
+
 # Add GitHub buttons to your book
 # See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository
 html:
@@ -34,15 +44,6 @@ html:
   favicon: images/favicon.ico
   google_analytics_id: "" # To be added
   home_page_in_navbar: false
-
-
-# Binder bits
-# Configure your Binder links, such as the URL of the BinderHub.
-launch_buttons:
-  binderhub_url: "https://mybinder.org"
-  colab_url: "https://colab.research.google.com"
-  notebook_interface: "classic"
-  thebe: true
 
 # Extra parsing options
 parse:

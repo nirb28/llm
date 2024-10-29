@@ -4,7 +4,6 @@
 format: jb-book
 root: intro
 chapters:
-- file: inference/inference
+- file: inference/inference_md
 - file: misc/attention
 - file: misc/agents
-
