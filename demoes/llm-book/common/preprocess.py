@@ -47,7 +47,7 @@ class ExtractAttachmentsPreprocessor(Preprocessor):
             resources['outputs'] = {}
 
         # Loop through all of the attachments in the cell
-        for name, attach in cell.get("attachments", {}).items():
+        for name, attach in list(cell.get("attachments", {}).items()):
             for mime, data in attach.items():
                 if mime not in self.extract_output_types:
                     continue
@@ -81,5 +81,8 @@ class ExtractAttachmentsPreprocessor(Preprocessor):
                 attach_str = "attachment:"+name
                 if attach_str in cell.source:
                     cell.source = cell.source.replace(attach_str, filename)
+
+            # Delete the attachment after processing
+            del cell['attachments'][name]
 
         return cell, resources

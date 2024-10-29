@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#for %%i in (*.ipynb) do echo %%i 
-cd ..
+
+cd llm/demoes/llm-book
 for file in **/*.ipynb; do
   if [ -f "$file" ]; then  # Check if it's a regular file
     jupyter nbconvert --Exporter.preprocessors=common.preprocess.ExtractAttachmentsPreprocessor --to notebook $file --inplace
