@@ -57,11 +57,10 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'training/finetune-with-lora';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'training/finetune-with-lora1';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="LLM Tool/Function Calling" href="../misc/agents.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -124,6 +123,8 @@
       
       
       
+        
+      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -171,17 +172,11 @@
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <ul class="current nav bd-sidenav">
+        <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../inference/inference.html">LLM Inference</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="../misc/attention.html">Attention is all you need</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../misc/agents.html">LLM Tool/Function Calling</a></li>
-
-
-
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Finetune with LoRA</a></li>
-
-
 
 
 
@@ -239,7 +234,7 @@
       
       
       
-      <li><a href="https://mybinder.org/v2/gh/nirb28/llm/main?urlpath=tree/demoes/llm-book/training/finetune-with-lora.ipynb" target="_blank"
+      <li><a href="https://mybinder.org/v2/gh/nirb28/llm/main?urlpath=tree/demoes/llm-book/training/finetune-with-lora1.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch on Binder"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -257,7 +252,7 @@
       
       
       
-      <li><a href="https://colab.research.google.com/github/nirb28/llm/blob/main/demoes/llm-book/training/finetune-with-lora.ipynb" target="_blank"
+      <li><a href="https://colab.research.google.com/github/nirb28/llm/blob/main/demoes/llm-book/training/finetune-with-lora1.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch on Colab"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -323,7 +318,7 @@
       
       
       
-      <li><a href="https://github.com/nirb28/llm/edit/main/demoes/llm-book/training/finetune-with-lora.ipynb" target="_blank"
+      <li><a href="https://github.com/nirb28/llm/edit/main/demoes/llm-book/training/finetune-with-lora1.ipynb" target="_blank"
    class="btn btn-sm btn-source-edit-button dropdown-item"
    title="Suggest edit"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -340,7 +335,7 @@
       
       
       
-      <li><a href="https://github.com/nirb28/llm/issues/new?title=Issue%20on%20page%20%2Ftraining/finetune-with-lora.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/nirb28/llm/issues/new?title=Issue%20on%20page%20%2Ftraining/finetune-with-lora1.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -370,7 +365,7 @@
       
       
       
-      <li><a href="../_sources/training/finetune-with-lora.ipynb" target="_blank"
+      <li><a href="../_sources/training/finetune-with-lora1.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -499,59 +494,16 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">run_line_magic</span><span class="p">(</span><span class="s1">&#39;load_ext&#39;</span><span class="p">,</span> <span class="s1">&#39;watermark&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">run_line_magic</span><span class="p">(</span><span class="s1">&#39;watermark&#39;</span><span class="p">,</span> <span class="s1">&#39;--conda -p torch,transformers,datasets,lightning&#39;</span><span class="p">)</span>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/anaconda/envs/azureml_py38/lib/python3.10/site-packages/transformers/utils/generic.py:441: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  _torch_pytree._register_pytree_node(
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch       : 2.5.0
+transformers: 4.36.2
+datasets    : 2.16.1
+lightning   : 2.4.0
 
-<span class="nn">File /anaconda/envs/azureml_py38/lib/python3.10/site-packages/IPython/core/interactiveshell.py:2480,</span> in <span class="ni">InteractiveShell.run_line_magic</span><span class="nt">(self, magic_name, line, _stack_depth)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2478</span>     <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;local_ns&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_local_scope</span><span class="p">(</span><span class="n">stack_depth</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2479</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">builtin_trap</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">2480</span>     <span class="n">result</span> <span class="o">=</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2482</span> <span class="c1"># The code below prevents the output from being displayed</span>
-<span class="g g-Whitespace">   </span><span class="mi">2483</span> <span class="c1"># when using magics with decorator @output_can_be_silenced</span>
-<span class="g g-Whitespace">   </span><span class="mi">2484</span> <span class="c1"># when the last Python token in the expression is a &#39;;&#39;.</span>
-<span class="g g-Whitespace">   </span><span class="mi">2485</span> <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">magic</span><span class="o">.</span><span class="n">MAGIC_OUTPUT_CAN_BE_SILENCED</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
-
-<span class="nn">File /anaconda/envs/azureml_py38/lib/python3.10/site-packages/IPython/core/magics/extension.py:33,</span> in <span class="ni">ExtensionMagics.load_ext</span><span class="nt">(self, module_str)</span>
-<span class="g g-Whitespace">     </span><span class="mi">31</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">module_str</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">32</span>     <span class="k">raise</span> <span class="n">UsageError</span><span class="p">(</span><span class="s1">&#39;Missing module name.&#39;</span><span class="p">)</span>
-<span class="ne">---&gt; </span><span class="mi">33</span> <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">extension_manager</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="n">module_str</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">35</span> <span class="k">if</span> <span class="n">res</span> <span class="o">==</span> <span class="s1">&#39;already loaded&#39;</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">36</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The </span><span class="si">%s</span><span class="s2"> extension is already loaded. To reload it, use:&quot;</span> <span class="o">%</span> <span class="n">module_str</span><span class="p">)</span>
-
-<span class="nn">File /anaconda/envs/azureml_py38/lib/python3.10/site-packages/IPython/core/extensions.py:62,</span> in <span class="ni">ExtensionManager.load_extension</span><span class="nt">(self, module_str)</span>
-<span class="g g-Whitespace">     </span><span class="mi">55</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Load an IPython extension by its module name.</span>
-<span class="g g-Whitespace">     </span><span class="mi">56</span><span class="sd"> </span>
-<span class="g g-Whitespace">     </span><span class="mi">57</span><span class="sd"> Returns the string &quot;already loaded&quot; if the extension is already loaded,</span>
-<span class="g g-Whitespace">     </span><span class="mi">58</span><span class="sd"> &quot;no load function&quot; if the module doesn&#39;t have a load_ipython_extension</span>
-<span class="g g-Whitespace">     </span><span class="mi">59</span><span class="sd"> function, or None if it succeeded.</span>
-<span class="g g-Whitespace">     </span><span class="mi">60</span><span class="sd"> &quot;&quot;&quot;</span>
-<span class="g g-Whitespace">     </span><span class="mi">61</span> <span class="k">try</span><span class="p">:</span>
-<span class="ne">---&gt; </span><span class="mi">62</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_extension</span><span class="p">(</span><span class="n">module_str</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">63</span> <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">64</span>     <span class="k">if</span> <span class="n">module_str</span> <span class="ow">in</span> <span class="n">BUILTINS_EXTS</span><span class="p">:</span>
-
-<span class="nn">File /anaconda/envs/azureml_py38/lib/python3.10/site-packages/IPython/core/extensions.py:77,</span> in <span class="ni">ExtensionManager._load_extension</span><span class="nt">(self, module_str)</span>
-<span class="g g-Whitespace">     </span><span class="mi">75</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">builtin_trap</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">76</span>     <span class="k">if</span> <span class="n">module_str</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
-<span class="ne">---&gt; </span><span class="mi">77</span>         <span class="n">mod</span> <span class="o">=</span> <span class="n">import_module</span><span class="p">(</span><span class="n">module_str</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">78</span>     <span class="n">mod</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">module_str</span><span class="p">]</span>
-<span class="g g-Whitespace">     </span><span class="mi">79</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_load_ipython_extension</span><span class="p">(</span><span class="n">mod</span><span class="p">):</span>
-
-<span class="nn">File /anaconda/envs/azureml_py38/lib/python3.10/importlib/__init__.py:126,</span> in <span class="ni">import_module</span><span class="nt">(name, package)</span>
-<span class="g g-Whitespace">    </span><span class="mi">124</span>             <span class="k">break</span>
-<span class="g g-Whitespace">    </span><span class="mi">125</span>         <span class="n">level</span> <span class="o">+=</span> <span class="mi">1</span>
-<span class="ne">--&gt; </span><span class="mi">126</span> <span class="k">return</span> <span class="n">_bootstrap</span><span class="o">.</span><span class="n">_gcd_import</span><span class="p">(</span><span class="n">name</span><span class="p">[</span><span class="n">level</span><span class="p">:],</span> <span class="n">package</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span>
-
-<span class="nn">File &lt;frozen importlib._bootstrap&gt;:1050,</span> in <span class="ni">_gcd_import</span><span class="nt">(name, package, level)</span>
-
-<span class="nn">File &lt;frozen importlib._bootstrap&gt;:1027,</span> in <span class="ni">_find_and_load</span><span class="nt">(name, import_)</span>
-
-<span class="nn">File &lt;frozen importlib._bootstrap&gt;:1004,</span> in <span class="ni">_find_and_load_unlocked</span><span class="nt">(name, import_)</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;watermark&#39;
+conda environment: azureml_py38
 </pre></div>
 </div>
 </div>
@@ -573,6 +525,19 @@ document.write(`
 
 <span class="kn">from</span> <span class="nn">local_dataset_utilities</span> <span class="kn">import</span> <span class="n">download_dataset</span><span class="p">,</span> <span class="n">load_dataset_into_to_dataframe</span><span class="p">,</span> <span class="n">partition_dataset</span>
 <span class="kn">from</span> <span class="nn">local_dataset_utilities</span> <span class="kn">import</span> <span class="n">IMDBDataset</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">11</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="kn">import</span> <span class="nn">torch</span>
+<span class="ne">---&gt; </span><span class="mi">11</span> <span class="kn">from</span> <span class="nn">local_dataset_utilities</span> <span class="kn">import</span> <span class="n">download_dataset</span><span class="p">,</span> <span class="n">load_dataset_into_to_dataframe</span><span class="p">,</span> <span class="n">partition_dataset</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="kn">from</span> <span class="nn">local_dataset_utilities</span> <span class="kn">import</span> <span class="n">IMDBDataset</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;local_dataset_utilities&#39;
 </pre></div>
 </div>
 </div>
@@ -1259,15 +1224,6 @@ Loaded model weights from the checkpoint at logs/my-model/version_1/checkpoints/
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="../misc/agents.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">LLM Tool/Function Calling</p>
-      </div>
-    </a>
 </div>
                 </footer>
               
