@@ -10,8 +10,6 @@
 - Chat with uploaded CSV and XSLX files during the interaction with the user interface.
 - RAG with Tabular datasets.
 
-**YouTube video: [Link](https://youtu.be/ZtltjSjFPDg?si=0EomljP6HIEfCEwZ)** 
-
 ## Main underlying techniques used in this chatbot:
 - LLM chains and agents
 - GPT function calling
@@ -30,8 +28,6 @@
 sudo apt update && sudo apt upgrade
 python3 -m venv sql-raggpt-env
 git clone <the repository>
-cd SQL-RAG-GPT
-source ...Path to the environment/sql-raggpt-env/bin/activate
 pip install -r requirements.txt
 ```
 ## Execution:
@@ -62,7 +58,7 @@ SELECT * FROM Artist LIMIT 10;
 
 2. To prepare a SQL DB from your CSV and XLSX files, copy your files in `data/csv_xlsx` and in the terminal, from the project folder, execute:
 ```
-python src/prepare_csv_xlsx_db.py.
+python src/prepare_csv_xlsx_sqlitedb.py
 ```
 
 This command will create a SQL database named `csv_xlsx_sqldb.db` in the `data` directory.
