@@ -14,7 +14,7 @@ client = AzureOpenAI(
 )
 
 completion = client.chat.completions.create(
-    model="gpt-35-turbo",
+    model="gpt-4o-mini",
     messages=[
         {
             "role": "user",
