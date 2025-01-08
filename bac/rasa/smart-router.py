@@ -1,7 +1,13 @@
 import re
+import json
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
+
+# Load regex rules from config file
+with open('config.json') as config_file:
+    config = json.load(config_file)
+    rules = config['rules']
 
 @app.route('/')
 def home():
@@ -13,14 +19,11 @@ def route_message():
     message = data.get('message', '')
     lob = data.get('lob', None)
 
-    if re.search(r'\bMALTS\b', message, re.IGNORECASE):
-        return "MALTS"
-    elif re.search(r'\bMSaaS\b', message, re.IGNORECASE):
-        return "MSaaS"
-    elif re.search(r'\bDQ4D\b', message, re.IGNORECASE):
-        return "DQ4D"
-    else:
-        return lob if lob is not None else "GENERAL"
+    for rule in rules:
+        if re.search(rule['pattern'], message):
+            return rule['destination']
+    
+    return lob if lob is not None else "GENERAL"
 
 @app.route('/about')
 def about():
