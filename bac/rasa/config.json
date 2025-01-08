@@ -1,7 +1,7 @@
 {
     "rules": [
-        {"pattern": "\\bMALTS\\b", "destination": "MALTS"},
-        {"pattern": "\\bMSaaS\\b", "destination": "MSaaS"},
-        {"pattern": "\\bDQ4D\\b", "destination": "DQ4D"}
+        {"pattern": "(?i)\\bMALTS\\b|\\bMALT\\b", "destination": "MALTS"},
+        {"pattern": "(?i)\\bMSaaS\\b", "destination": "MSaaS"},
+        {"pattern": "(?i)\\bDQ4D\\b", "destination": "DQ4D"}
     ]
 }
