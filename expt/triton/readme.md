@@ -2,5 +2,57 @@
 docker run -d --gpus 1 --rm -p 8000-8002:8000-8002    -v /home/nirbaanm/workspace/git/llm/expt/triton/models:/models    nvcr.io/nvidia/tritonserver:25.04-pyt-python-py3    tritonserver --model-repository=/models
 
 # CPU
-$env:model_local_base="D:/ds/sync/gdrive_ds/My Drive/work/gdrive-workspaces/git/llm/expt/triton/models"
-docker run --shm-size=1g --ulimit memlock=-1 -p 8000:8000 -p 8001:8001 -p 8002:8002 --ulimit stack=67108864 -ti -v "/mnt/d/ds/sync/gdrive_ds/My Drive/work/gdrive-workspaces/git/llm/expt/triton/models":/models  nvcr.io/nvidia/tritonserver:25.04-pyt-python-py3  tritonserver --model-repository=/models
+$env:model_local_base="D:/ds/work/workspace/git/llm/expt/triton/models"
+docker run --shm-size=1g --ulimit memlock=-1 -p 8000:8000 -p 8001:8001 -p 8002:8002 --ulimit stack=67108864 -ti -v D:/ds/work/workspace/git/llm/expt/triton/models:/models  nvcr.io/nvidia/tritonserver:25.04-pyt-python-py3  tritonserver --model-repository=/models
+
+# Notes
+
+## Linear Regression Examples
+
+Two linear regression models have been implemented for demonstration:
+
+### 1. Simple Linear Regression Model
+- Located at `models/linear_regression_model/`
+- Implements a basic linear function y = 2x + 5
+- Hardcoded parameters (weights=2.0, bias=5.0)
+- Client script: `clients/client_linear_regression.py`
+
+### 2. Scikit-learn Linear Regression Model
+- Located at `models/sklearn_regression/`
+- Uses scikit-learn's LinearRegression algorithm
+- Trains on synthetic data during initialization (y = 3x + 2 with noise)
+- Saves and loads the model using joblib
+- Client script: `clients/client_sklearn_regression.py`
+
+## Running the Clients
+
+After starting the Triton server with the commands above, run either client:
+
+```bash
+# Simple Linear Regression
+python clients/client_linear_regression.py --visualize
+
+# Scikit-learn Regression
+python clients/client_sklearn_regression.py --visualize
+```
+
+## Dependencies
+
+Both models require the following dependencies:
+- NumPy
+- tritonclient[all] (for the clients)
+- matplotlib (for visualization)
+- scikit-learn and joblib (only for the sklearn_regression model)
+
+Install them using pip:
+
+```bash
+pip install numpy tritonclient[all] matplotlib scikit-learn joblib
+```
+
+## Command Line Options
+
+Both client scripts support:
+- `--protocol`: Choose between 'http' (default) or 'grpc'
+- `--visualize`: Enable result visualization with matplotlib
+- `--num-points`: Number of test data points to generate
