@@ -11,14 +11,25 @@ import tritonclient.grpc as grpcclient
 def send_requests(protocol, model_name, batch_size, num_threads, duration, qps):
     """Send inference requests to the Triton server."""
     
-    if protocol == "http":
-        client = httpclient.InferenceServerClient("localhost:8000")
-        client_fn = httpclient.InferInput
-        request_fn = partial(client.infer, model_name=model_name)
-    else:
-        client = grpcclient.InferenceServerClient("localhost:8001")
-        client_fn = grpcclient.InferInput
-        request_fn = partial(client.infer, model_name=model_name)
+    # First verify server is accessible
+    try:
+        if protocol == "http":
+            client = httpclient.InferenceServerClient("localhost:8000")
+            if not client.is_server_live():
+                print("ERROR: Triton server is not running or not accessible")
+                return
+            client_fn = httpclient.InferInput
+            request_fn = partial(client.infer, model_name=model_name)
+        else:
+            client = grpcclient.InferenceServerClient("localhost:8001")
+            if not client.is_server_live():
+                print("ERROR: Triton server is not running or not accessible")
+                return
+            client_fn = grpcclient.InferInput
+            request_fn = partial(client.infer, model_name=model_name)
+    except Exception as e:
+        print(f"ERROR: Could not connect to Triton server: {e}")
+        return
     
     # Set up inputs based on the model
     if model_name == "add_model":
@@ -46,9 +57,16 @@ def send_requests(protocol, model_name, batch_size, num_threads, duration, qps):
         success_count = 0
         fail_count = 0
         latencies = []
+        consecutive_errors = 0
+        max_consecutive_errors = 5  # Exit after this many consecutive errors
+        
+        print(f"Worker starting, will run until {time.strftime('%H:%M:%S', time.localtime(end_time))}")
         
         while time.time() < end_time:
             try:
+                # Add timeout control with a deadline
+                request_deadline = time.time() + 5.0  # 5-second timeout per request
+                
                 start_time = time.time()
                 
                 # Create inputs and prepare data
@@ -56,14 +74,25 @@ def send_requests(protocol, model_name, batch_size, num_threads, duration, qps):
                 if isinstance(inputs, tuple):
                     for inp in inputs:
                         prepare_fn(inputs)
+                    
+                    # Check if we're past the deadline
+                    if time.time() > request_deadline:
+                        raise TimeoutError("Request preparation took too long")
+                        
                     request_fn(inputs=inputs)
                 else:
                     prepare_fn(inputs)
+                    
+                    # Check if we're past the deadline
+                    if time.time() > request_deadline:
+                        raise TimeoutError("Request preparation took too long")
+                        
                     request_fn(inputs=[inputs])
                 
                 latency = (time.time() - start_time) * 1000  # ms
                 latencies.append(latency)
                 success_count += 1
+                consecutive_errors = 0  # Reset error counter after success
                 
                 # Sleep to maintain QPS
                 if sleep_time > 0:
@@ -72,7 +101,17 @@ def send_requests(protocol, model_name, batch_size, num_threads, duration, qps):
             except Exception as e:
                 print(f"Error: {e}")
                 fail_count += 1
+                consecutive_errors += 1
+                
+                # Exit if too many consecutive errors
+                if consecutive_errors >= max_consecutive_errors:
+                    print(f"Exiting worker after {consecutive_errors} consecutive errors")
+                    break
+                    
+                # Add a cooldown period after errors
+                time.sleep(1.0)
         
+        print(f"Worker completed. Successes: {success_count}, Failures: {fail_count}")
         return success_count, fail_count, latencies
     
     # Start worker threads
